@@ -16,10 +16,10 @@ MonoBehaviour:
     _encodedValue: 43a3a3839bd179790b834b7113930b4b731b637bab239b2b93b32b939b711b7b6b
   ActiveApp:
     Name:
-      _encodedValue: 9aa30b9313932b0b5b2b93019a8bab0b23937b73
+      _encodedValue: 9aa30b9313932b0b5b2b93019a8bab0b23937b7301222ab2
     Id:
-      _encodedValue: 89a99199c1
+      _encodedValue: 89a991a1a1
     Secret:
-      _encodedValue: b9993323c1a189a96989b981c969a1990b9969c9c9a1136981c10b910ba10b2b23a9c923
+      _encodedValue: 23c923c18199992b692b91b98969a1c913c9690b89911369a1c10bb11b9989892b13a1b1
   AdditionalApps: []
   EnableLogging: 0

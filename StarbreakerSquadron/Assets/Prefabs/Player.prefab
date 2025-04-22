@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1423989559
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
@@ -97,6 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1057773637034360477}
   - component: {fileID: 8570573152459996854}
+  - component: {fileID: 7839518255269632390}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -145,3 +146,17 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &7839518255269632390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5486180652062265168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db17d0e862a1eab499abc775ef1b7a55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  shipObj: {fileID: 1904197541174504897, guid: e229545b5a323d04caa9f01bcacb2b63, type: 3}
