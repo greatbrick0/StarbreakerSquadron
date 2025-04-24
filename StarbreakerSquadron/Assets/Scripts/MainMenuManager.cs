@@ -30,15 +30,17 @@ public class MainMenuManager : MonoBehaviour
         authenticateScreen.SetActive(false);
     }
 
-    public void BeginPlayClient(int sceneIndex)
+    public void BeginPlayClient(string sceneIndex)
     {
-        SceneManager.LoadScene(sceneIndex);
+        //SceneManager.LoadScene(sceneIndex);
         _netManager.StartClient();
+        _netManager.SceneManager.LoadScene(sceneIndex, LoadSceneMode.Single);
     }
 
-    public void BeginPlayServer(int sceneIndex)
+    public void BeginPlayServer(string sceneIndex)
     {
-        SceneManager.LoadScene(sceneIndex);
+        //SceneManager.LoadScene(sceneIndex);
         _netManager.StartServer();
+        _netManager.SceneManager.LoadScene(sceneIndex, LoadSceneMode.Single);
     }
 }

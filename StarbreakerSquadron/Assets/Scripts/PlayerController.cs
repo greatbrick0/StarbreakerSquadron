@@ -9,6 +9,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private GameObject shipObj;
     private GameObject shipRef;
+    private ulong shipRefId = 0;
 
     private Movement shipMovement;
     private FollowCamera cam;
@@ -24,16 +25,22 @@ public class PlayerController : NetworkBehaviour
             shipRef.GetComponent<NetworkObject>().Spawn(true);
             shipMovement = shipRef.GetComponent<Movement>();
             OwnerFindShipRpc(shipRef.GetComponent<NetworkObject>().NetworkObjectId);
+            PrintSpawnedObjects();
         }
     }
 
     void Update()
     {
-        if(IsServer)
+        if (Input.GetKeyDown(KeyCode.L))
+            PrintSpawnedObjects();
+
+        if (IsServer)
         {
             shipMovement.inputVector = sendInputVec.Value;
         }
         if (!IsOwner) return;
+
+        if(shipRefId != 0 && shipRef == null) InitShipRef(shipRefId);
 
         inputVec = Vector2.zero;
         if (Input.GetKey(KeyCode.W))
@@ -45,15 +52,33 @@ public class PlayerController : NetworkBehaviour
         if (Input.GetKey(KeyCode.D))
             inputVec.x += 1;
         sendInputVec.Value = inputVec;
+
     }
 
     [Rpc(SendTo.Owner)]
     private void OwnerFindShipRpc(ulong id)
     {
+        shipRefId = id;
+    }
+
+    private void InitShipRef(ulong id)
+    {
+        if (!NetworkManager.Singleton.SpawnManager.SpawnedObjects.ContainsKey(shipRefId)) return;
+
         shipRef = NetworkManager.Singleton.SpawnManager.SpawnedObjects[id].gameObject;
         shipMovement = shipRef.GetComponent<Movement>();
         cam = Camera.main.GetComponent<FollowCamera>();
         cam.followTarget = shipRef.transform;
         cam.InitLead();
+    }
+
+    private void PrintSpawnedObjects()
+    {
+        string output = "";
+        foreach (var obj in NetworkManager.Singleton.SpawnManager.SpawnedObjects)
+        {
+            output += obj.Key + " " + obj.Value.name + ".   ";
+        }
+        Debug.Log(output);
     }
 }

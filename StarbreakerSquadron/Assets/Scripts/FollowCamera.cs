@@ -11,8 +11,8 @@ public class FollowCamera : MonoBehaviour
     [SerializeField]
     private float leadDistance = 0f;
     public Vector3 leadVec;
-    private Queue<Vector3> posQ = new Queue<Vector3>();
-    private Queue<float> deltaQ = new Queue<float>();
+    private Queue<Vector3> posQ = new Queue<Vector3>(20);
+    private Queue<float> deltaQ = new Queue<float>(20);
 
     void Update()
     {
@@ -30,8 +30,8 @@ public class FollowCamera : MonoBehaviour
         leadVec += Vector3.ClampMagnitude((targetAverageVelocity - leadVec).normalized * leadSpeed * Time.deltaTime, (targetAverageVelocity - leadVec).magnitude);
         leadVec = Vector3.ClampMagnitude(leadVec, leadDistance);
         posQ.Enqueue(followTarget.position);
-        deltaQ.Enqueue(Time.deltaTime);
         deltaQ.Dequeue();
+        deltaQ.Enqueue(Time.deltaTime);
     }
 
     public void InitLead()
