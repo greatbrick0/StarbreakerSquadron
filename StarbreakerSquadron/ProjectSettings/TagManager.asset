@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 858723607
+    locked: 0
   - name: Spawner
     uniqueID: 1423989559
     locked: 0

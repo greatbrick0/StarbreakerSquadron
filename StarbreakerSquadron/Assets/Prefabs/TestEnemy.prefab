@@ -221,6 +221,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  waypoints:
+  - {x: 0, y: 0, z: 0}
+  clockwise: 0
 --- !u!1 &8067236441583749978
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,7 +300,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1975114936287927986, guid: 501baa018b5e0504f9540bc3c9290f69, type: 3}
+  m_Sprite: {fileID: 3762510823916854364, guid: 79c509e50f9c9b146bd3641ffc1a1788, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
