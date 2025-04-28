@@ -15,6 +15,7 @@ public class Network : MonoBehaviour
 
     public static Network sharedInstance;
     private BrainCloudWrapper _wrapper;
+    private BrainCloudS2S _bcS2S = new BrainCloudS2S();
     private NetworkManager _netManager;
 
     public bool IsDedicatedServer;
@@ -29,20 +30,35 @@ public class Network : MonoBehaviour
         sharedInstance = this;
         DontDestroyOnLoad(gameObject);
 
-        _wrapper = gameObject.AddComponent<BrainCloudWrapper>();
-        _wrapper.Init();
+        if (IsDedicatedServer)
+        {
+            _bcS2S = new BrainCloudS2S();
+            string appId = Environment.GetEnvironmentVariable("APP_ID");
+            string serverName = Environment.GetEnvironmentVariable("SERVER_NAME");
+            string serverSecret = Environment.GetEnvironmentVariable("SERVER_SECRET");
+            string serverUrl = "https://api.braincloudservers.com/s2sdispatcher";
+            _bcS2S.Init(appId, serverName, serverSecret, true, serverUrl);
+            //_bcS2S.Authenticate();
+            _bcS2S.LoggingEnabled = true;
+        }
+        else
+        {
+            _wrapper = gameObject.AddComponent<BrainCloudWrapper>();
+            _wrapper.Init();
+        }
 
         Debug.Log("brainCloud client version: " + BrainCloudClientVersion);
     }
 
     void Update()
     {
-        _wrapper.RunCallbacks();
+        if (IsDedicatedServer) _bcS2S.RunCallbacks();
+        else _wrapper.RunCallbacks();
     }
 
     public string BrainCloudClientVersion
     {
-        get { return _wrapper.Client.BrainCloudClientVersion; }
+        get { return IsDedicatedServer ? string.Empty : _wrapper.Client.BrainCloudClientVersion; }
     }
 
     public bool HasAuthenticatedPreviously()

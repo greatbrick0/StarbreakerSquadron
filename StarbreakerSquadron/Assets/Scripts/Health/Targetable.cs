@@ -1,6 +1,7 @@
 using UnityEngine;
+using Unity.Netcode;
 
-public class Targetable : MonoBehaviour
+public abstract class Targetable : NetworkBehaviour
 {
     public enum Teams
     {
@@ -10,4 +11,6 @@ public class Targetable : MonoBehaviour
 
     [SerializeField]
     public Teams team;
+
+    public abstract void TakeDamage(int amount);
 }

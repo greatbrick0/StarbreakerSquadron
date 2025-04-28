@@ -14,7 +14,17 @@ public class MainMenuManager : MonoBehaviour
     {
         _bcNetwork = Network.sharedInstance;
         _netManager = _bcNetwork.GetComponent<NetworkManager>();
-        HandleAuthentication();
+
+        if(_bcNetwork.IsDedicatedServer)
+        {
+            _netManager.StartServer();
+            _netManager.SceneManager.LoadScene("OpenLevel", LoadSceneMode.Single);
+        }
+        else
+        {
+            HandleAuthentication();
+        }
+        
     }
 
     public void HandleAuthentication()
@@ -32,14 +42,12 @@ public class MainMenuManager : MonoBehaviour
 
     public void BeginPlayClient(string sceneIndex)
     {
-        //SceneManager.LoadScene(sceneIndex);
         _netManager.StartClient();
         _netManager.SceneManager.LoadScene(sceneIndex, LoadSceneMode.Single);
     }
 
     public void BeginPlayServer(string sceneIndex)
     {
-        //SceneManager.LoadScene(sceneIndex);
         _netManager.StartServer();
         _netManager.SceneManager.LoadScene(sceneIndex, LoadSceneMode.Single);
     }

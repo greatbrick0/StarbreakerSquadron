@@ -32,4 +32,9 @@ public class ThrusterMovement : Movement
         rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, maxSpeed);
         rb.angularVelocity = 0;
     }
+
+    public override void Stun(float duration, bool setVelocity = true, Vector2 newVelocity = default)
+    {
+        
+    }
 }
