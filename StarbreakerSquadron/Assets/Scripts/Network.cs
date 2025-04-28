@@ -98,4 +98,14 @@ public class Network : MonoBehaviour
         if (authenticationRequestCompleted != null)
             authenticationRequestCompleted();
     }
+
+    public void PrintSpawnedObjects()
+    {
+        string output = "";
+        foreach (var obj in _netManager.SpawnManager.SpawnedObjects)
+        {
+            output += obj.Key + " " + obj.Value.name + ". ";
+        }
+        Debug.Log(output);
+    }
 }

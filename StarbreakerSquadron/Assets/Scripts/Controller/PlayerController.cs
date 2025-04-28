@@ -25,15 +25,12 @@ public class PlayerController : NetworkBehaviour
             shipRef.GetComponent<NetworkObject>().Spawn(true);
             shipMovement = shipRef.GetComponent<Movement>();
             OwnerFindShipRpc(shipRef.GetComponent<NetworkObject>().NetworkObjectId);
-            PrintSpawnedObjects();
+            Network.sharedInstance.PrintSpawnedObjects();
         }
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-            PrintSpawnedObjects();
-
         if (IsServer)
         {
             shipMovement.inputVector = sendInputVec.Value;
@@ -70,15 +67,5 @@ public class PlayerController : NetworkBehaviour
         cam = Camera.main.GetComponent<FollowCamera>();
         cam.followTarget = shipRef.transform;
         cam.InitLead();
-    }
-
-    private void PrintSpawnedObjects()
-    {
-        string output = "";
-        foreach (var obj in NetworkManager.Singleton.SpawnManager.SpawnedObjects)
-        {
-            output += obj.Key + " " + obj.Value.name + ".   ";
-        }
-        Debug.Log(output);
     }
 }
