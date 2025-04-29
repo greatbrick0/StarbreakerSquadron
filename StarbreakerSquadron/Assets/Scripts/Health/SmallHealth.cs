@@ -1,15 +1,23 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SmallHealth : Targetable
 {
     [field: SerializeField]
     public int maxHealth { get; private set; } = 100;
     private NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    [SerializeField]
+    private UnityEvent deathEvent;
 
     private void Awake()
     {
         currentHealth.Value = maxHealth;
+    }
+
+    private void Update()
+    {
+        timeSinceLastDamage += Time.deltaTime;
     }
 
     public override void OnNetworkSpawn()
@@ -22,12 +30,16 @@ public class SmallHealth : Targetable
     {
         if(!IsServer) return;
 
+        if(amount < 0) return;
         currentHealth.Value -= amount;
-        print(currentHealth.Value);
+        timeSinceLastDamage = 0f;
+        //print(currentHealth.Value);
     }
 
     public void Die()
     {
         print("dead");
+        isAlive = false;
+        deathEvent.Invoke();
     }
 }

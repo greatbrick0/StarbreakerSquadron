@@ -134,6 +134,11 @@ public class BrainCloudS2S
         Authenticate(OnAuthenticationCallback);
     }
 
+    public bool IsAuthenticated
+    {
+        get { return _state == State.Authenticated; }
+    }
+
     /**
     * Send an S2S request.
     *

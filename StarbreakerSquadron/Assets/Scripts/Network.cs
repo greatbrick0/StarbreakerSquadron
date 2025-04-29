@@ -38,16 +38,14 @@ public class Network : MonoBehaviour
             string serverSecret = Environment.GetEnvironmentVariable("SERVER_SECRET");
             string serverUrl = "https://api.braincloudservers.com/s2sdispatcher";
             _bcS2S.Init(appId, serverName, serverSecret, true, serverUrl);
-            //_bcS2S.Authenticate();
             _bcS2S.LoggingEnabled = true;
         }
         else
         {
             _wrapper = gameObject.AddComponent<BrainCloudWrapper>();
             _wrapper.Init();
+            Debug.Log("brainCloud client version: " + BrainCloudClientVersion);
         }
-
-        Debug.Log("brainCloud client version: " + BrainCloudClientVersion);
     }
 
     void Update()
@@ -68,7 +66,7 @@ public class Network : MonoBehaviour
 
     public bool IsAuthenticated()
     {
-        return false;
+        return IsDedicatedServer ? _bcS2S.IsAuthenticated : _wrapper.Client.Authenticated;
     }
 
     public void Reconnect(AuthenticationRequestCompleted authenticationRequestCompleted = null)
