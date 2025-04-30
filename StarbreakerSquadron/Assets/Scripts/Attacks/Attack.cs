@@ -4,12 +4,34 @@ using System.Collections.Generic;
 
 public class Attack : NetworkBehaviour
 {
+    protected Rigidbody2D rb;
+    [SerializeField]
+    protected SpriteRenderer sprite;
+
+    [Header("Values")]
     [SerializeField]
     protected Teams team;
     [SerializeField]
     protected int primaryPower;
     [SerializeField]
     protected int secondaryPower;
+    [SerializeField]
+    protected float speed;
+    [SerializeField]
+    protected Vector2 direction;
+    protected Vector2 originPos;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    protected virtual void Update()
+    {
+        if (!IsServer) return;
+
+        rb.linearVelocity = speed * Time.deltaTime * direction;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -40,25 +62,32 @@ public class Attack : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    private void SetValuesRpc(Teams newTeam, int newPower, string newColour = "cccccc", int newSecondaryPower = 0)
+    private void SetValuesRpc(AttackInfo newAttackInfo)
     {
         GetComponent<Collider2D>().enabled = true;
-        transform.GetChild(0).gameObject.SetActive(true);
-        team = newTeam;
-        ColorUtility.TryParseHtmlString(newColour, out Color parsedColour);
-        transform.GetChild(0).GetComponent<SpriteRenderer>().color = parsedColour;
-        primaryPower = newPower;
-        secondaryPower = newSecondaryPower;
+        sprite.gameObject.SetActive(true);
+
+        team = newAttackInfo.team;
+        ColorUtility.TryParseHtmlString(newAttackInfo.colour, out Color parsedColour);
+        sprite.color = parsedColour;
+        primaryPower = newAttackInfo.primaryPower;
+        secondaryPower = newAttackInfo.secondaryPower;
+        speed = newAttackInfo.speed;
+        direction = newAttackInfo.direction;
+        originPos = newAttackInfo.originPos;
     }
 
     [Rpc(SendTo.Everyone)]
     private void ResetToHiddenRpc()
     {
         GetComponent<Collider2D>().enabled = false;
-        transform.GetChild(0).gameObject.SetActive(false);
+        sprite.gameObject.SetActive(false);
+
         team = Teams.Environment;
-        transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
+        sprite.color = Color.white;
         primaryPower = 0;
         secondaryPower = 0;
+        speed = 0;
+        direction = Vector2.zero;
     }
 }

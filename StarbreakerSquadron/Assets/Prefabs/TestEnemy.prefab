@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 4667255450560743514}
   - component: {fileID: 4750458142437557790}
   - component: {fileID: 926414005331437029}
+  - component: {fileID: 8497915012488310995}
   m_Layer: 6
   m_Name: TestEnemy
   m_TagString: Untagged
@@ -267,6 +268,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8497915012488310995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1904197541174504897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2c018e8d57aac548a7ede834189523b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputActives: 0
 --- !u!1 &8067236441583749978
 GameObject:
   m_ObjectHideFlags: 0

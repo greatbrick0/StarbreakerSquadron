@@ -288,4 +288,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639a8e56fb1ce854d9450da22bb5227b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  sprite: {fileID: 1293537736885697587}
   team: 0
+  primaryPower: 0
+  secondaryPower: 0
+  speed: 0
+  direction: {x: 0, y: 0}

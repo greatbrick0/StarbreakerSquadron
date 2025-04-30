@@ -1,0 +1,35 @@
+using Unity.Netcode;
+using UnityEngine;
+
+public struct AttackInfo : INetworkSerializable
+{
+    public Teams team;
+    public int primaryPower;
+    public int secondaryPower;
+    public string colour;
+    public float speed;
+    public Vector2 direction;
+    public Vector2 originPos;
+
+    public AttackInfo(Teams newTeam, int newPower, Vector2 newOriginPos, string newColour = "cccccc", float newSpeed = 0, Vector2 newDirection = default, int newSecondaryPower = 0)
+    {
+        team = newTeam;
+        primaryPower = newPower;
+        secondaryPower = newSecondaryPower;
+        colour = newColour;
+        speed = newSpeed;
+        direction = newDirection;
+        originPos = newOriginPos;
+    }
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref team);
+        serializer.SerializeValue(ref primaryPower);
+        serializer.SerializeValue(ref secondaryPower);
+        serializer.SerializeValue(ref colour, true);
+        serializer.SerializeValue(ref speed);
+        serializer.SerializeValue(ref direction);
+        serializer.SerializeValue(ref originPos);
+    }
+}

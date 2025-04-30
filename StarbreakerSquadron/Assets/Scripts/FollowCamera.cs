@@ -17,6 +17,10 @@ public class FollowCamera : MonoBehaviour
     void Update()
     {
         if (followTarget == null) return;
+        if (followTarget.TryGetComponent(out Targetable health))
+        {
+            if (!health.isAlive) return;
+        }
 
         transform.position = VecUtils.SetZ(followTarget.position + ((leadVec.magnitude < 0.1f) ? Vector3.zero : leadVec), -10);
     }

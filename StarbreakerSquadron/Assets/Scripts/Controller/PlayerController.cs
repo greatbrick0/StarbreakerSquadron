@@ -3,6 +3,7 @@ using Unity.Netcode;
 using static UnityEditor.Progress;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -12,10 +13,13 @@ public class PlayerController : NetworkBehaviour
     private ulong shipRefId = 0;
 
     private Movement shipMovement;
+    private WeaponsHolder shipWeapons;
     private FollowCamera cam;
 
     private Vector2 inputVec = Vector2.zero;
     private NetworkVariable<Vector2> sendInputVec = new NetworkVariable<Vector2>(Vector2.zero, NetworkVariableReadPermission.Everyone ,NetworkVariableWritePermission.Owner);
+    private byte inputActives = 0;
+    private NetworkVariable<byte> sendInputActives = new NetworkVariable<byte>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     void Start()
     {
@@ -24,6 +28,7 @@ public class PlayerController : NetworkBehaviour
             shipRef = Instantiate(shipObj);
             shipRef.GetComponent<NetworkObject>().Spawn(true);
             shipMovement = shipRef.GetComponent<Movement>();
+            shipWeapons = shipRef.GetComponent<WeaponsHolder>();
             OwnerFindShipRpc(shipRef.GetComponent<NetworkObject>().NetworkObjectId);
             Network.sharedInstance.PrintSpawnedObjects();
         }
@@ -34,6 +39,7 @@ public class PlayerController : NetworkBehaviour
         if (IsServer)
         {
             shipMovement.inputVector = sendInputVec.Value;
+            shipWeapons.inputActives = sendInputActives.Value;
         }
         if (!IsOwner) return;
 
@@ -50,6 +56,16 @@ public class PlayerController : NetworkBehaviour
             inputVec.x += 1;
         sendInputVec.Value = inputVec;
 
+        inputActives = 0b0000;
+        if (Input.GetMouseButton(0))
+            inputActives += 1 << 0; 
+        if (Input.GetMouseButton(1))
+            inputActives += 1 << 1;
+        if (Input.GetKey(KeyCode.Q))
+            inputActives += 1 << 2;
+        if (Input.GetKey(KeyCode.E))
+            inputActives += 1 << 3;
+        sendInputActives.Value = inputActives;
     }
 
     [Rpc(SendTo.Owner)]
@@ -64,6 +80,7 @@ public class PlayerController : NetworkBehaviour
 
         shipRef = NetworkManager.Singleton.SpawnManager.SpawnedObjects[id].gameObject;
         shipMovement = shipRef.GetComponent<Movement>();
+        shipWeapons = shipRef.GetComponent<WeaponsHolder>();
         cam = Camera.main.GetComponent<FollowCamera>();
         cam.followTarget = shipRef.transform;
         cam.InitLead();

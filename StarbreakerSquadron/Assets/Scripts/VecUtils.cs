@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class VecUtils
 {
-    public static Vector2 FlattenVec3(Vector3 v)
+    public static Vector2 FlattenVec3(Vector3 vec)
     {
-        return new Vector2(v.x, v.y);
+        return new Vector2(vec.x, vec.y);
     }
 
-    public static Vector3 SetZ(Vector3 v, float z = 0)
+    public static Vector3 SetZ(Vector3 vec, float z = 0)
     {
-        return new Vector3(v.x, v.y, z);
+        return new Vector3(vec.x, vec.y, z);
     }
 
-    public static Vector3 SetZ(Vector2 v, float z = 0)
+    public static Vector3 SetZ(Vector2 vec, float z = 0)
     {
-        return new Vector3(v.x, v.y, z);
+        return new Vector3(vec.x, vec.y, z);
     }
 }
