@@ -16,9 +16,7 @@ public class WeaponsHolder : MonoBehaviour
 
         public void Activate()
         {
-            Debug.Log("activated");
             activateEvent.Invoke(this);
-            SetCooldown(1.0f);
         }
 
         public void SetCooldown(float newTime)

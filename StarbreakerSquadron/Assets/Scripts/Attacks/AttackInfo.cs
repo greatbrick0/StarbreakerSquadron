@@ -7,16 +7,18 @@ public struct AttackInfo : INetworkSerializable
     public int primaryPower;
     public int secondaryPower;
     public string colour;
+    public float lifetime;
     public float speed;
     public Vector2 direction;
     public Vector2 originPos;
 
-    public AttackInfo(Teams newTeam, int newPower, Vector2 newOriginPos, string newColour = "cccccc", float newSpeed = 0, Vector2 newDirection = default, int newSecondaryPower = 0)
+    public AttackInfo(Teams newTeam, int newPower, Vector2 newOriginPos, float newLifetime, string newColour = "#cccccc", float newSpeed = 0, Vector2 newDirection = default, int newSecondaryPower = 0)
     {
         team = newTeam;
         primaryPower = newPower;
         secondaryPower = newSecondaryPower;
         colour = newColour;
+        lifetime = newLifetime;
         speed = newSpeed;
         direction = newDirection;
         originPos = newOriginPos;
@@ -28,6 +30,7 @@ public struct AttackInfo : INetworkSerializable
         serializer.SerializeValue(ref primaryPower);
         serializer.SerializeValue(ref secondaryPower);
         serializer.SerializeValue(ref colour, true);
+        serializer.SerializeValue(ref lifetime);
         serializer.SerializeValue(ref speed);
         serializer.SerializeValue(ref direction);
         serializer.SerializeValue(ref originPos);

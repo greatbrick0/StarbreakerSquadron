@@ -35,7 +35,7 @@ public class ThrusterMovement : Movement
         transform.Rotate(inputVector.x * rotationSpeed * Time.deltaTime * Vector3.back);
         if (inputVector.y > 0)
         {
-            accelDirection += accelPower * Time.deltaTime * VecUtils.FlattenVec3(transform.up);
+            accelDirection += accelPower * Time.deltaTime * transform.up.FlattenVec3();
         }
 
         rb.linearVelocity += accelDirection * Time.deltaTime;

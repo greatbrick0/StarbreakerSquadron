@@ -16,6 +16,6 @@ public class ServerCamera : MonoBehaviour
             inputVec.x += -1;
         if (Input.GetKey(KeyCode.D))
             inputVec.x += 1;
-        transform.position += VecUtils.SetZ(inputVec * Time.deltaTime * speed);
+        transform.position += speed * Time.deltaTime * inputVec.SetZ();
     }
 }
