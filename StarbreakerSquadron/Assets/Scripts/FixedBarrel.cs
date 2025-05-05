@@ -3,42 +3,57 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class FixedBarrel : MonoBehaviour
+public class FixedBarrel : NetworkBehaviour, IActivatable
 {
     [SerializeField]
     private GameObject bulletObj;
+    [SerializeField]
+    private GameObject fakeBulletObj;
     private GameObject bulletRef;
 
     [SerializeField]
     private List<Vector3> barrels = new List<Vector3>();
 
     [SerializeField]
-    Teams team = Teams.Environment;
+    private Teams team = Teams.Environment;
     [SerializeField]
-    string bulletColour = "#cccccc";
+    private string bulletColour = "#cccccc";
     [SerializeField]
-    float cooldown = 1.0f;
+    private float cooldown = 1.0f;
 
-    public void Activate(WeaponsHolder.WeaponSlot slot)
+    public void Activate()
     {
+        GetComponent<AudioSource>().Play();
         AttackInfo attackInfo;
         foreach (Vector3 barrel in barrels)
         {
-            bulletRef = Instantiate(bulletObj);
-            bulletRef.transform.position = transform.localToWorldMatrix.MultiplyPoint3x4(barrel.SetZ());
-            bulletRef.GetComponent<NetworkObject>().Spawn(true);
             attackInfo = new AttackInfo(
                 team,
                 10,
-                bulletRef.transform.position,
-                1.0f,
+                transform.localToWorldMatrix.MultiplyPoint3x4(barrel.SetZ()),
+                0.7f,
                 bulletColour,
-                3000,
+                30f,
                 transform.up.RotateDegrees(barrel.z)
                 );
-            bulletRef.GetComponent<Attack>().SetValuesRpc(attackInfo);
+            if (IsServer)
+            {
+                bulletRef = Instantiate(bulletObj);
+                bulletRef.transform.position = attackInfo.originPos;
+                bulletRef.GetComponent<NetworkObject>().Spawn(true);
+                bulletRef.GetComponent<Attack>().SetValuesRpc(attackInfo);
+            }
+            else
+            {
+                bulletRef = Instantiate(fakeBulletObj);
+                bulletRef.transform.position = attackInfo.originPos;
+                bulletRef.GetComponent<FakeAttack>().SetValuesFake(attackInfo);
+            }
         }
+    }
 
-        slot.SetCooldown(cooldown);
+    public float GetCooldown()
+    {
+        return cooldown;
     }
 }

@@ -12,22 +12,44 @@ public class WeaponsHolder : MonoBehaviour
         [SerializeField]
         public float remainingCooldown = 0f;
         [SerializeField]
-        public UnityEvent<WeaponSlot> activateEvent;
+        public List<GameObject> activesObjs = new List<GameObject>();
+        private List<IActivatable> actives = new List<IActivatable>();
 
         public void Activate()
         {
-            activateEvent.Invoke(this);
+            foreach (IActivatable weapon in actives)
+            {
+                weapon.Activate();
+                SetCooldown(weapon.GetCooldown());
+            }
         }
 
-        public void SetCooldown(float newTime)
+        private void SetCooldown(float newTime)
         {
             remainingCooldown = Math.Max(remainingCooldown, newTime);
+            Debug.Log(remainingCooldown);
+        }
+
+        public void InitializeActives()
+        {
+            foreach (GameObject obj in activesObjs)
+            {
+                actives.Add(obj.GetComponent<IActivatable>());
+            }
         }
     }
 
     public byte inputActives = 0;
     [SerializeField]
     private List<WeaponSlot> slots = new List<WeaponSlot>(4);
+
+    private void Awake()
+    {
+        foreach (WeaponSlot weapon in slots)
+        {
+            weapon.InitializeActives();
+        }
+    }
 
     private void Update()
     {

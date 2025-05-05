@@ -45,6 +45,9 @@ public class PlayerController : NetworkBehaviour
 
         if(shipRefId != 0 && shipRef == null) InitShipRef(shipRefId);
 
+        shipMovement.inputVector = sendInputVec.Value;
+        shipWeapons.inputActives = sendInputActives.Value;
+
         inputVec = Vector2.zero;
         if (Input.GetKey(KeyCode.W))
             inputVec.y += 1;

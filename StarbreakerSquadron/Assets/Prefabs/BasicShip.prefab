@@ -81,7 +81,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   inputVector: {x: 0, y: 0}
   maxSpeed: 14
-  rotationSpeed: 220
+  rotationSpeed: 180
   accelPower: 1500
   dragPower: 2
 --- !u!50 &7764124592271108407
@@ -252,6 +252,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4667255450560743514}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &-3943027448708870311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,33 +279,14 @@ MonoBehaviour:
   inputActives: 0
   slots:
   - remainingCooldown: 0
-    activateEvent:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1761905615765698855}
-          m_TargetAssemblyTypeName: FixedBarrel, Assembly-CSharp
-          m_MethodName: Activate
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+    activesObjs:
+    - {fileID: 6868785109112943543}
   - remainingCooldown: 0
-    activateEvent:
-      m_PersistentCalls:
-        m_Calls: []
+    activesObjs: []
   - remainingCooldown: 0
-    activateEvent:
-      m_PersistentCalls:
-        m_Calls: []
+    activesObjs: []
   - remainingCooldown: 0
-    activateEvent:
-      m_PersistentCalls:
-        m_Calls: []
+    activesObjs: []
 --- !u!1 &6868785109112943543
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,6 +298,7 @@ GameObject:
   - component: {fileID: 3132442510571054102}
   - component: {fileID: 4665536000906334307}
   - component: {fileID: 1761905615765698855}
+  - component: {fileID: 6613210593441363872}
   m_Layer: 6
   m_Name: FixedSingleBarrel
   m_TagString: Untagged
@@ -385,13 +379,112 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c55b0a6ea60dd264aba35ceca05f2520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   bulletObj: {fileID: 4364611554046747562, guid: acdeed06c53e6174eb6339eb8358e2fc, type: 3}
+  fakeBulletObj: {fileID: 4364611554046747562, guid: c4400e53a9731734f80097a55f4ee6ef, type: 3}
   barrels:
   - {x: 0.15, y: 0.3, z: 0}
   - {x: -0.15, y: 0.3, z: 0}
   team: 1
-  bulletColour: '#00ff00'
-  cooldown: 0.5
+  bulletColour: '#92D050'
+  cooldown: 0.3
+--- !u!82 &6613210593441363872
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6868785109112943543}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: ff63516e60607814ea225d0471eeea0a, type: 3}
+  m_Resource: {fileID: 8300000, guid: ff63516e60607814ea225d0471eeea0a, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.5
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8067236441583749978
 GameObject:
   m_ObjectHideFlags: 0

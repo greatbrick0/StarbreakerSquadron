@@ -22,6 +22,8 @@ public class ThrusterMovement : Movement
 
     void Update()
     {
+        if(!IsServer) return;
+
         rb.linearVelocity = ApplyDrag(rb.linearVelocity, dragPower);
 
         if(stunRemaining > 0.0f)

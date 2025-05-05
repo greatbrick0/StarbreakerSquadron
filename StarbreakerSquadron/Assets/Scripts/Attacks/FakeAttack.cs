@@ -2,7 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Collections.Generic;
 
-public class Attack : NetworkBehaviour
+public class FakeAttack : MonoBehaviour
 {
     private bool used = false;
 
@@ -34,21 +34,18 @@ public class Attack : NetworkBehaviour
     protected virtual void Update()
     {
         if (!used) return;
-        if (!IsServer) return;
 
         rb.linearVelocity = speed * direction;
 
         age += Time.deltaTime;
         if (age >= lifetime)
         {
-            ResetToHiddenRpc();
+            ResetToHidden();
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!IsServer) return;
-
         if(collision.gameObject.layer == 3)
         {
             HitTerrain();
@@ -61,21 +58,19 @@ public class Attack : NetworkBehaviour
 
     protected virtual void HitTerrain()
     {
-        ResetToHiddenRpc();
+        ResetToHidden();
     }
 
     protected virtual void HitTargetable(Targetable targetable)
     {
         if(targetable.team != team)
         {
-            print(targetable.team);
-            targetable.TakeDamage(primaryPower);
-            ResetToHiddenRpc();
+            //targetable.TakeDamage(primaryPower);
+            ResetToHidden();
         }
     }
 
-    [Rpc(SendTo.Everyone)]
-    public void SetValuesRpc(AttackInfo newAttackInfo)
+    public void SetValuesFake(AttackInfo newAttackInfo)
     {
         GetComponent<Collider2D>().enabled = true;
         sprite.gameObject.SetActive(true);
@@ -84,8 +79,9 @@ public class Attack : NetworkBehaviour
         team = newAttackInfo.team;
         ColorUtility.TryParseHtmlString(newAttackInfo.colour, out Color parsedColour);
         sprite.color = parsedColour;
-        primaryPower = newAttackInfo.primaryPower;
-        secondaryPower = newAttackInfo.secondaryPower;
+        sprite.color = Color.red;
+        primaryPower = 0;
+        secondaryPower = 0;
         lifetime = newAttackInfo.lifetime;
         age = 0;
         speed = newAttackInfo.speed;
@@ -93,8 +89,7 @@ public class Attack : NetworkBehaviour
         originPos = newAttackInfo.originPos;
     }
 
-    [Rpc(SendTo.Everyone)]
-    private void ResetToHiddenRpc()
+    private void ResetToHidden()
     {
         GetComponent<Collider2D>().enabled = false;
         sprite.gameObject.SetActive(false);
@@ -110,6 +105,6 @@ public class Attack : NetworkBehaviour
         speed = 0;
         direction = Vector2.zero;
 
-        if(IsServer) GetComponent<NetworkObject>().Despawn(true);
+        Destroy(gameObject);
     }
 }
