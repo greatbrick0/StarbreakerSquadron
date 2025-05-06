@@ -1,12 +1,14 @@
 using UnityEngine;
 using Unity.Netcode;
 using System.Collections.Generic;
+using Unity.Netcode.Components;
 
 public class Attack : NetworkBehaviour
 {
     private bool used = false;
 
     protected Rigidbody2D rb;
+    protected AnticipatedNetworkTransform anticipator;
     [SerializeField]
     protected SpriteRenderer sprite;
 
@@ -29,19 +31,26 @@ public class Attack : NetworkBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        anticipator = GetComponent<AnticipatedNetworkTransform>();
     }
 
     protected virtual void Update()
     {
         if (!used) return;
-        if (!IsServer) return;
-
-        rb.linearVelocity = speed * direction;
 
         age += Time.deltaTime;
-        if (age >= lifetime)
+        if (!IsServer)
         {
-            ResetToHiddenRpc();
+            anticipator.AnticipateMove(originPos + (age * speed * direction));
+        }
+        else
+        {
+            rb.linearVelocity = speed * direction;
+
+            if (age >= lifetime)
+            {
+                ResetToHiddenRpc();
+            }
         }
     }
 

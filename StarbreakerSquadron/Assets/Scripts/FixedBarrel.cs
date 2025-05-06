@@ -7,8 +7,6 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
 {
     [SerializeField]
     private GameObject bulletObj;
-    [SerializeField]
-    private GameObject fakeBulletObj;
     private GameObject bulletRef;
 
     [SerializeField]
@@ -23,7 +21,7 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
 
     public void Activate()
     {
-        GetComponent<AudioSource>().Play();
+        
         AttackInfo attackInfo;
         foreach (Vector3 barrel in barrels)
         {
@@ -45,9 +43,7 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
             }
             else
             {
-                bulletRef = Instantiate(fakeBulletObj);
-                bulletRef.transform.position = attackInfo.originPos;
-                bulletRef.GetComponent<FakeAttack>().SetValuesFake(attackInfo);
+                GetComponent<AudioSource>().Play();
             }
         }
     }

@@ -99,8 +99,8 @@ GameObject:
   - component: {fileID: 3545891053544928667}
   - component: {fileID: 6778375086022213392}
   - component: {fileID: 4818750116460188440}
-  - component: {fileID: 5399611666131189835}
-  - component: {fileID: 7513939603003832732}
+  - component: {fileID: 2096697647929470938}
+  - component: {fileID: 7673591094648385522}
   - component: {fileID: 8530485726303949787}
   m_Layer: 8
   m_Name: DamageBullet
@@ -213,7 +213,7 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &5399611666131189835
+--- !u!114 &2096697647929470938
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -222,11 +222,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4364611554046747562}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: 5abfce83aadd948498d4990c645a017b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  NetworkTransformExpanded: 0
+  NetworkTransformExpanded: 1
   AutoOwnerAuthorityTickOffset: 1
   PositionInterpolationType: 0
   RotationInterpolationType: 0
@@ -257,9 +257,10 @@ MonoBehaviour:
   UseHalfFloatPrecision: 0
   InLocalSpace: 0
   SwitchTransformSpaceWhenParented: 0
-  Interpolate: 1
+  Interpolate: 0
   SlerpPosition: 0
---- !u!114 &7513939603003832732
+  StaleDataHandling: 1
+--- !u!114 &7673591094648385522
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -293,5 +294,6 @@ MonoBehaviour:
   team: 0
   primaryPower: 0
   secondaryPower: 0
+  lifetime: 0
   speed: 0
   direction: {x: 0, y: 0}

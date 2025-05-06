@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 public class TestEnemyController : NetworkBehaviour
 {
     private Vector2 inputVec = Vector2.zero;
+    private byte inputActives = 0;
 
     [SerializeField]
     private List<Vector3> waypoints = new List<Vector3>() { Vector3.zero };

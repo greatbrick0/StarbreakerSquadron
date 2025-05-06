@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,17 +18,13 @@ public class WeaponsHolder : MonoBehaviour
 
         public void Activate()
         {
-            foreach (IActivatable weapon in actives)
-            {
-                weapon.Activate();
-                SetCooldown(weapon.GetCooldown());
-            }
+            foreach (IActivatable weapon in actives) weapon.Activate();
+            SetCooldown();
         }
 
-        private void SetCooldown(float newTime)
+        private void SetCooldown()
         {
-            remainingCooldown = Math.Max(remainingCooldown, newTime);
-            Debug.Log(remainingCooldown);
+            remainingCooldown = actives.Max(weapon => weapon.GetCooldown());
         }
 
         public void InitializeActives()
