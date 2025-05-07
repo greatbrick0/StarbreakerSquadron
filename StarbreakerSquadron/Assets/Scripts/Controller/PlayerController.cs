@@ -61,13 +61,13 @@ public class PlayerController : NetworkBehaviour
 
         inputActives = 0b0000;
         if (Input.GetMouseButton(0))
-            inputActives += 1 << 0; 
+            inputActives |= 1 << 0; 
         if (Input.GetMouseButton(1))
-            inputActives += 1 << 1;
+            inputActives |= 1 << 1;
         if (Input.GetKey(KeyCode.Q))
-            inputActives += 1 << 2;
+            inputActives |= 1 << 2;
         if (Input.GetKey(KeyCode.E))
-            inputActives += 1 << 3;
+            inputActives |= 1 << 3;
         sendInputActives.Value = inputActives;
     }
 

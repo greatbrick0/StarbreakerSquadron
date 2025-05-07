@@ -1,15 +1,20 @@
-using Unity.Netcode;
 using Unity.Netcode.Components;
+using Unity.Netcode;
 using UnityEngine;
 
-public class ThrusterMovement : Movement
+public class HeavyMovement : Movement
 {
     private Rigidbody2D rb;
     private AnticipatedNetworkTransform anticipator;
     private Targetable health;
 
     [SerializeField]
-    private float rotationSpeed = 90f;
+    private float maxRotationSpeed = 90f;
+    [SerializeField]
+    private float rotationPower = 100f;
+    [SerializeField]
+    private float angularDragPower = 20f;
+
     [SerializeField]
     private float accelPower = 500f;
     [SerializeField]
@@ -35,7 +40,7 @@ public class ThrusterMovement : Movement
         else
         {
             rb.linearVelocity = ApplyDrag(rb.linearVelocity, dragPower);
-            rb.angularVelocity = 0;
+            rb.angularVelocity = ApplyAngularDrag(rb.angularVelocity, angularDragPower);
 
             if (stunRemaining > 0.0f)
             {
@@ -44,16 +49,18 @@ public class ThrusterMovement : Movement
             }
             if (!health.isAlive) return;
 
+            //Handle angular velocity
+            float rotDirection = 0;
+            if (inputVector.x > 0) rotDirection += rotationPower;
+            else if (inputVector.x < 0) rotDirection += -rotationPower;
+            
+            rb.angularVelocity += rotDirection * Time.deltaTime;
+            rb.angularVelocity = Mathf.Clamp(rb.angularVelocity, -maxRotationSpeed, maxRotationSpeed);
+
+            //Handle linear velocity
             Vector2 accelDirection = Vector2.zero;
-            transform.Rotate(inputVector.x * rotationSpeed * Time.deltaTime * Vector3.back);
-            if (inputVector.y > 0)
-            {
-                accelDirection += accelPower * transform.up.FlattenVec3();
-            }
-            else if (inputVector.y < 0)
-            {
-                accelDirection += 0.3f * accelPower * -transform.up.FlattenVec3();
-            }
+            if (inputVector.y > 0) accelDirection += accelPower * transform.up.FlattenVec3();
+            else if (inputVector.y < 0) accelDirection += 0.6f * accelPower * -transform.up.FlattenVec3();
 
             rb.linearVelocity += accelDirection * Time.deltaTime;
             rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, maxSpeed);
@@ -67,14 +74,25 @@ public class ThrusterMovement : Movement
         return velocity + Vector2.ClampMagnitude(drag * Time.deltaTime, velocity.magnitude);
     }
 
+    private float ApplyAngularDrag(float velocity, float strength)
+    {
+        float drag = -Mathf.Sign(velocity) * strength;
+        return velocity + Mathf.Clamp(drag * Time.deltaTime, -Mathf.Abs(velocity), Mathf.Abs(velocity));
+    }
+
     public override void Stun(float duration, bool setVelocity = true, Vector2 newVelocity = default)
     {
-        if (setVelocity) rb.linearVelocity = newVelocity;
+        if (setVelocity)
+        {
+            rb.linearVelocity = newVelocity;
+            rb.angularVelocity = 0;
+        }
         stunRemaining = duration;
     }
 
     public void InstantStopVelocity()
     {
         rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0;
     }
 }
