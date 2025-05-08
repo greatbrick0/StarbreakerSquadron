@@ -3,11 +3,10 @@ using UnityEngine;
 using BrainCloud;
 using BrainCloud.JsonFx.Json;
 using System;
-using static Unity.Multiplayer.Editor.EditorMultiplayerRolesManager.AutomaticSelection;
 using Unity.VisualScripting;
-using UnityEditor.PackageManager;
 using Unity.Multiplayer.Playmode;
 using System.Linq;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Network : MonoBehaviour
 {
@@ -39,12 +38,13 @@ public class Network : MonoBehaviour
             string serverUrl = "https://api.braincloudservers.com/s2sdispatcher";
             _bcS2S.Init(appId, serverName, serverSecret, true, serverUrl);
             _bcS2S.LoggingEnabled = true;
+            PlayerPrefs.SetInt("IsUser", 0);
         }
         else
         {
             _wrapper = gameObject.AddComponent<BrainCloudWrapper>();
             _wrapper.Init();
-            Debug.Log("brainCloud client version: " + BrainCloudClientVersion);
+            PlayerPrefs.SetInt("IsUser", 1);
         }
     }
 
@@ -105,5 +105,10 @@ public class Network : MonoBehaviour
             output += obj.Key + " " + obj.Value.name + ". ";
         }
         Debug.Log(output);
+    }
+
+    public void PrintIsDedicatedServer()
+    {
+        Debug.Log("IsUser: " + PlayerPrefs.GetInt("IsUser"));
     }
 }

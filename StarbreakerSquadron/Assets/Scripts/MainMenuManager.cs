@@ -17,8 +17,7 @@ public class MainMenuManager : MonoBehaviour
 
         if(_bcNetwork.IsDedicatedServer)
         {
-            _netManager.StartServer();
-            _netManager.SceneManager.LoadScene("OpenLevel", LoadSceneMode.Single);
+            BeginPlayServer("OpenLevel");
         }
         else
         {
@@ -38,6 +37,7 @@ public class MainMenuManager : MonoBehaviour
     public void OnAuthenticationRequestComplete()
     {
         authenticateScreen.SetActive(false);
+        Debug.Log("brainCloud client version: " + Network.sharedInstance.BrainCloudClientVersion);
     }
 
     public void BeginPlayClient(string sceneIndex)

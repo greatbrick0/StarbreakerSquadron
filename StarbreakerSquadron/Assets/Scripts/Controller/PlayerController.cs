@@ -1,9 +1,5 @@
 using UnityEngine;
 using Unity.Netcode;
-using static UnityEditor.Progress;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.Mathematics;
 
 public class PlayerController : NetworkBehaviour
 {
