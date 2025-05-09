@@ -10,9 +10,9 @@ public class SmallHealth : Targetable
     [SerializeField]
     private UnityEvent deathEvent;
 
-    private void Awake()
+    private void Start()
     {
-        currentHealth.Value = maxHealth;
+        if (IsServer) currentHealth.Value = maxHealth;
     }
 
     private void Update()
