@@ -20,6 +20,8 @@ public class Network : MonoBehaviour
     private UnityTransport _unityTransport;
     private string _roomAddress;
     private int _roomPort;
+    [SerializeField]
+    private string _lobbyId;
 
     public bool IsDedicatedServer;
 
@@ -41,6 +43,7 @@ public class Network : MonoBehaviour
             string serverName = Environment.GetEnvironmentVariable("SERVER_NAME");
             string serverSecret = Environment.GetEnvironmentVariable("SERVER_SECRET");
             string serverUrl = "https://api.braincloudservers.com/s2sdispatcher";
+            _lobbyId = Environment.GetEnvironmentVariable("LOBBY_ID");
             _bcS2S.Init(appId, serverName, serverSecret, true, serverUrl);
             _bcS2S.LoggingEnabled = true;
             PlayerPrefs.SetInt("IsUser", 0);
@@ -51,7 +54,7 @@ public class Network : MonoBehaviour
                     { "operation", "GET_LOBBY_DATA" },
                     { "data", new Dictionary<string, object>
                     {
-                        { "lobbyId", "id" }
+                        { "lobbyId", _lobbyId }
                     }}
                 };
             _bcS2S.Request(request, OnLobbyData);
@@ -133,6 +136,12 @@ public class Network : MonoBehaviour
     {
         var response = JsonReader.Deserialize<Dictionary<string, object>>(json);
         var data = response["data"] as Dictionary<string, object>;
+        Debug.Log(json);
+
+        if (data.ContainsKey("lobby") && (string)response["operation"] != "SETTINGS_UPDATE")
+        {
+            _lobbyId = data["lobbyId"] as string;
+        }
 
         switch (response["operation"] as string)
         {
@@ -143,16 +152,19 @@ public class Network : MonoBehaviour
                 break;
 
             case "ROOM_READY":
-                var connectData = data["connectData"] as Dictionary<string, object>;
-                var ports = connectData["ports"] as Dictionary<string, object>;
-                _roomAddress = (string)connectData["address"];
-                _roomPort = (int)ports["7777/tcp"];
-                _unityTransport.ConnectionData.Address = _roomAddress;
-                _unityTransport.ConnectionData.Port = (ushort)_roomPort;
+                _netManager.StartClient();
                 break;
 
             case "ROOM_ASSIGNED":
-                _netManager.StartClient();
+                var connectData = data["connectData"] as Dictionary<string, object>;
+                var ports = connectData["ports"] as Dictionary<string, object>;
+                var port = (int?)connectData["ports"] ?? -1;
+                _roomAddress = (string)connectData["address"];
+                _roomPort = port >= 0 ? port : (int)ports["7777/tcp"];
+                _unityTransport.ConnectionData.Address = _roomAddress;
+                _unityTransport.ConnectionData.Port = (ushort)_roomPort;
+
+                _wrapper.LobbyService.UpdateReady(_lobbyId, true, new Dictionary<string, object>());
                 break;
         }
     }
@@ -175,7 +187,7 @@ public class Network : MonoBehaviour
                 { "operation", "SYS_ROOM_READY" },
                 { "data", new Dictionary<string, object>
                 {
-                    { "lobbyId", "id" }
+                    { "lobbyId", _lobbyId }
                 }}
             };
         _bcS2S.Request(request, null);
