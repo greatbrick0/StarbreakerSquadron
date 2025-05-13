@@ -41,7 +41,7 @@ public class MainMenuManager : MonoBehaviour
         Debug.Log("brainCloud client version: " + Network.sharedInstance.BrainCloudClientVersion);
     }
 
-    public void BeginPlayClient(string sceneIndex)
+    public void BeginClientJoinLobby()
     {
         var algo = new Dictionary<string, object>();
         algo["strategy"] = "ranged-absolute";
@@ -55,6 +55,11 @@ public class MainMenuManager : MonoBehaviour
             new Dictionary<string, object>(),
             null, null, null
             );
+    }
+
+    public void ForceConnectClient()
+    {
+        _netManager.StartClient();
     }
 
     public void BeginPlayServer(string sceneIndex)

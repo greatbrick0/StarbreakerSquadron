@@ -157,10 +157,17 @@ public class Network : MonoBehaviour
 
             case "ROOM_ASSIGNED":
                 var connectData = data["connectData"] as Dictionary<string, object>;
-                var ports = connectData["ports"] as Dictionary<string, object>;
-                var port = (int?)connectData["ports"] ?? -1;
+                
+                try
+                {
+                    _roomPort = (int?)connectData["ports"] ?? -1;
+                }
+                catch (Exception)
+                {
+                    var ports = connectData["ports"] as Dictionary<string, object>;
+                    _roomPort = (int)ports["7777/tcp"];
+                }
                 _roomAddress = (string)connectData["address"];
-                _roomPort = port >= 0 ? port : (int)ports["7777/tcp"];
                 _unityTransport.ConnectionData.Address = _roomAddress;
                 _unityTransport.ConnectionData.Port = (ushort)_roomPort;
 
