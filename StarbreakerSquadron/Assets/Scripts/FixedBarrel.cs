@@ -19,6 +19,14 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
     [SerializeField]
     private float cooldown = 1.0f;
 
+    [Header("Bullet properties")]
+    [SerializeField]
+    private int bulletDamage = 10;
+    [SerializeField]
+    private float bulletLifeTime = 0.7f;
+    [SerializeField]
+    private float bulletSpeed = 30f;
+
     public void Activate()
     {
         
@@ -27,11 +35,11 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
         {
             attackInfo = new AttackInfo(
                 team,
-                10,
+                bulletDamage,
                 transform.localToWorldMatrix.MultiplyPoint3x4(barrel.SetZ()),
-                0.7f,
+                bulletLifeTime,
                 bulletColour,
-                30f,
+                bulletSpeed,
                 transform.up.RotateDegrees(barrel.z)
                 );
             if (IsServer)
