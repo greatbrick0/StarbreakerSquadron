@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   extended: 0
+  extendSpeed: 5
   flickerPower: 0.1
   flickerSpeed: 20
   powered: 0

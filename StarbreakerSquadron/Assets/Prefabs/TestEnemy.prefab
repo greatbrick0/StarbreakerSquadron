@@ -84,6 +84,8 @@ MonoBehaviour:
   rotationSpeed: 90
   accelPower: 10
   dragPower: 1
+  thrustVisuals:
+  - {fileID: 8557730582735723187}
 --- !u!50 &7764124592271108407
 Rigidbody2D:
   serializedVersion: 5
@@ -461,3 +463,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1375568646278181086, guid: 86b2671322755ae44b4930f6ae150b5f, type: 3}
   m_PrefabInstance: {fileID: 6647442429681430282}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8557730582735723187 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3063396849650038201, guid: 86b2671322755ae44b4930f6ae150b5f, type: 3}
+  m_PrefabInstance: {fileID: 6647442429681430282}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd41001dd63f6604e9a321aa8ea2ebad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -12,6 +12,8 @@ using Unity.Netcode.Transports.UTP;
 public class Network : MonoBehaviour
 {
     public delegate void AuthenticationRequestCompleted();
+    public delegate void ShareLobbyData(string data);
+    public ShareLobbyData shareLobbyData;
 
     public static Network sharedInstance;
     public BrainCloudWrapper _wrapper { get; private set; }
@@ -134,9 +136,11 @@ public class Network : MonoBehaviour
 
     private void OnLobbyEvent(string json)
     {
+        if (shareLobbyData != null) shareLobbyData(json);
+        else Debug.Log(json);
+
         var response = JsonReader.Deserialize<Dictionary<string, object>>(json);
         var data = response["data"] as Dictionary<string, object>;
-        Debug.Log(json);
 
         if (data.ContainsKey("lobby") && (string)response["operation"] != "SETTINGS_UPDATE")
         {
@@ -152,28 +156,35 @@ public class Network : MonoBehaviour
                 break;
 
             case "ROOM_READY":
+                UpdateConnectData(data);
+
                 _netManager.StartClient();
                 break;
 
             case "ROOM_ASSIGNED":
-                var connectData = data["connectData"] as Dictionary<string, object>;
-                
-                try
-                {
-                    _roomPort = (int?)connectData["ports"] ?? -1;
-                }
-                catch (Exception)
-                {
-                    var ports = connectData["ports"] as Dictionary<string, object>;
-                    _roomPort = (int)ports["7777/tcp"];
-                }
-                _roomAddress = (string)connectData["address"];
-                _unityTransport.ConnectionData.Address = _roomAddress;
-                _unityTransport.ConnectionData.Port = (ushort)_roomPort;
+                UpdateConnectData(data);
 
                 _wrapper.LobbyService.UpdateReady(_lobbyId, true, new Dictionary<string, object>());
                 break;
         }
+    }
+
+    private void UpdateConnectData(Dictionary<string, object> data)
+    {
+        var connectData = data["connectData"] as Dictionary<string, object>;
+
+        try
+        {
+            _roomPort = (int?)connectData["ports"] ?? -1;
+        }
+        catch (Exception)
+        {
+            var ports = connectData["ports"] as Dictionary<string, object>;
+            _roomPort = (int)ports["7777/tcp"];
+        }
+        _roomAddress = (string)connectData["address"];
+        _unityTransport.ConnectionData.Address = _roomAddress;
+        _unityTransport.ConnectionData.Port = (ushort)_roomPort;
     }
 
     private void OnLobbyData(string responseString)

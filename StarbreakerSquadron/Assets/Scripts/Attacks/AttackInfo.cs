@@ -11,8 +11,9 @@ public struct AttackInfo : INetworkSerializable
     public float speed;
     public Vector2 direction;
     public Vector2 originPos;
+    public Vector2 extraVelocity;
 
-    public AttackInfo(Teams newTeam, int newPower, Vector2 newOriginPos, float newLifetime, string newColour = "#cccccc", float newSpeed = 0, Vector2 newDirection = default, int newSecondaryPower = 0)
+    public AttackInfo(Teams newTeam, int newPower, Vector2 newOriginPos, float newLifetime, string newColour = "#cccccc", float newSpeed = 0, Vector2 newDirection = default, Vector2 newExtraVelocity = default, int newSecondaryPower = 0)
     {
         team = newTeam;
         primaryPower = newPower;
@@ -22,6 +23,7 @@ public struct AttackInfo : INetworkSerializable
         speed = newSpeed;
         direction = newDirection;
         originPos = newOriginPos;
+        extraVelocity = newExtraVelocity;
     }
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
@@ -34,5 +36,6 @@ public struct AttackInfo : INetworkSerializable
         serializer.SerializeValue(ref speed);
         serializer.SerializeValue(ref direction);
         serializer.SerializeValue(ref originPos);
+        serializer.SerializeValue(ref extraVelocity);
     }
 }

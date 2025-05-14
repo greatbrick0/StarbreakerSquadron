@@ -1,6 +1,8 @@
+using NUnit.Framework;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class ThrusterMovement : Movement
 {
@@ -17,7 +19,11 @@ public class ThrusterMovement : Movement
 
     private float stunRemaining = 0.0f;
 
+    [SerializeField]
+    private List<Thrust> thrustVisuals = new List<Thrust>();
+
     private NetworkVariable<Vector2> sendVelocity = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private NetworkVariable<Vector2> sendAccel = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     void Start()
     {
@@ -30,6 +36,10 @@ public class ThrusterMovement : Movement
     {
         if (!IsServer)
         {
+            foreach(Thrust visual in thrustVisuals)
+            {
+                visual.powered = Vector2.Dot(sendAccel.Value.normalized, transform.up) > 0.5f;
+            }
             anticipator.AnticipateMove(transform.position + (Time.deltaTime * sendVelocity.Value.SetZ()));
         }
         else
@@ -58,6 +68,7 @@ public class ThrusterMovement : Movement
             rb.linearVelocity += accelDirection * Time.deltaTime;
             rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, maxSpeed);
             sendVelocity.Value = rb.linearVelocity;
+            sendAccel.Value = accelDirection;
         }
     }
 

@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -10,11 +12,14 @@ public class MainMenuManager : MonoBehaviour
 
     [SerializeField]
     private GameObject authenticateScreen;
+    [SerializeField]
+    private GameObject matchLoadingScreen;
 
     private void Start()
     {
         _bcNetwork = Network.sharedInstance;
         _netManager = _bcNetwork.GetComponent<NetworkManager>();
+        _bcNetwork.shareLobbyData += SetMatchLoadingText;
 
         if(_bcNetwork.IsDedicatedServer)
         {
@@ -24,7 +29,11 @@ public class MainMenuManager : MonoBehaviour
         {
             HandleAuthentication();
         }
-        
+    }
+    private void OnDisable()
+    {
+        Debug.Log("Disabled Menu Manager");
+        _bcNetwork.shareLobbyData -= SetMatchLoadingText;
     }
 
     public void HandleAuthentication()
@@ -55,6 +64,8 @@ public class MainMenuManager : MonoBehaviour
             new Dictionary<string, object>(),
             null, null, null
             );
+
+        matchLoadingScreen.SetActive(true);
     }
 
     public void ForceConnectClient()
@@ -66,5 +77,10 @@ public class MainMenuManager : MonoBehaviour
     {
         _netManager.StartServer();
         _netManager.SceneManager.LoadScene(sceneIndex, LoadSceneMode.Single);
+    }
+
+    public void SetMatchLoadingText(string newText)
+    {
+        matchLoadingScreen.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = newText;
     }
 }

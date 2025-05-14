@@ -2,9 +2,20 @@ using UnityEditor;
 using UnityEngine;
 using System;
 
-public class Builds
+public class Builds : EditorWindow
 {
     public static string[] buildScenes = new[] { "Assets/Scenes/MainMenu.unity", "Assets/Scenes/OpenLevel.unity" }; // change if needed
+
+    [MenuItem("Builds/Open Window")]
+    public static void ShowWindow()
+    {
+        GetWindow<Builds>("Auto Builds");
+    }
+
+    private void OnGUI()
+    {
+        EditorGUILayout.TextField("Path");
+    }
 
     [MenuItem("Builds/Build Linux Server")]
     public static void BuildLinuxServer()

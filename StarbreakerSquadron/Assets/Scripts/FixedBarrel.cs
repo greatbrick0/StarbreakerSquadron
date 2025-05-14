@@ -10,6 +10,8 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
     private GameObject bulletRef;
 
     [SerializeField]
+    private Rigidbody2D rb;
+    [SerializeField]
     private List<Vector3> barrels = new List<Vector3>();
 
     [SerializeField]
@@ -18,6 +20,8 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
     private string bulletColour = "#cccccc";
     [SerializeField]
     private float cooldown = 1.0f;
+    [SerializeField]
+    private bool inheritVelocity = false;
 
     [Header("Bullet properties")]
     [SerializeField]
@@ -40,7 +44,8 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
                 bulletLifeTime,
                 bulletColour,
                 bulletSpeed,
-                transform.up.RotateDegrees(barrel.z)
+                transform.up.RotateDegrees(barrel.z),
+                inheritVelocity ? InheritedVector() : Vector2.zero
                 );
             if (IsServer)
             {
@@ -59,5 +64,10 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
     public float GetCooldown()
     {
         return cooldown;
+    }
+
+    private Vector2 InheritedVector()
+    {
+        return 0.7f * Vector2.Dot(rb.linearVelocity, rb.transform.up) * rb.transform.up;
     }
 }

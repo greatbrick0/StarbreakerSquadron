@@ -27,6 +27,7 @@ public class Attack : NetworkBehaviour
     [SerializeField]
     protected Vector2 direction;
     protected Vector2 originPos;
+    protected Vector2 extraVelocity;
 
     private void Awake()
     {
@@ -41,11 +42,11 @@ public class Attack : NetworkBehaviour
         age += Time.deltaTime;
         if (!IsServer)
         {
-            anticipator.AnticipateMove(originPos + (age * speed * direction));
+            anticipator.AnticipateMove(originPos + (age * (speed * direction + extraVelocity)));
         }
         else
         {
-            rb.linearVelocity = speed * direction;
+            rb.linearVelocity = speed * direction + extraVelocity;
 
             if (age >= lifetime)
             {
@@ -100,6 +101,7 @@ public class Attack : NetworkBehaviour
         speed = newAttackInfo.speed;
         direction = newAttackInfo.direction;
         originPos = newAttackInfo.originPos;
+        extraVelocity = newAttackInfo.extraVelocity;
     }
 
     [Rpc(SendTo.Everyone)]
@@ -118,6 +120,7 @@ public class Attack : NetworkBehaviour
         age = 0;
         speed = 0;
         direction = Vector2.zero;
+        extraVelocity = Vector2.zero;
 
         if(IsServer) GetComponent<NetworkObject>().Despawn(true);
     }
