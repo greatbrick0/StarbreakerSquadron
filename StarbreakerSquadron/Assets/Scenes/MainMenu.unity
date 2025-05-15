@@ -1433,6 +1433,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   authenticateScreen: {fileID: 1282512895}
   matchLoadingScreen: {fileID: 137195799}
+  forceJoinClientButton: {fileID: 1987535683}
 --- !u!4 &1199321808
 Transform:
   m_ObjectHideFlags: 0

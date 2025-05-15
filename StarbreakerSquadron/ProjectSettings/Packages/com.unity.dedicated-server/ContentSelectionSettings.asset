@@ -18,7 +18,5 @@ MonoBehaviour:
     m_StripUIComponents: 0
     m_StripAudioComponents: 0
     m_CustomComponentsList:
-      m_Keys:
-      - m_TypeName: ServerCamera, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-      m_Values: 02000000
+      m_Keys: []
+      m_Values: 

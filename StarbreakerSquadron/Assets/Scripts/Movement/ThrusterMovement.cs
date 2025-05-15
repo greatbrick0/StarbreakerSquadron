@@ -20,7 +20,9 @@ public class ThrusterMovement : Movement
     private float stunRemaining = 0.0f;
 
     [SerializeField]
-    private List<Thrust> thrustVisuals = new List<Thrust>();
+    private List<Thrust> forwardThrustVisuals = new List<Thrust>();
+    [SerializeField]
+    private List<Thrust> backwardThrustVisuals = new List<Thrust>();
 
     private NetworkVariable<Vector2> sendVelocity = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private NetworkVariable<Vector2> sendAccel = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -36,10 +38,7 @@ public class ThrusterMovement : Movement
     {
         if (!IsServer)
         {
-            foreach(Thrust visual in thrustVisuals)
-            {
-                visual.powered = Vector2.Dot(sendAccel.Value.normalized, transform.up) > 0.5f;
-            }
+            HandleThrustVisuals(sendAccel.Value);
             anticipator.AnticipateMove(transform.position + (Time.deltaTime * sendVelocity.Value.SetZ()));
         }
         else
@@ -82,6 +81,18 @@ public class ThrusterMovement : Movement
     {
         if (setVelocity) rb.linearVelocity = newVelocity;
         stunRemaining = duration;
+    }
+
+    private void HandleThrustVisuals(Vector2 accel)
+    {
+        foreach (Thrust visual in forwardThrustVisuals)
+        {
+            visual.powered = Vector2.Dot(accel.normalized, transform.up) > 0.5f;
+        }
+        foreach (Thrust visual in backwardThrustVisuals)
+        {
+            visual.powered = Vector2.Dot(accel.normalized, transform.up) < -0.5f;
+        }
     }
 
     public void InstantStopVelocity()

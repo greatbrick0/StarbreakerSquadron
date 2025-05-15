@@ -5,6 +5,5 @@ MultiplayerManager:
   m_ObjectHideFlags: 0
   m_EnableMultiplayerRoles: 1
   m_StrippingTypes:
-    1:
-    - Assembly-CSharp::ServerCamera
+    1: []
     2: []

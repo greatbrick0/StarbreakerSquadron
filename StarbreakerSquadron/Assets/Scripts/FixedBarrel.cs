@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -22,6 +21,8 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
     private float cooldown = 1.0f;
     [SerializeField]
     private bool inheritVelocity = false;
+    [SerializeField, Range(0f, 1f)]
+    private float inheritPortion = 0.7f;
 
     [Header("Bullet properties")]
     [SerializeField]
@@ -68,6 +69,6 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
 
     private Vector2 InheritedVector()
     {
-        return 0.7f * Vector2.Dot(rb.linearVelocity, rb.transform.up) * rb.transform.up;
+        return inheritPortion * Vector2.Dot(rb.linearVelocity, rb.transform.up) * rb.transform.up;
     }
 }

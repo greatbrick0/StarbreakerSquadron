@@ -5,6 +5,11 @@ public class ServerCamera : MonoBehaviour
     [SerializeField]
     private float speed = 5.0f;
 
+    private void Start()
+    {
+        if(!Network.sharedInstance.IsDedicatedServer) Destroy(this);
+    }
+
     void Update()
     {
         Vector2 inputVec = Vector2.zero;

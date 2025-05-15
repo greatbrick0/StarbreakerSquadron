@@ -1,6 +1,7 @@
 using Unity.Netcode.Components;
 using Unity.Netcode;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class HeavyMovement : Movement
 {
@@ -22,7 +23,19 @@ public class HeavyMovement : Movement
 
     private float stunRemaining = 0.0f;
 
+    [SerializeField]
+    private List<Thrust> forwardThrustVisuals = new List<Thrust>();
+    [SerializeField]
+    private List<Thrust> backwardThrustVisuals = new List<Thrust>();
+    [SerializeField]
+    private List<Thrust> leftThrustVisuals = new List<Thrust>();
+    [SerializeField]
+    private List<Thrust> rightThrustVisuals = new List<Thrust>();
+
     private NetworkVariable<Vector2> sendVelocity = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private NetworkVariable<Vector2> sendAccel = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private NetworkVariable<float> sendAngularVelocity = new NetworkVariable<float>(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private NetworkVariable<float> sendAngularAccel = new NetworkVariable<float>(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     void Start()
     {
@@ -35,6 +48,7 @@ public class HeavyMovement : Movement
     {
         if (!IsServer)
         {
+            HandleThrustVisuals(sendAccel.Value, sendAngularAccel.Value);
             anticipator.AnticipateMove(transform.position + (Time.deltaTime * sendVelocity.Value.SetZ()));
         }
         else
@@ -65,6 +79,9 @@ public class HeavyMovement : Movement
             rb.linearVelocity += accelDirection * Time.deltaTime;
             rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, maxSpeed);
             sendVelocity.Value = rb.linearVelocity;
+            sendAccel.Value = accelDirection;
+            sendAngularVelocity.Value = rb.angularVelocity;
+            sendAngularAccel.Value = rotDirection;
         }
     }
 
@@ -88,6 +105,26 @@ public class HeavyMovement : Movement
             rb.angularVelocity = 0;
         }
         stunRemaining = duration;
+    }
+
+    private void HandleThrustVisuals(Vector2 accel, float spin)
+    {
+        foreach (Thrust visual in forwardThrustVisuals)
+        {
+            visual.powered = Vector2.Dot(accel.normalized, transform.up) > 0.5f;
+        }
+        foreach (Thrust visual in backwardThrustVisuals)
+        {
+            visual.powered = Vector2.Dot(accel.normalized, transform.up) < -0.5f;
+        }
+        foreach (Thrust visual in leftThrustVisuals)
+        {
+            visual.powered = spin > 0f;
+        }
+        foreach (Thrust visual in rightThrustVisuals)
+        {
+            visual.powered = spin < 0f;
+        }
     }
 
     public void InstantStopVelocity()

@@ -14,12 +14,15 @@ public class MainMenuManager : MonoBehaviour
     private GameObject authenticateScreen;
     [SerializeField]
     private GameObject matchLoadingScreen;
+    [SerializeField]
+    private GameObject forceJoinClientButton;
 
     private void Start()
     {
         _bcNetwork = Network.sharedInstance;
         _netManager = _bcNetwork.GetComponent<NetworkManager>();
         _bcNetwork.shareLobbyData += SetMatchLoadingText;
+        if(Application.isEditor) forceJoinClientButton.SetActive(true);
 
         if(_bcNetwork.IsDedicatedServer)
         {

@@ -42,11 +42,11 @@ public class Attack : NetworkBehaviour
         age += Time.deltaTime;
         if (!IsServer)
         {
-            anticipator.AnticipateMove(originPos + (age * (speed * direction + extraVelocity)));
+            anticipator.AnticipateMove(originPos + (age * ((speed * direction) + extraVelocity)));
         }
         else
         {
-            rb.linearVelocity = speed * direction + extraVelocity;
+            rb.linearVelocity = (speed * direction) + extraVelocity;
 
             if (age >= lifetime)
             {

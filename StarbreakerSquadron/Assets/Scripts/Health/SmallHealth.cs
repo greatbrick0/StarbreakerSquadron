@@ -6,9 +6,9 @@ public class SmallHealth : Targetable
 {
     [field: SerializeField]
     public int maxHealth { get; private set; } = 100;
-    private NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    protected NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [SerializeField]
-    private UnityEvent deathEvent;
+    public UnityEvent deathEvent;
 
     private void Start()
     {
@@ -28,12 +28,12 @@ public class SmallHealth : Targetable
 
     public override void TakeDamage(int amount)
     {
-        if(!IsServer) return;
+        if (!IsServer) return;
+        if (!isAlive) return;
+        if (amount < 0) return;
 
-        if(amount < 0) return;
         currentHealth.Value -= amount;
         timeSinceLastDamage = 0f;
-        //print(currentHealth.Value);
     }
 
     public void Die()
@@ -41,5 +41,10 @@ public class SmallHealth : Targetable
         print("dead");
         isAlive = false;
         deathEvent.Invoke();
+    }
+
+    public int GetHealth()
+    {
+        return currentHealth.Value;
     }
 }
