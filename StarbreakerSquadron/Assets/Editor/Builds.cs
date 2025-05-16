@@ -4,7 +4,9 @@ using System;
 
 public class Builds : EditorWindow
 {
+    private delegate void BuildFunction();
     public static string[] buildScenes = new[] { "Assets/Scenes/MainMenu.unity", "Assets/Scenes/OpenLevel.unity" }; // change if needed
+    public string path = "";
 
     [MenuItem("Builds/Open Window")]
     public static void ShowWindow()
@@ -14,7 +16,45 @@ public class Builds : EditorWindow
 
     private void OnGUI()
     {
-        EditorGUILayout.TextField("Path");
+        if (GUILayout.Button("Show Version Label")) ShowVersionLabel();
+        path = EditorGUILayout.TextField("");
+        GUILayout.Space(20);
+        BuildGuiGroup("Windows", BuildWindows);
+        BuildGuiGroup("Server", BuildLinuxServer);
+    }
+
+    public static void ShowVersionLabel()
+    {
+        Debug.Log(PlayerSettings.bundleVersion);
+    }
+
+    public static void UpdateVersionLabel()
+    {
+        string[] args = Environment.GetCommandLineArgs();
+        string label = null;
+
+        for (int ii = 0; ii < args.Length; ii++)
+        {
+            if (args[ii] == "-label" && ii + 1 < args.Length)
+            {
+                label = args[ii + 1];
+                break;
+            }
+        }
+
+        if (string.IsNullOrEmpty(label))
+        {
+            Debug.LogError("Missing -label argument.");
+            return;
+        }
+
+        PlayerSettings.bundleVersion = label;
+    }
+
+    private void BuildGuiGroup(string label, BuildFunction func)
+    {
+        EditorGUILayout.LabelField(label);
+        if (GUILayout.Button("Build " + label)) func();
     }
 
     [MenuItem("Builds/Build Linux Server")]

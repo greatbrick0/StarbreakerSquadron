@@ -17,7 +17,7 @@ public class Network : MonoBehaviour
 
     public static Network sharedInstance;
     public BrainCloudWrapper _wrapper { get; private set; }
-    private BrainCloudS2S _bcS2S = new BrainCloudS2S();
+    public BrainCloudS2S _bcS2S { get; private set; } = new BrainCloudS2S();
     private NetworkManager _netManager;
     private UnityTransport _unityTransport;
     private string _roomAddress;
