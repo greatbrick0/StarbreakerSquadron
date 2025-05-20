@@ -181,6 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   team: 2
+  statColour: yellow
   <maxHealth>k__BackingField: 100
   deathEvent:
     m_PersistentCalls:

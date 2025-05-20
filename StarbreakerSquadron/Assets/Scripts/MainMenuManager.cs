@@ -35,7 +35,6 @@ public class MainMenuManager : MonoBehaviour
     }
     private void OnDisable()
     {
-        Debug.Log("Disabled Menu Manager");
         _bcNetwork.shareLobbyData -= SetMatchLoadingText;
     }
 

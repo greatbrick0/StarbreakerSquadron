@@ -325,6 +325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   team: 2
+  statColour: yellow
   <maxHealth>k__BackingField: 300
   deathEvent:
     m_PersistentCalls:
@@ -447,6 +448,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   team: 2
+  statColour: yellow
   <maxHealth>k__BackingField: 300
   deathEvent:
     m_PersistentCalls:
@@ -800,6 +802,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   team: 2
+  statColour: yellow
   <maxHealth>k__BackingField: 300
   deathEvent:
     m_PersistentCalls:
@@ -894,6 +897,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   team: 2
+  statColour: yellow
   <maxHealth>k__BackingField: 200
   deathEvent:
     m_PersistentCalls:
@@ -1016,6 +1020,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   team: 2
+  statColour: yellow
   <maxHealth>k__BackingField: 200
   deathEvent:
     m_PersistentCalls:

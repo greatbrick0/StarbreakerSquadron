@@ -11,11 +11,12 @@ using Unity.Netcode.Transports.UTP;
 
 public class Network : MonoBehaviour
 {
+    public static Network sharedInstance;
+
     public delegate void AuthenticationRequestCompleted();
     public delegate void ShareLobbyData(string data);
     public ShareLobbyData shareLobbyData;
 
-    public static Network sharedInstance;
     public BrainCloudWrapper _wrapper { get; private set; }
     public BrainCloudS2S _bcS2S { get; private set; } = new BrainCloudS2S();
     private NetworkManager _netManager;
@@ -48,16 +49,14 @@ public class Network : MonoBehaviour
             _lobbyId = Environment.GetEnvironmentVariable("LOBBY_ID");
             _bcS2S.Init(appId, serverName, serverSecret, true, serverUrl);
             _bcS2S.LoggingEnabled = true;
-            PlayerPrefs.SetInt("IsUser", 0);
 
             Dictionary<string, object> request = new Dictionary<string, object>
                 {
                     { "service", "lobby" },
                     { "operation", "GET_LOBBY_DATA" },
                     { "data", new Dictionary<string, object>
-                    {
-                        { "lobbyId", _lobbyId }
-                    }}
+                    {{ "lobbyId", _lobbyId }}
+                    }
                 };
             _bcS2S.Request(request, OnLobbyData);
         }
@@ -65,7 +64,6 @@ public class Network : MonoBehaviour
         {
             _wrapper = gameObject.AddComponent<BrainCloudWrapper>();
             _wrapper.Init();
-            PlayerPrefs.SetInt("IsUser", 1);
         }
     }
 
@@ -204,9 +202,8 @@ public class Network : MonoBehaviour
                 { "service", "lobby" },
                 { "operation", "SYS_ROOM_READY" },
                 { "data", new Dictionary<string, object>
-                {
-                    { "lobbyId", _lobbyId }
-                }}
+                {{ "lobbyId", _lobbyId }}
+                }
             };
         _bcS2S.Request(request, null);
     }
@@ -219,10 +216,5 @@ public class Network : MonoBehaviour
             output += obj.Key + " " + obj.Value.name + ". ";
         }
         Debug.Log(output);
-    }
-
-    public void PrintIsDedicatedServer()
-    {
-        Debug.Log("IsUser: " + PlayerPrefs.GetInt("IsUser"));
     }
 }

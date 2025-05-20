@@ -4,6 +4,8 @@ using UnityEngine.Events;
 
 public class SmallHealth : Targetable
 {
+    [SerializeField]
+    private string statColour = "green";
     [field: SerializeField]
     public int maxHealth { get; private set; } = 100;
     protected NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -12,7 +14,12 @@ public class SmallHealth : Targetable
 
     private void Start()
     {
-        if (IsServer) currentHealth.Value = maxHealth;
+        PropertyGetter.propertiesInstance.GetValue(
+            (val) => { 
+                maxHealth = Mathf.RoundToInt(val); 
+                if (IsServer) currentHealth.Value = maxHealth; 
+            }, 
+            "HealthMult", statColour, maxHealth);
     }
 
     private void Update()
