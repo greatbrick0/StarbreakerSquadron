@@ -15,6 +15,12 @@ public class TestEnemyController : NetworkBehaviour
     private float secondsRotated = 0f;
     [SerializeField]
     bool clockwise = false;
+    [SerializeField]
+    float waypointSuccessRadius = 3.0f;
+    [SerializeField]
+    float waypointCarefulRadius = 10.0f;
+    [SerializeField]
+    float carefulSpeed = 2.0f;
 
     private Rigidbody2D rb;
 
@@ -28,9 +34,10 @@ public class TestEnemyController : NetworkBehaviour
         if (!IsServer) return;
 
         inputVec = Vector2.zero;
-        if(waypoints.Count <= 1)
+        float rotDir = clockwise ? 1 : -1;
+        if (waypoints.Count <= 1)
         {
-            inputVec = new Vector2(clockwise ? 1 : -1, 1);
+            inputVec = new Vector2(rotDir, 1);
         }
         else
         {
@@ -40,21 +47,21 @@ public class TestEnemyController : NetworkBehaviour
             float speed = rb.linearVelocity.magnitude;
             if (product > 0.95f)
             {
-                inputVec.y = (distance < 10.0f && speed > 2.0f) ? 0 : 1;
+                inputVec.y = (distance < waypointCarefulRadius && speed > carefulSpeed) ? 0 : 1;
             }
             else if(product > 0.8f)
             {
-                inputVec.x = clockwise ? 1 : -1;
+                inputVec.x = rotDir;
                 secondsRotated += Time.deltaTime;
-                inputVec.y = (distance < 10.0f && speed > 2.0f) ? 0 : 1;
+                inputVec.y = (distance < waypointCarefulRadius && speed > carefulSpeed) ? 0 : 1;
             }
             else
             {
-                inputVec.x = clockwise ? 1 : -1;
+                inputVec.x = rotDir;
                 secondsRotated += Time.deltaTime;
             }
 
-            if(secondsRotated > 4.0f || distance < 3.0f)
+            if(secondsRotated > 4.0f || distance < waypointSuccessRadius)
             {
                 currentWaypoint++;
                 currentWaypoint %= waypoints.Count;

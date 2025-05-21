@@ -4,22 +4,20 @@ using UnityEngine.Events;
 
 public class SmallHealth : Targetable
 {
-    [SerializeField]
-    private string statColour = "green";
     [field: SerializeField]
     public int maxHealth { get; private set; } = 100;
     protected NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    [SerializeField]
-    public UnityEvent deathEvent;
+    
 
     private void Start()
     {
-        PropertyGetter.propertiesInstance.GetValue(
+        ResetHealth();
+        StartCoroutine(PropertyGetter.propertiesInstance.GetValue(
             (val) => { 
-                maxHealth = Mathf.RoundToInt(val); 
-                if (IsServer) currentHealth.Value = maxHealth; 
+                maxHealth = Mathf.RoundToInt(val);
+                ResetHealth();
             }, 
-            "HealthMult", statColour, maxHealth);
+            "HealthMult", gameObject.tag, maxHealth));
     }
 
     private void Update()
@@ -46,8 +44,12 @@ public class SmallHealth : Targetable
     public void Die()
     {
         print("dead");
-        isAlive = false;
-        deathEvent.Invoke();
+        BecomeHidden();
+    }
+
+    public void ResetHealth()
+    {
+        if (IsServer) currentHealth.Value = maxHealth;
     }
 
     public int GetHealth()

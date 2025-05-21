@@ -26,7 +26,6 @@ public class PlayerController : NetworkBehaviour
             shipMovement = shipRef.GetComponent<Movement>();
             shipWeapons = shipRef.GetComponent<WeaponsHolder>();
             OwnerFindShipRpc(shipRef.GetComponent<NetworkObject>().NetworkObjectId);
-            Network.sharedInstance.PrintSpawnedObjects();
         }
     }
 

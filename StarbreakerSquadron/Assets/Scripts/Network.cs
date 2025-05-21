@@ -26,7 +26,7 @@ public class Network : MonoBehaviour
     [SerializeField]
     private string _lobbyId;
 
-    public bool IsDedicatedServer;
+    public bool IsDedicatedServer { get; private set; }
 
     private void Awake()
     {

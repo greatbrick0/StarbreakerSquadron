@@ -14,8 +14,6 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
     private List<Vector3> barrels = new List<Vector3>();
 
     [SerializeField]
-    private string statColour = "green";
-    [SerializeField]
     private Teams team = Teams.Environment;
     [SerializeField]
     private string bulletColour = "#cccccc";
@@ -36,9 +34,11 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
 
     private void Start()
     {
-        PropertyGetter.propertiesInstance.GetValue((val) => bulletDamage = Mathf.RoundToInt(val), "DamageMult", statColour, bulletDamage);
-        PropertyGetter.propertiesInstance.GetValue((val) => bulletLifeTime = val, "BulletLifetimeMult", statColour, bulletLifeTime);
-        PropertyGetter.propertiesInstance.GetValue((val) => bulletSpeed = val, "BulletSpeedMult", statColour, bulletSpeed);
+        PropertyGetter properties = PropertyGetter.propertiesInstance;
+        string statColour = gameObject.tag;
+        StartCoroutine(properties.GetValue((val) => bulletDamage = Mathf.RoundToInt(val), "DamageMult", statColour, bulletDamage));
+        StartCoroutine(properties.GetValue((val) => bulletLifeTime = val, "BulletLifetimeMult", statColour, bulletLifeTime));
+        StartCoroutine(properties.GetValue((val) => bulletSpeed = val, "BulletSpeedMult", statColour, bulletSpeed));
     }
 
     public void Activate()

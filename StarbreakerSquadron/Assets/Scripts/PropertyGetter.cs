@@ -34,7 +34,8 @@ public class PropertyGetter : MonoBehaviour
     public IEnumerator GetValue(StatHandover callback, string property, string colour, float backup = 100.0f)
     {
         yield return new WaitUntil(() => adjustMultsPrepped && true);
-        callback(MultiplyProperty(backup, property, colour));
+        float output = MultiplyProperty(backup, property, colour);
+        callback(output);
     }
 
     public float MultiplyProperty(float value, string property, string colour)

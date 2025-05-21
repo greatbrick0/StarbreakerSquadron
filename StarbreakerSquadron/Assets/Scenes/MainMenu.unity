@@ -629,7 +629,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lobbyId: 
-  IsDedicatedServer: 0
 --- !u!4 &278760825
 Transform:
   m_ObjectHideFlags: 0
