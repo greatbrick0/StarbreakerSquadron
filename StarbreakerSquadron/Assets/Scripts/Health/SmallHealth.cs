@@ -1,3 +1,5 @@
+using System;
+using System.Runtime.CompilerServices;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,7 +9,7 @@ public class SmallHealth : Targetable
     [field: SerializeField]
     public int maxHealth { get; private set; } = 100;
     protected NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    
+
 
     private void Start()
     {
@@ -28,7 +30,12 @@ public class SmallHealth : Targetable
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        currentHealth.OnValueChanged += (int prevValue, int newValue) => { if (newValue <= 0) Die(); };
+        AddHealthReactor((int prevValue, int newValue) => { if (newValue <= 0) Die(); });
+    }
+
+    public void AddHealthReactor(NetworkVariable<int>.OnValueChangedDelegate reaction)
+    {
+        currentHealth.OnValueChanged += reaction;
     }
 
     public override void TakeDamage(int amount)

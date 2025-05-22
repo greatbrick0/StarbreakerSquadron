@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
+using Unity.Collections.LowLevel.Unsafe;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -10,7 +11,9 @@ public class PlayerController : NetworkBehaviour
 
     private Movement shipMovement;
     private WeaponsHolder shipWeapons;
+    private SmallHealth shipHealth;
     private FollowCamera cam;
+    private GameHudManager gameHud;
 
     private Vector2 inputVec = Vector2.zero;
     private NetworkVariable<Vector2> sendInputVec = new NetworkVariable<Vector2>(Vector2.zero, NetworkVariableReadPermission.Everyone ,NetworkVariableWritePermission.Owner);
@@ -79,8 +82,13 @@ public class PlayerController : NetworkBehaviour
         shipRef = NetworkManager.Singleton.SpawnManager.SpawnedObjects[id].gameObject;
         shipMovement = shipRef.GetComponent<Movement>();
         shipWeapons = shipRef.GetComponent<WeaponsHolder>();
+        shipHealth = shipRef.GetComponent<SmallHealth>();
         cam = Camera.main.GetComponent<FollowCamera>();
         cam.followTarget = shipRef.transform;
         cam.InitLead();
+        gameHud = FindFirstObjectByType<GameHudManager>();
+        gameHud.maxHealth = shipHealth.maxHealth;
+        shipHealth.AddHealthReactor((int prevValue, int newValue) => gameHud.UpdateHealthBar(newValue));
+        gameHud.UpdateHealthBar(gameHud.maxHealth);
     }
 }

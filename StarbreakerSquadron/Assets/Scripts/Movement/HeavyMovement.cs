@@ -20,6 +20,8 @@ public class HeavyMovement : Movement
     private float accelPower = 500f;
     [SerializeField]
     private float dragPower = 1.0f;
+    [SerializeField, Min(0.0f)]
+    private float reverseStrength = 0.6f;
 
     private float stunRemaining = 0.0f;
 
@@ -53,48 +55,46 @@ public class HeavyMovement : Movement
         }
         else
         {
-            rb.linearVelocity = ApplyDrag(rb.linearVelocity, dragPower);
-            rb.angularVelocity = ApplyAngularDrag(rb.angularVelocity, angularDragPower);
-
-            if (stunRemaining > 0.0f)
-            {
-                stunRemaining -= 1.0f * Time.deltaTime;
-                return;
-            }
-            if (!health.isAlive) return;
-
-            //Handle angular velocity
-            float rotDirection = 0;
-            if (inputVector.x > 0) rotDirection += rotationPower;
-            else if (inputVector.x < 0) rotDirection += -rotationPower;
-            
-            rb.angularVelocity += rotDirection * Time.deltaTime;
-            rb.angularVelocity = Mathf.Clamp(rb.angularVelocity, -maxRotationSpeed, maxRotationSpeed);
-
-            //Handle linear velocity
+            rb.linearVelocity = ApplyDrag(rb.linearVelocity, dragPower, Time.deltaTime);
+            rb.angularVelocity = ApplyAngularDrag(rb.angularVelocity, angularDragPower, Time.deltaTime);
             Vector2 accelDirection = Vector2.zero;
-            if (inputVector.y > 0) accelDirection += accelPower * transform.up.FlattenVec3();
-            else if (inputVector.y < 0) accelDirection += 0.6f * accelPower * -transform.up.FlattenVec3();
+            float rotDirection = 0;
 
-            rb.linearVelocity += accelDirection * Time.deltaTime;
-            rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, maxSpeed);
-            sendVelocity.Value = rb.linearVelocity;
-            sendAccel.Value = accelDirection;
+            if (stunRemaining > 0.0f) stunRemaining -= 1.0f * Time.deltaTime;
+            else
+            {
+                if (!health.isAlive) return;
+
+                //Handle angular velocity
+                if (inputVector.x > 0) rotDirection += rotationPower;
+                if (inputVector.x < 0) rotDirection += -rotationPower;
+                rb.angularVelocity += rotDirection * Time.deltaTime;
+                rb.angularVelocity = Mathf.Clamp(rb.angularVelocity, -maxRotationSpeed, maxRotationSpeed);
+
+                //Handle linear velocity
+                if (inputVector.y > 0) accelDirection += accelPower * transform.up.FlattenVec3();
+                else if (inputVector.y < 0) accelDirection += -reverseStrength * accelPower * transform.up.FlattenVec3();
+                rb.linearVelocity += accelDirection * Time.deltaTime;
+                rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, maxSpeed);
+            }
+
             sendAngularVelocity.Value = rb.angularVelocity;
             sendAngularAccel.Value = rotDirection;
+            sendVelocity.Value = rb.linearVelocity;
+            sendAccel.Value = accelDirection;
         }
     }
 
-    private Vector2 ApplyDrag(Vector2 velocity, float strength)
+    private Vector2 ApplyDrag(Vector2 velocity, float strength, float delta)
     {
         Vector2 drag = -velocity.normalized * strength;
-        return velocity + Vector2.ClampMagnitude(drag * Time.deltaTime, velocity.magnitude);
+        return velocity + Vector2.ClampMagnitude(drag * delta, velocity.magnitude);
     }
 
-    private float ApplyAngularDrag(float velocity, float strength)
+    private float ApplyAngularDrag(float velocity, float strength, float delta)
     {
         float drag = -Mathf.Sign(velocity) * strength;
-        return velocity + Mathf.Clamp(drag * Time.deltaTime, -Mathf.Abs(velocity), Mathf.Abs(velocity));
+        return velocity + Mathf.Clamp(drag * delta, -Mathf.Abs(velocity), Mathf.Abs(velocity));
     }
 
     public override void Stun(float duration, bool setVelocity = true, Vector2 newVelocity = default)

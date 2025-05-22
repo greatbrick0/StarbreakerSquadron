@@ -3,6 +3,7 @@ using Unity.Netcode;
 
 public abstract class Movement : NetworkBehaviour
 {
+    [Display]
     public Vector2 inputVector;
 
     public float maxSpeed = 5f;

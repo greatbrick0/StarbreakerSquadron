@@ -10,7 +10,7 @@ public class WeaponsHolder : MonoBehaviour
     [Serializable]
     public class WeaponSlot
     {
-        [SerializeField]
+        [Display]
         public float remainingCooldown = 0f;
         [SerializeField]
         public List<GameObject> activesObjs = new List<GameObject>();
@@ -36,6 +36,7 @@ public class WeaponsHolder : MonoBehaviour
         }
     }
 
+    [Display]
     public byte inputActives = 0;
     [SerializeField]
     private List<WeaponSlot> slots = new List<WeaponSlot>(4);

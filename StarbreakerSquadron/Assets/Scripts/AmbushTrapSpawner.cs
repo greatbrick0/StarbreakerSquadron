@@ -11,6 +11,9 @@ public class AmbushTrapSpawner : NetworkBehaviour
     private float timeInactive = 0.0f;
     private NetworkVariable<bool> isActivated = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
+    [SerializeField]
+    private float kickPower = 40.0f;
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -34,21 +37,21 @@ public class AmbushTrapSpawner : NetworkBehaviour
         if (IsServer)
         {
             isActivated.Value = trapHealth.isAlive;
-        }
-        if (!trapHealth.isAlive)
-        {
-            timeInactive += 1.0f * Time.deltaTime;
-            if (timeInactive > 5.0f)
+
+            if (!trapHealth.isAlive)
             {
-                ActivateTrap();
-                Debug.Log("ambush");
+                timeInactive += 1.0f * Time.deltaTime;
+                if (timeInactive > 10.0f) ActivateTrapRpc();
             }
         }
     }
 
-    public void ActivateTrap()
+    [Rpc(SendTo.Everyone)]
+    public void ActivateTrapRpc()
     {
+        Debug.Log("ambush");
         trapHealth.BecomeShown();
+        trapRef.GetComponent<Movement>().Stun(0.3f, true, transform.up * kickPower);
     }
 
     private void ResetTrap()

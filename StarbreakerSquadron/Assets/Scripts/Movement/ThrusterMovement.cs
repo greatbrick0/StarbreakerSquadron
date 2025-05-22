@@ -16,7 +16,10 @@ public class ThrusterMovement : Movement
     private float accelPower = 500f;
     [SerializeField]
     private float dragPower = 1.0f;
+    [SerializeField, Min(0.0f)]
+    private float reverseStrength = 0.3f;
 
+    [SerializeField, Display]
     private float stunRemaining = 0.0f;
 
     [SerializeField]
@@ -27,54 +30,55 @@ public class ThrusterMovement : Movement
     private NetworkVariable<Vector2> sendVelocity = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private NetworkVariable<Vector2> sendAccel = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
-    void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anticipator = GetComponent<AnticipatedNetworkTransform>();
         health = GetComponent<Targetable>();
     }
 
-    void Update()
+    private void Update()
     {
         if (!IsServer)
         {
-            HandleThrustVisuals(sendAccel.Value);
-            anticipator.AnticipateMove(transform.position + (Time.deltaTime * sendVelocity.Value.SetZ()));
+            
+            Vector2 predictedVelocity = ApplyDrag(sendVelocity.Value, dragPower, Time.deltaTime);
+            if (stunRemaining > 0.0f) stunRemaining -= 1.0f * Time.deltaTime;
+            else
+            {
+                HandleThrustVisuals(sendAccel.Value);
+                predictedVelocity += Time.deltaTime * sendAccel.Value;
+            }
+            anticipator.AnticipateMove(transform.position + (Time.deltaTime * predictedVelocity.SetZ()));
         }
         else
         {
-            rb.linearVelocity = ApplyDrag(rb.linearVelocity, dragPower);
+            rb.linearVelocity = ApplyDrag(rb.linearVelocity, dragPower, Time.deltaTime);
             rb.angularVelocity = 0;
-
-            if (stunRemaining > 0.0f)
-            {
-                stunRemaining -= 1.0f * Time.deltaTime;
-                return;
-            }
-            if (!health.isAlive) return;
-
             Vector2 accelDirection = Vector2.zero;
-            transform.Rotate(inputVector.x * rotationSpeed * Time.deltaTime * Vector3.back);
-            if (inputVector.y > 0)
-            {
-                accelDirection += accelPower * transform.up.FlattenVec3();
-            }
-            else if (inputVector.y < 0)
-            {
-                accelDirection += 0.3f * accelPower * -transform.up.FlattenVec3();
-            }
 
-            rb.linearVelocity += accelDirection * Time.deltaTime;
-            rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, maxSpeed);
+            if (stunRemaining > 0.0f) stunRemaining -= 1.0f * Time.deltaTime;
+            else
+            {
+                if (!health.isAlive) return;
+
+                transform.Rotate(inputVector.x * rotationSpeed * Time.deltaTime * Vector3.back);
+                if (inputVector.y > 0) accelDirection += accelPower * transform.up.FlattenVec3();
+                else if (inputVector.y < 0) accelDirection += -reverseStrength * accelPower * transform.up.FlattenVec3();
+
+                rb.linearVelocity += accelDirection * Time.deltaTime;
+                rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, maxSpeed);
+            }
+            
             sendVelocity.Value = rb.linearVelocity;
             sendAccel.Value = accelDirection;
         }
     }
 
-    private Vector2 ApplyDrag(Vector2 velocity, float strength)
+    private Vector2 ApplyDrag(Vector2 velocity, float strength, float delta)
     {
         Vector2 drag = -velocity.normalized * strength;
-        return velocity + Vector2.ClampMagnitude(drag * Time.deltaTime, velocity.magnitude);
+        return velocity + Vector2.ClampMagnitude(drag * delta, velocity.magnitude);
     }
 
     public override void Stun(float duration, bool setVelocity = true, Vector2 newVelocity = default)
