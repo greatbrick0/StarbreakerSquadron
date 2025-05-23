@@ -50,8 +50,5 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Roof
-    uniqueID: 3359708241
-    locked: 0
   m_RenderingLayers:
   - Default

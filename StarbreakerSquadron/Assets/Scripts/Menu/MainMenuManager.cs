@@ -17,12 +17,16 @@ public class MainMenuManager : MonoBehaviour
     private GameObject matchLoadingScreen;
     [SerializeField]
     private GameObject profileEditScreen;
+    [Display]
+    public bool canLeaveProfileEdit = true;
 
     [Header("Other")]
     [SerializeField]
     private GameObject JoinLobbyButton;
     [SerializeField]
     private GameObject forceStartClientButton;
+    [SerializeField]
+    private GameObject matchLoadingBox;
 
     private void Start()
     {
@@ -53,8 +57,11 @@ public class MainMenuManager : MonoBehaviour
             Network.sharedInstance.RequestAnonymousAuthentication(OnAuthenticationRequestComplete);
     }
 
-    public void OnAuthenticationRequestComplete()
+    public void OnAuthenticationRequestComplete(Dictionary<string, object> initialUserData)
     {
+        string username = initialUserData["playerName"] as string;
+        profileEditScreen.GetComponent<EditProfileManager>().SetUsername(username);
+
         authenticateScreen.SetActive(false);
         Debug.Log("brainCloud client version: " + Network.sharedInstance.BrainCloudClientVersion);
     }
@@ -90,7 +97,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void SetMatchLoadingText(string newText)
     {
-        matchLoadingScreen.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = newText;
+        matchLoadingBox.GetComponent<TMP_InputField>().text = newText;
     }
 
     private void ActivateEditorMode()
@@ -107,7 +114,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void FinishProfileEdit()
     {
-        profileEditScreen.SetActive(false);
+        if(canLeaveProfileEdit) profileEditScreen.SetActive(false);
     }
 
     public void QuitApp()

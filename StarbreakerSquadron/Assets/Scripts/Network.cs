@@ -12,7 +12,7 @@ public class Network : MonoBehaviour
 {
     public static Network sharedInstance;
 
-    public delegate void AuthenticationRequestCompleted();
+    public delegate void AuthenticationRequestCompleted(Dictionary<string, object> initialUserData);
     public delegate void ShareLobbyData(string data);
     public ShareLobbyData shareLobbyData;
 
@@ -119,8 +119,12 @@ public class Network : MonoBehaviour
 
     private void HandleAuthenticationSuccess(string responseData, object cbObject, AuthenticationRequestCompleted authenticationRequestCompleted)
     {
+        Debug.Log(responseData);
+        var response = JsonReader.Deserialize<Dictionary<string, object>>(responseData);
+        var data = response["data"] as Dictionary<string, object>;
+
         if (authenticationRequestCompleted != null)
-            authenticationRequestCompleted();
+            authenticationRequestCompleted(data);
 
         _wrapper.RTTService.RegisterRTTLobbyCallback(OnLobbyEvent);
         _wrapper.RTTService.EnableRTT(OnRttEnabled, null, RTTConnectionType.WEBSOCKET);
