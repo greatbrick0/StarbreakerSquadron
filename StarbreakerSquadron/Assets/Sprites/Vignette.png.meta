@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ca573b9bb4400f647b28f201bc3bd677
+guid: fa2aaec9fce3e5d4a8449dafc0539d3e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8890021266576378532
-    second: ButtonFrameMask_0
+      213: -2631856780022775825
+    second: Vignette_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ButtonFrameMask_0
+      name: Vignette_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 569
-        height: 566
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 60, y: 60, z: 60, w: 60}
+      border: {x: 250, y: 250, z: 250, w: 250}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4aa04f79d33bf5b70800000000000000
-      internalID: 8890021266576378532
+      spriteID: feff907e334c97bd0800000000000000
+      internalID: -2631856780022775825
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: fe729c2b48889b84596aa3757e41aee8
+    spriteID: 3096da7693abcea4baacbde81c77610d
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ButtonFrameMask_0: 8890021266576378532
+      Vignette_0: -2631856780022775825
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

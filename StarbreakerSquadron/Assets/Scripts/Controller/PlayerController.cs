@@ -58,9 +58,9 @@ public class PlayerController : NetworkBehaviour
         sendInputVec.Value = inputVec;
 
         inputActives = 0b0000;
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.RightControl))
             inputActives |= 1 << 0; 
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) || Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
             inputActives |= 1 << 1;
         if (Input.GetKey(KeyCode.Q))
             inputActives |= 1 << 2;

@@ -10,19 +10,26 @@ public class MainMenuManager : MonoBehaviour
     private Network _bcNetwork;
     private NetworkManager _netManager;
 
+    [Header("Screens")]
     [SerializeField]
     private GameObject authenticateScreen;
     [SerializeField]
     private GameObject matchLoadingScreen;
     [SerializeField]
-    private GameObject forceJoinClientButton;
+    private GameObject profileEditScreen;
+
+    [Header("Other")]
+    [SerializeField]
+    private GameObject JoinLobbyButton;
+    [SerializeField]
+    private GameObject forceStartClientButton;
 
     private void Start()
     {
         _bcNetwork = Network.sharedInstance;
         _netManager = _bcNetwork.GetComponent<NetworkManager>();
         _bcNetwork.shareLobbyData += SetMatchLoadingText;
-        if(Application.isEditor) forceJoinClientButton.SetActive(true);
+        if(Application.isEditor) ActivateEditorMode();
 
         if(_bcNetwork.IsDedicatedServer)
         {
@@ -84,5 +91,27 @@ public class MainMenuManager : MonoBehaviour
     public void SetMatchLoadingText(string newText)
     {
         matchLoadingScreen.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = newText;
+    }
+
+    private void ActivateEditorMode()
+    {
+        forceStartClientButton.SetActive(true);
+        RectTransform rect = JoinLobbyButton.GetComponent<RectTransform>();
+        rect.sizeDelta = new Vector2(280, rect.sizeDelta.y);
+    }
+
+    public void StartProfileEdit()
+    {
+        profileEditScreen.SetActive(true);
+    }
+
+    public void FinishProfileEdit()
+    {
+        profileEditScreen.SetActive(false);
+    }
+
+    public void QuitApp()
+    {
+        Application.Quit();
     }
 }
