@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c6362dd4695eb314d9221f7868094e64
+guid: 2e2b5f2516ae7e140a58508dfc2e9150
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2455499725258023201
-    second: AutoLaunchOnRight_0
+      213: -8672651654622364392
+    second: BeveledCircle_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: AutoLaunchOnRight_0
+      name: BeveledCircle_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 325
-        height: 325
+        width: 426
+        height: 393
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fde1de972005cedd0800000000000000
-      internalID: -2455499725258023201
+      spriteID: 81db781154d84a780800000000000000
+      internalID: -8672651654622364392
       vertices: []
       indices: 
       edges: []
@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BeveledCircle_0: -8672651654622364392
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

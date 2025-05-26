@@ -119,7 +119,6 @@ public class Network : MonoBehaviour
 
     private void HandleAuthenticationSuccess(string responseData, object cbObject, AuthenticationRequestCompleted authenticationRequestCompleted)
     {
-        Debug.Log(responseData);
         var response = JsonReader.Deserialize<Dictionary<string, object>>(responseData);
         var data = response["data"] as Dictionary<string, object>;
 

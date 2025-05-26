@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 07f4508f199b68a4792a88ccfa78d058
+guid: 6e86a61eb7afcb447a9abb28450d42af
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5267791105939076697
-    second: VolumeSliderButton_0
+      213: 8532079503071893141
+    second: WipeGradientMask_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: VolumeSliderButton_0
+      name: WipeGradientMask_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 8
         y: 0
-        width: 366
-        height: 342
+        width: 1484
+        height: 500
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 956f574d914fa1940800000000000000
-      internalID: 5267791105939076697
+      spriteID: 596ddf76a19086670800000000000000
+      internalID: 8532079503071893141
       vertices: []
       indices: 
       edges: []
@@ -160,8 +160,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      VolumeSliderButton_0: 5267791105939076697
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

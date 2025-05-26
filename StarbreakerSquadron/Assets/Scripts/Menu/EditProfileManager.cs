@@ -6,7 +6,7 @@ using BrainCloud.JsonFx.Json;
 
 public class EditProfileManager : MonoBehaviour
 {
-    private Network _bcNetwork;
+    private BrainCloudWrapper _wrapper;
 
     [SerializeField]
     private MainMenuManager mainMenuManager;
@@ -21,12 +21,6 @@ public class EditProfileManager : MonoBehaviour
 
     private string previousName;
 
-
-    private void Start()
-    {
-        _bcNetwork = Network.sharedInstance;
-    }
-
     private void Update()
     {
         bufferSpinner.Rotate(0, 0, -bufferSpinnerSpeed * Time.deltaTime);
@@ -39,10 +33,22 @@ public class EditProfileManager : MonoBehaviour
         usernameInputField.text = newUsername;
     }
 
+    public void SetBrainCloudWrapper(BrainCloudWrapper newWrapper)
+    {
+        _wrapper = newWrapper;
+    }
+
     public void AttemptChangeUsername(string newUsername)
     {
+        if (previousName == newUsername) return;
+        if(newUsername.Length < 3)
+        {
+            usernameInputField.text = previousName;
+            return;
+        }
+
         LeaveScreenPermission(false);
-        _bcNetwork._wrapper.PlayerStateService.UpdateName(newUsername, NameChangeSuccess, NameChangeFailure);
+        _wrapper.PlayerStateService.UpdateName(newUsername, NameChangeSuccess, NameChangeFailure);
     }
 
     private void NameChangeSuccess(string jsonResponse, object cbObject)
@@ -53,6 +59,7 @@ public class EditProfileManager : MonoBehaviour
         var data = response["data"] as Dictionary<string, object>;
         string newName = data["playerName"] as string;
 
+        usernameInputField.text = newName;
         usernameLabel.text = newName;
         previousName = newName;
     }

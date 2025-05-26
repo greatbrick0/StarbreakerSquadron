@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: dfc91c0e963152943aec678e9dc36285
+guid: 5e161b5b4446e0548a41559971180e90
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1399395090081468896
-    second: AutoLaunchOffLeft_0
+      213: 1083497052599920041
+    second: RoughTriangle_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: AutoLaunchOffLeft_0
+      name: RoughTriangle_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 325
-        height: 325
+        y: 6
+        width: 64
+        height: 58
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0e15bbc8b66ab6310800000000000000
-      internalID: 1399395090081468896
+      spriteID: 9a5a66724da590f00800000000000000
+      internalID: 1083497052599920041
       vertices: []
       indices: 
       edges: []
@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      RoughTriangle_0: 1083497052599920041
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

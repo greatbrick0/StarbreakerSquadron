@@ -12,6 +12,10 @@ public class MainMenuManager : MonoBehaviour
 
     [Header("Screens")]
     [SerializeField]
+    private Transform canvas;
+    [SerializeField, Display]
+    private int activeScreen = 0;
+    [SerializeField]
     private GameObject authenticateScreen;
     [SerializeField]
     private GameObject matchLoadingScreen;
@@ -33,7 +37,8 @@ public class MainMenuManager : MonoBehaviour
         _bcNetwork = Network.sharedInstance;
         _netManager = _bcNetwork.GetComponent<NetworkManager>();
         _bcNetwork.shareLobbyData += SetMatchLoadingText;
-        if(Application.isEditor) ActivateEditorMode();
+        profileEditScreen.GetComponent<EditProfileManager>().SetBrainCloudWrapper(_bcNetwork._wrapper);
+        if (Application.isEditor) ActivateEditorMode();
 
         if(_bcNetwork.IsDedicatedServer)
         {
@@ -60,9 +65,15 @@ public class MainMenuManager : MonoBehaviour
     public void OnAuthenticationRequestComplete(Dictionary<string, object> initialUserData)
     {
         string username = initialUserData["playerName"] as string;
-        profileEditScreen.GetComponent<EditProfileManager>().SetUsername(username);
+        if(username != string.Empty) profileEditScreen.GetComponent<EditProfileManager>().SetUsername(username);
+        else
+        {
+            string profileIdSubstring = (initialUserData["profileId"] as string).Substring(0, 8);
+            Debug.Log(profileIdSubstring);
+            profileEditScreen.GetComponent<EditProfileManager>().AttemptChangeUsername("Player_" + profileIdSubstring);
+        }
 
-        authenticateScreen.SetActive(false);
+        ChangeActiveScreen(1);
         Debug.Log("brainCloud client version: " + Network.sharedInstance.BrainCloudClientVersion);
     }
 
@@ -71,8 +82,7 @@ public class MainMenuManager : MonoBehaviour
         var algo = new Dictionary<string, object>();
         algo["strategy"] = "ranged-absolute";
         algo["alignment"] = "center";
-        List<int> ranges = new List<int> { 1000 };
-        algo["ranges"] = ranges;
+        algo["ranges"] = new List<int> { 1000 };
         Network.sharedInstance._wrapper.LobbyService.FindOrCreateLobby(
             "CustomGame", 0, 1, algo,
             new Dictionary<string, object>(), true,
@@ -81,7 +91,7 @@ public class MainMenuManager : MonoBehaviour
             null, null, null
             );
 
-        matchLoadingScreen.SetActive(true);
+        ChangeActiveScreen(3);
     }
 
     public void ForceConnectClient()
@@ -107,18 +117,20 @@ public class MainMenuManager : MonoBehaviour
         rect.sizeDelta = new Vector2(280, rect.sizeDelta.y);
     }
 
-    public void StartProfileEdit()
-    {
-        profileEditScreen.SetActive(true);
-    }
-
     public void FinishProfileEdit()
     {
-        if(canLeaveProfileEdit) profileEditScreen.SetActive(false);
+        if(canLeaveProfileEdit) ChangeActiveScreen(1);
     }
 
     public void QuitApp()
     {
         Application.Quit();
+    }
+
+    public void ChangeActiveScreen(int newIndex)
+    {
+        canvas.GetChild(activeScreen).gameObject.SetActive(false);
+        canvas.GetChild(newIndex).gameObject.SetActive(true);
+        activeScreen = newIndex;
     }
 }
