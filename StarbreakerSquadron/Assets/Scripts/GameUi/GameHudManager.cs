@@ -1,12 +1,30 @@
+using System;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class GameHudManager : MonoBehaviour
 {
+    public GameHudState state { get; private set; } = GameHudState.Shocked;
+
     [SerializeField]
-    GameObject versionLabel;
+    private Transform hudHolder;
+    [SerializeField]
+    private GameObject gameMenu;
+    [SerializeField]
+    private GameObject respawnTimer;
+    [SerializeField, Min(0)]
+    private float deathShockTime = 2.0f;
+    [SerializeField] 
+    private GameObject closeMenuButton;
+    [SerializeField]
+    private GameObject versionLabel;
+
+    [SerializeField]
+    public UnityEvent attemptLeaveEvent;
 
     [Header("Health Display")]
     [Display]
@@ -15,7 +33,7 @@ public class GameHudManager : MonoBehaviour
     private int currentHealth = 100;
     [SerializeField]
     private Color baseHealthColour = Color.green;
-    [SerializeField]
+    [SerializeField, Min(0)]
     private int criticalHealthAmount = 20;
     [SerializeField]
     private Color criticalHealthColour = Color.red;
@@ -39,6 +57,7 @@ public class GameHudManager : MonoBehaviour
     private void Awake()
     {
         if(Network.sharedInstance.IsDedicatedServer) Destroy(gameObject);
+        ChangeGameHudState(GameHudState.Shocked);
     }
 
     private void Update()
@@ -46,6 +65,88 @@ public class GameHudManager : MonoBehaviour
         animTime += Time.deltaTime;
         if (animTime > 100) animTime -= Mathf.PI * 30;
 
+        switch (state)
+        {
+            case GameHudState.Gameplay:
+                HandleHealthBarAnimation();
+                break;
+            case GameHudState.Paused:
+                break;
+            case GameHudState.Shocked:
+                break;
+            case GameHudState.Respawn:
+                break;
+            case GameHudState.Spectating:
+                break;
+        }
+    }
+
+    public IEnumerator StartRespawningHud()
+    {
+        ChangeGameHudState(GameHudState.Shocked);
+        yield return new WaitForSeconds(deathShockTime);
+        ChangeGameHudState(GameHudState.Respawn);
+    }
+
+    public void ToggleMenuHotKey()
+    {
+        switch (state)
+        {
+            case GameHudState.Gameplay:
+                ChangeGameHudState(GameHudState.Paused);
+                break;
+            case GameHudState.Paused:
+                ChangeGameHudState(GameHudState.Gameplay);
+                break;
+            case GameHudState.Shocked:
+                break;
+            case GameHudState.Respawn:
+                ChangeGameHudState(GameHudState.Spectating);
+                break;
+            case GameHudState.Spectating:
+                ChangeGameHudState(GameHudState.Respawn);
+                break;
+        }
+    }
+
+    public void ChangeGameHudState(int newState)
+    {
+        ChangeGameHudState((GameHudState)newState);
+    }
+
+    public void ChangeGameHudState(GameHudState newState)
+    {
+        hudHolder.gameObject.SetActive(newState == GameHudState.Gameplay);
+        closeMenuButton.gameObject.SetActive(newState == GameHudState.Paused);
+
+        switch (newState)
+        {
+            case GameHudState.Gameplay:
+                gameMenu.SetActive(false);
+                respawnTimer.SetActive(false);
+                break;
+            case GameHudState.Paused:
+                gameMenu.SetActive(true);
+                respawnTimer.SetActive(false);
+                break;
+            case GameHudState.Shocked:
+                gameMenu.SetActive(false);
+                respawnTimer.SetActive(false);
+                break;
+            case GameHudState.Respawn:
+                gameMenu.SetActive(true);
+                respawnTimer.SetActive(true);
+                break;
+            case GameHudState.Spectating:
+                gameMenu.SetActive(false);
+                respawnTimer.SetActive(true);
+                break;
+        }
+        state = newState;
+    }
+
+    private void HandleHealthBarAnimation()
+    {
         if (currentHealth <= criticalHealthAmount)
         {
             healthBarFill.color = Color.Lerp(baseHealthColour, criticalHealthColour, Mathf.Clamp01(Mathf.Sin(12 * animTime) + 0.7f));
@@ -72,4 +173,18 @@ public class GameHudManager : MonoBehaviour
         healthBar.value = (1.0f * newHealth) / maxHealth;
         healthLabel.text = newHealth.ToString();
     }
+
+    public void AttemptLeaveSession()
+    {
+        attemptLeaveEvent.Invoke();
+    }
+}
+
+public enum GameHudState
+{
+    Gameplay = 0,
+    Paused = 1,
+    Shocked = 2,
+    Respawn = 3,
+    Spectating = 4,
 }

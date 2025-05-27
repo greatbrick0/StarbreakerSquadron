@@ -30,6 +30,10 @@ public class PlayerController : NetworkBehaviour
             shipWeapons = shipRef.GetComponent<WeaponsHolder>();
             OwnerFindShipRpc(shipRef.GetComponent<NetworkObject>().NetworkObjectId);
         }
+        else
+        {
+            gameHud = FindFirstObjectByType<GameHudManager>();
+        }
     }
 
     void Update()
@@ -45,27 +49,32 @@ public class PlayerController : NetworkBehaviour
 
         shipMovement.inputVector = sendInputVec.Value;
         shipWeapons.inputActives = sendInputActives.Value;
-
         inputVec = Vector2.zero;
-        if (Input.GetKey(KeyCode.W))
-            inputVec.y += 1;
-        if (Input.GetKey(KeyCode.S))
-            inputVec.y += -1;
-        if (Input.GetKey(KeyCode.A))
-            inputVec.x += -1;
-        if (Input.GetKey(KeyCode.D))
-            inputVec.x += 1;
-        sendInputVec.Value = inputVec;
-
         inputActives = 0b0000;
-        if (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.RightControl))
-            inputActives |= 1 << 0; 
-        if (Input.GetMouseButton(1) || Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-            inputActives |= 1 << 1;
-        if (Input.GetKey(KeyCode.Q))
-            inputActives |= 1 << 2;
-        if (Input.GetKey(KeyCode.E))
-            inputActives |= 1 << 3;
+
+        if (Input.GetKeyUp(KeyCode.Tab)) gameHud.ToggleMenuHotKey();
+        if (gameHud.state == GameHudState.Gameplay)
+        {
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+                inputVec.y += 1;
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+                inputVec.y += -1;
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+                inputVec.x += -1;
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+                inputVec.x += 1;
+
+            if (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.RightControl))
+                inputActives |= 1 << 0;
+            if (Input.GetMouseButton(1) || Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                inputActives |= 1 << 1;
+            if (Input.GetKey(KeyCode.Q))
+                inputActives |= 1 << 2;
+            if (Input.GetKey(KeyCode.E))
+                inputActives |= 1 << 3;
+        }
+
+        sendInputVec.Value = inputVec;
         sendInputActives.Value = inputActives;
     }
 
@@ -86,9 +95,10 @@ public class PlayerController : NetworkBehaviour
         cam = Camera.main.GetComponent<FollowCamera>();
         cam.followTarget = shipRef.transform;
         cam.InitLead();
-        gameHud = FindFirstObjectByType<GameHudManager>();
         gameHud.maxHealth = shipHealth.maxHealth;
         shipHealth.AddHealthReactor((int prevValue, int newValue) => gameHud.UpdateHealthBar(newValue));
         gameHud.UpdateHealthBar(gameHud.maxHealth);
+        shipHealth.deathEvent.AddListener(() => StartCoroutine(gameHud.StartRespawningHud()));
+        gameHud.ChangeGameHudState(GameHudState.Gameplay);
     }
 }
