@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using BrainCloud.JsonFx.Json;
+using UnityEngine.SceneManagement;
 
 public class EditProfileManager : MonoBehaviour
 {
@@ -21,6 +22,11 @@ public class EditProfileManager : MonoBehaviour
 
     private string previousName;
 
+    private void Start()
+    {
+        _wrapper = Network.sharedInstance._wrapper;
+    }
+
     private void Update()
     {
         bufferSpinner.Rotate(0, 0, -bufferSpinnerSpeed * Time.deltaTime);
@@ -31,11 +37,6 @@ public class EditProfileManager : MonoBehaviour
         previousName = newUsername;
         usernameLabel.text = newUsername;
         usernameInputField.text = newUsername;
-    }
-
-    public void SetBrainCloudWrapper(BrainCloudWrapper newWrapper)
-    {
-        _wrapper = newWrapper;
     }
 
     public void AttemptChangeUsername(string newUsername)
@@ -49,6 +50,15 @@ public class EditProfileManager : MonoBehaviour
 
         LeaveScreenPermission(false);
         _wrapper.PlayerStateService.UpdateName(newUsername, NameChangeSuccess, NameChangeFailure);
+    }
+
+    public void AttemptSignOut()
+    {
+        BrainCloud.SuccessCallback success = (responseData, cbObject) =>
+        {
+            SceneManager.LoadScene("Boot", LoadSceneMode.Single);
+        };
+        _wrapper.Logout(true, success, null);
     }
 
     private void NameChangeSuccess(string jsonResponse, object cbObject)

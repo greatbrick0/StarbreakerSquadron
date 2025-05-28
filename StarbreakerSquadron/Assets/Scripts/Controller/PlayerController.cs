@@ -33,6 +33,7 @@ public class PlayerController : NetworkBehaviour
         else
         {
             gameHud = FindFirstObjectByType<GameHudManager>();
+            gameHud.attemptLeaveEvent.AddListener(Network.sharedInstance.DisconnectFromSession);
         }
     }
 

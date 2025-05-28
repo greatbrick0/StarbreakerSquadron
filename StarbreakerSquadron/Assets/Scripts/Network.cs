@@ -7,12 +7,14 @@ using Unity.Multiplayer.Playmode;
 using System.Linq;
 using System.Collections.Generic;
 using Unity.Netcode.Transports.UTP;
+using UnityEngine.SceneManagement;
 
 public class Network : MonoBehaviour
 {
     public static Network sharedInstance;
 
     public delegate void AuthenticationRequestCompleted(Dictionary<string, object> initialUserData);
+    public AuthenticationRequestCompleted authenticationRequestCompleted;
     public delegate void ShareLobbyData(string data);
     public ShareLobbyData shareLobbyData;
 
@@ -29,6 +31,8 @@ public class Network : MonoBehaviour
 
     private void Awake()
     {
+        if (sharedInstance != null) Destroy(gameObject);
+
         IsDedicatedServer = (Application.isBatchMode && !Application.isEditor) || (CurrentPlayer.ReadOnlyTags().Contains("server") && Application.isEditor);
         Debug.Log(IsDedicatedServer ? "This is dedicated server" : "This is a client");
 
@@ -63,6 +67,9 @@ public class Network : MonoBehaviour
         {
             _wrapper = gameObject.AddComponent<BrainCloudWrapper>();
             _wrapper.Init();
+
+            if (HasAuthenticatedPreviously()) Reconnect();
+            else SceneManager.LoadScene("Login", LoadSceneMode.Single);
         }
     }
 
@@ -71,6 +78,7 @@ public class Network : MonoBehaviour
         if (IsDedicatedServer)
         {
             _unityTransport.SetConnectionData("0.0.0.0", 7777);
+            BeginPlayServer("OpenLevel");
         }
     }
 
@@ -78,6 +86,12 @@ public class Network : MonoBehaviour
     {
         if (IsDedicatedServer) _bcS2S.RunCallbacks();
         else _wrapper.RunCallbacks();
+    }
+
+    public void BeginPlayServer(string sceneIndex)
+    {
+        _netManager.StartServer();
+        _netManager.SceneManager.LoadScene(sceneIndex, LoadSceneMode.Single);
     }
 
     public string BrainCloudClientVersion
@@ -95,33 +109,33 @@ public class Network : MonoBehaviour
         return IsDedicatedServer ? _bcS2S.IsAuthenticated : _wrapper.Client.Authenticated;
     }
 
-    public void Reconnect(AuthenticationRequestCompleted authenticationRequestCompleted = null)
+    private void Reconnect()
     {
         BrainCloud.SuccessCallback success = (responseData, cbObject) =>
         {
-            HandleAuthenticationSuccess(responseData, cbObject, authenticationRequestCompleted);
+            HandleAuthenticationSuccess(responseData, cbObject);
             Debug.Log("Reconnected " + _wrapper.GetStoredAnonymousId());
+            SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         };
 
         _wrapper.Reconnect(success, null);
     }
 
-    public void RequestAnonymousAuthentication(AuthenticationRequestCompleted authenticationRequestCompleted = null)
+    public void RequestAnonymousAuthentication()
     {
         BrainCloud.SuccessCallback success = (responseData, cbObject) =>
         {
-            HandleAuthenticationSuccess(responseData, cbObject, authenticationRequestCompleted);
+            HandleAuthenticationSuccess(responseData, cbObject);
             Debug.Log("Anonymously connected");
         };
 
         _wrapper.AuthenticateAnonymous(success, null);
     }
 
-    private void HandleAuthenticationSuccess(string responseData, object cbObject, AuthenticationRequestCompleted authenticationRequestCompleted)
+    private void HandleAuthenticationSuccess(string responseData, object cbObject)
     {
         var response = JsonReader.Deserialize<Dictionary<string, object>>(responseData);
         var data = response["data"] as Dictionary<string, object>;
-
         if (authenticationRequestCompleted != null)
             authenticationRequestCompleted(data);
 
@@ -208,6 +222,16 @@ public class Network : MonoBehaviour
                 }
             };
         _bcS2S.Request(request, null);
+    }
+
+    public void DisconnectFromSession()
+    {
+        BrainCloud.SuccessCallback success = (responseData, cbObject) =>
+        {
+            _netManager.Shutdown();
+            SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+        };
+        _wrapper.LobbyService.LeaveLobby(_lobbyId, success);
     }
 
     public void PrintSpawnedObjects()

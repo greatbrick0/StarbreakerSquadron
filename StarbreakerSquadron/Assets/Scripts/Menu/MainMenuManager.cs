@@ -14,7 +14,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField]
     private Transform canvas;
     [SerializeField, Display]
-    private int activeScreen = 0;
+    private int activeScreen = 1;
     [SerializeField]
     private GameObject authenticateScreen;
     [SerializeField]
@@ -37,29 +37,21 @@ public class MainMenuManager : MonoBehaviour
         _bcNetwork = Network.sharedInstance;
         _netManager = _bcNetwork.GetComponent<NetworkManager>();
         _bcNetwork.shareLobbyData += SetMatchLoadingText;
-        profileEditScreen.GetComponent<EditProfileManager>().SetBrainCloudWrapper(_bcNetwork._wrapper);
         if (Application.isEditor) ActivateEditorMode();
 
         if(_bcNetwork.IsDedicatedServer)
         {
-            BeginPlayServer("OpenLevel");
+            
         }
         else
         {
-            HandleAuthentication();
+            _bcNetwork.authenticationRequestCompleted += OnAuthenticationRequestComplete;
         }
     }
     private void OnDisable()
     {
+        _bcNetwork.authenticationRequestCompleted -= OnAuthenticationRequestComplete;
         _bcNetwork.shareLobbyData -= SetMatchLoadingText;
-    }
-
-    public void HandleAuthentication()
-    {
-        if (Network.sharedInstance.HasAuthenticatedPreviously())
-            Network.sharedInstance.Reconnect(OnAuthenticationRequestComplete);
-        else
-            Network.sharedInstance.RequestAnonymousAuthentication(OnAuthenticationRequestComplete);
     }
 
     public void OnAuthenticationRequestComplete(Dictionary<string, object> initialUserData)
@@ -97,12 +89,6 @@ public class MainMenuManager : MonoBehaviour
     public void ForceConnectClient()
     {
         _netManager.StartClient();
-    }
-
-    public void BeginPlayServer(string sceneIndex)
-    {
-        _netManager.StartServer();
-        _netManager.SceneManager.LoadScene(sceneIndex, LoadSceneMode.Single);
     }
 
     public void SetMatchLoadingText(string newText)

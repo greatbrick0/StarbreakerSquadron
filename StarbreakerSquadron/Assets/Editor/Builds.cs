@@ -1,11 +1,19 @@
 using UnityEditor;
 using UnityEngine;
 using System;
+using UnityEditor.SceneManagement;
 
 public class Builds : EditorWindow
 {
     private delegate void BuildFunction();
-    public static string[] buildScenes = new[] { "Assets/Scenes/MainMenu.unity", "Assets/Scenes/OpenLevel.unity" }; // change if needed
+    public static string[] buildScenes = new[]
+    { // change if needed
+        "Assets/Scenes/Boot.unity", 
+        "Assets/Scenes/Login.unity", 
+        "Assets/Scenes/MainMenu.unity", 
+        "Assets/Scenes/OpenLevel.unity" 
+    }; 
+
     public string path = "";
 
     [MenuItem("Builds/Open Window")]
@@ -17,6 +25,10 @@ public class Builds : EditorWindow
     private void OnGUI()
     {
         if (GUILayout.Button("Show Version Label")) ShowVersionLabel();
+        GUILayout.Space(20);
+        foreach(string ii in buildScenes) if (GUILayout.Button(ii)) EditorSceneManager.OpenScene(ii, OpenSceneMode.Single);
+        GUILayout.Space(20);
+        EditorGUILayout.LabelField("path:");
         path = EditorGUILayout.TextField("");
         GUILayout.Space(20);
         BuildGuiGroup("Windows", BuildWindows);
