@@ -54,9 +54,11 @@ public class EditProfileManager : MonoBehaviour
 
     public void AttemptSignOut()
     {
+        LeaveScreenPermission(false);
         BrainCloud.SuccessCallback success = (responseData, cbObject) =>
         {
-            SceneManager.LoadScene("Boot", LoadSceneMode.Single);
+            //SceneManager.LoadScene("Login", LoadSceneMode.Single);
+            Application.Quit();
         };
         _wrapper.Logout(true, success, null);
     }

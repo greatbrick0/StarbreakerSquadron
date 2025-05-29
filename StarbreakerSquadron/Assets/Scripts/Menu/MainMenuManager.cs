@@ -39,22 +39,18 @@ public class MainMenuManager : MonoBehaviour
         _bcNetwork.shareLobbyData += SetMatchLoadingText;
         if (Application.isEditor) ActivateEditorMode();
 
-        if(_bcNetwork.IsDedicatedServer)
+        if(!_bcNetwork.IsDedicatedServer)
         {
-            
-        }
-        else
-        {
-            _bcNetwork.authenticationRequestCompleted += OnAuthenticationRequestComplete;
+            _bcNetwork.authenticationRequestCompleted += OnPlayerDataGathered;
         }
     }
     private void OnDisable()
     {
-        _bcNetwork.authenticationRequestCompleted -= OnAuthenticationRequestComplete;
+        _bcNetwork.authenticationRequestCompleted -= OnPlayerDataGathered;
         _bcNetwork.shareLobbyData -= SetMatchLoadingText;
     }
 
-    public void OnAuthenticationRequestComplete(Dictionary<string, object> initialUserData)
+    public void OnPlayerDataGathered(Dictionary<string, object> initialUserData)
     {
         string username = initialUserData["playerName"] as string;
         if(username != string.Empty) profileEditScreen.GetComponent<EditProfileManager>().SetUsername(username);

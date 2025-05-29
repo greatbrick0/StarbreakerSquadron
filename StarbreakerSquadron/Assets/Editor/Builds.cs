@@ -35,6 +35,13 @@ public class Builds : EditorWindow
         BuildGuiGroup("Server", BuildLinuxServer);
     }
 
+    [MenuItem("Builds/Play From Start _F5")]
+    public static void PlayFromStart()
+    {
+        EditorSceneManager.OpenScene(buildScenes[0], OpenSceneMode.Single);
+    }
+
+    [MenuItem("Builds/Show Version Label")]
     public static void ShowVersionLabel()
     {
         Debug.Log(PlayerSettings.bundleVersion);

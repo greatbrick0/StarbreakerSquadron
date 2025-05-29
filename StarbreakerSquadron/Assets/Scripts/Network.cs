@@ -31,7 +31,12 @@ public class Network : MonoBehaviour
 
     private void Awake()
     {
-        if (sharedInstance != null) Destroy(gameObject);
+        if (sharedInstance != null)
+        {
+            Debug.Log("Destroyed duplicate network");
+            Destroy(gameObject);
+            return;
+        }
 
         IsDedicatedServer = (Application.isBatchMode && !Application.isEditor) || (CurrentPlayer.ReadOnlyTags().Contains("server") && Application.isEditor);
         Debug.Log(IsDedicatedServer ? "This is dedicated server" : "This is a client");
@@ -121,18 +126,7 @@ public class Network : MonoBehaviour
         _wrapper.Reconnect(success, null);
     }
 
-    public void RequestAnonymousAuthentication()
-    {
-        BrainCloud.SuccessCallback success = (responseData, cbObject) =>
-        {
-            HandleAuthenticationSuccess(responseData, cbObject);
-            Debug.Log("Anonymously connected");
-        };
-
-        _wrapper.AuthenticateAnonymous(success, null);
-    }
-
-    private void HandleAuthenticationSuccess(string responseData, object cbObject)
+    public void HandleAuthenticationSuccess(string responseData, object cbObject)
     {
         var response = JsonReader.Deserialize<Dictionary<string, object>>(responseData);
         var data = response["data"] as Dictionary<string, object>;
