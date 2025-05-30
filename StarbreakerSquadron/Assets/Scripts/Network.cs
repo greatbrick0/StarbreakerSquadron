@@ -13,7 +13,7 @@ public class Network : MonoBehaviour
 {
     public static Network sharedInstance;
 
-    public delegate void AuthenticationRequestCompleted(Dictionary<string, object> initialUserData);
+    public delegate void AuthenticationRequestCompleted();
     public AuthenticationRequestCompleted authenticationRequestCompleted;
     public delegate void ShareLobbyData(string data);
     public ShareLobbyData shareLobbyData;
@@ -128,10 +128,12 @@ public class Network : MonoBehaviour
 
     public void HandleAuthenticationSuccess(string responseData, object cbObject)
     {
+        Debug.Log("brainCloud client version: " + Network.sharedInstance.BrainCloudClientVersion);
+
         var response = JsonReader.Deserialize<Dictionary<string, object>>(responseData);
         var data = response["data"] as Dictionary<string, object>;
         if (authenticationRequestCompleted != null)
-            authenticationRequestCompleted(data);
+            authenticationRequestCompleted();
 
         _wrapper.RTTService.RegisterRTTLobbyCallback(OnLobbyEvent);
         _wrapper.RTTService.EnableRTT(OnRttEnabled, null, RTTConnectionType.WEBSOCKET);

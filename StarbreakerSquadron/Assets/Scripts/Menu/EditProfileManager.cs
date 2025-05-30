@@ -39,6 +39,12 @@ public class EditProfileManager : MonoBehaviour
         usernameInputField.text = newUsername;
     }
 
+    public void GenerateUsername(string profileId)
+    {
+        string profileIdSubstring = profileId.Substring(0, 8);
+        AttemptChangeUsername("Player_" + profileIdSubstring);
+    }
+
     public void AttemptChangeUsername(string newUsername)
     {
         if (previousName == newUsername) return;

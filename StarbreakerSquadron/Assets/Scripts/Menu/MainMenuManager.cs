@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using BrainCloud.JsonFx.Json;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class MainMenuManager : MonoBehaviour
     private GameObject matchLoadingScreen;
     [SerializeField]
     private GameObject profileEditScreen;
+    private EditProfileManager profileEditManager;
     [Display]
     public bool canLeaveProfileEdit = true;
 
@@ -37,32 +39,26 @@ public class MainMenuManager : MonoBehaviour
         _bcNetwork = Network.sharedInstance;
         _netManager = _bcNetwork.GetComponent<NetworkManager>();
         _bcNetwork.shareLobbyData += SetMatchLoadingText;
+        _bcNetwork._wrapper.PlayerStateService.ReadUserState(ReadUserStateSuccess, null);
         if (Application.isEditor) ActivateEditorMode();
-
-        if(!_bcNetwork.IsDedicatedServer)
-        {
-            _bcNetwork.authenticationRequestCompleted += OnPlayerDataGathered;
-        }
     }
     private void OnDisable()
     {
-        _bcNetwork.authenticationRequestCompleted -= OnPlayerDataGathered;
         _bcNetwork.shareLobbyData -= SetMatchLoadingText;
     }
 
-    public void OnPlayerDataGathered(Dictionary<string, object> initialUserData)
+    private void ReadUserStateSuccess(string jsonResponse, object cbObject)
     {
-        string username = initialUserData["playerName"] as string;
-        if(username != string.Empty) profileEditScreen.GetComponent<EditProfileManager>().SetUsername(username);
-        else
-        {
-            string profileIdSubstring = (initialUserData["profileId"] as string).Substring(0, 8);
-            Debug.Log(profileIdSubstring);
-            profileEditScreen.GetComponent<EditProfileManager>().AttemptChangeUsername("Player_" + profileIdSubstring);
-        }
+        var response = JsonReader.Deserialize<Dictionary<string, object>>(jsonResponse);
+        var data = response["data"] as Dictionary<string, object>;
+        ParsePlayerData(data);
+    }
 
-        ChangeActiveScreen(1);
-        Debug.Log("brainCloud client version: " + Network.sharedInstance.BrainCloudClientVersion);
+    public void ParsePlayerData(Dictionary<string, object> newUserData)
+    {
+        string username = newUserData["playerName"] as string;
+        if (username != string.Empty) profileEditScreen.GetComponent<EditProfileManager>().SetUsername(username);
+        else profileEditScreen.GetComponent<EditProfileManager>().GenerateUsername(newUserData["profileId"] as string);
     }
 
     public void BeginClientJoinLobby()

@@ -22,6 +22,18 @@ public class LoginManager : MonoBehaviour
     [SerializeField]
     private GameObject emailCreateBackButton;
 
+    [Header("Sign In")]
+    [SerializeField]
+    private TMP_Text signInErrorLabel;
+    [SerializeField]
+    private TMP_InputField signInEmail;
+    [SerializeField]
+    private TMP_InputField signInPassword;
+    [SerializeField]
+    private GameObject signInEnterButton;
+    [SerializeField]
+    private GameObject signInBackButton;
+
     void Start()
     {
         _bcNetwork = Network.sharedInstance;
@@ -33,7 +45,7 @@ public class LoginManager : MonoBehaviour
         _bcNetwork.authenticationRequestCompleted -= ContinueToMain;
     }
 
-    private void ContinueToMain(Dictionary<string, object> initialUserData)
+    private void ContinueToMain()
     {
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
@@ -61,10 +73,10 @@ public class LoginManager : MonoBehaviour
             _bcNetwork._wrapper.PlayerStateService.UpdateName(emailCreateUsername.text, success, null);
         };
 
-        _bcNetwork._wrapper.AuthenticateEmailPassword(email, password, true, setUsername, EmailAuthError);
+        _bcNetwork._wrapper.AuthenticateEmailPassword(email, password, true, setUsername, EmailAuthenticateError);
     }
 
-    private void EmailAuthError(int status, int reasonCode, string jsonError, object cbObject)
+    private void EmailAuthenticateError(int status, int reasonCode, string jsonError, object cbObject)
     {
         emailCreateBackButton.SetActive(true);
         emailCreateCreateButton.SetActive(true);
@@ -92,7 +104,24 @@ public class LoginManager : MonoBehaviour
             Debug.Log("Connected with email");
         };
 
-        _bcNetwork._wrapper.AuthenticateEmailPassword(email, password, false, success, null);
+        _bcNetwork._wrapper.AuthenticateEmailPassword(email, password, false, success, EmailSignInError);
+    }
+
+    private void EmailSignInError(int status, int reasonCode, string jsonError, object cbObject)
+    {
+        emailCreateBackButton.SetActive(true);
+        emailCreateCreateButton.SetActive(true);
+        switch (reasonCode)
+        {
+            default:
+            case ReasonCodes.UNKNOWN_AUTH_ERROR:
+                emailCreateErrorLabel.text = "Failed!";
+                break;
+            case ReasonCodes.EMAIL_NOT_VALID:
+                emailCreateErrorLabel.text = "Invalid email format!";
+                break;
+        }
+        Debug.LogError(jsonError);
     }
 
     public void AttemptCreateEmailAccount()
@@ -105,5 +134,12 @@ public class LoginManager : MonoBehaviour
         emailCreateBackButton.SetActive(false);
         emailCreateCreateButton.SetActive(false);
         RequestEmailAuthentication(emailCreateEmail.text, emailCreatePassword.text);
+    }
+
+    public void AttemptEmailSignIn()
+    {
+        signInBackButton.SetActive(false);
+        signInEnterButton.SetActive(false);
+        RequestEmailSignIn(signInEmail.text, signInPassword.text);
     }
 }
