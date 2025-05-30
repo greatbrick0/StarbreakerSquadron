@@ -96,7 +96,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   barrels:
   - {x: 0, y: 0.3, z: 0}
-  statColour: yellow
+  property: FixedSingleBarrel
   team: 2
   bulletColour: '#ffff00'
   cooldown: 1
@@ -217,9 +217,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  <isAlive>k__BackingField: 1
   team: 2
-  statColour: yellow
-  <maxHealth>k__BackingField: 100
   deathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -259,6 +258,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  respawnEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  property: FixedWallEnemy
+  <maxHealth>k__BackingField: 100
 --- !u!114 &8497915012488310995
 MonoBehaviour:
   m_ObjectHideFlags: 0

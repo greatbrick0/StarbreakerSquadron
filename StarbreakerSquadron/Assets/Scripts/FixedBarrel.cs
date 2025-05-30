@@ -14,6 +14,8 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
     private List<Vector3> barrels = new List<Vector3>();
 
     [SerializeField]
+    private string property = "FixedSingleBarrel";
+    [SerializeField]
     private Teams team = Teams.Environment;
     [SerializeField]
     private string bulletColour = "#cccccc";
@@ -25,20 +27,29 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
     private float inheritPortion = 0.7f;
 
     [Header("Bullet properties")]
-    [SerializeField]
+    [SerializeField, Display]
     private int bulletDamage = 10;
-    [SerializeField]
+    [SerializeField, Display]
     private float bulletLifeTime = 0.7f;
-    [SerializeField]
+    [SerializeField, Display]
     private float bulletSpeed = 30f;
 
     private void Start()
     {
         PropertyGetter properties = PropertyGetter.propertiesInstance;
         string statColour = gameObject.tag;
-        StartCoroutine(properties.GetValue((val) => bulletDamage = Mathf.RoundToInt(val), "DamageMult", statColour, bulletDamage));
-        StartCoroutine(properties.GetValue((val) => bulletLifeTime = val, "BulletLifetimeMult", statColour, bulletLifeTime));
-        StartCoroutine(properties.GetValue((val) => bulletSpeed = val, "BulletSpeedMult", statColour, bulletSpeed));
+        StartCoroutine(properties.GetValue((val) => bulletDamage = Mathf.RoundToInt(val), "Damage", property, statColour));
+        StartCoroutine(properties.GetValue((val) => bulletLifeTime = val, "BulletLifetime", property, statColour));
+        StartCoroutine(properties.GetValue((val) => bulletSpeed = val, "BulletSpeed", property, statColour));
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        foreach (Vector3 barrel in barrels)
+        {
+            Gizmos.DrawRay(barrel.SetZ(), Vector3.up.RotateDegrees(barrel.z) * 0.3f);
+        }
     }
 
     public void Activate()

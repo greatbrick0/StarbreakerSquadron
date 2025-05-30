@@ -6,7 +6,9 @@ using UnityEngine.Events;
 
 public class SmallHealth : Targetable
 {
-    [field: SerializeField]
+    [SerializeField]
+    private string property = "NewSchool";
+
     public int maxHealth { get; private set; } = 100;
     protected NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
@@ -19,7 +21,7 @@ public class SmallHealth : Targetable
                 maxHealth = Mathf.RoundToInt(val);
                 ResetHealth();
             }, 
-            "HealthMult", gameObject.tag, maxHealth));
+            "Health", property, gameObject.tag));
     }
 
     private void Update()

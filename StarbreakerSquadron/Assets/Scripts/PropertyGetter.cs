@@ -11,8 +11,10 @@ public class PropertyGetter : MonoBehaviour
     private Network _bcNetwork;
     private bool isDedicatedServer;
 
-    public Dictionary<string, Dictionary<string, float>> adjustMultipliers { get; private set; } = new Dictionary<string, Dictionary<string, float>>();
+    private Dictionary<string, Dictionary<string, float>> adjustMultipliers = new Dictionary<string, Dictionary<string, float>>();
+    private Dictionary<string, Dictionary<string, float>> baseStats = new Dictionary<string, Dictionary<string, float>>();
     public bool adjustMultsPrepped { get; private set; } = false;
+    public bool baseStatsPrepped { get; private set; } = false;
 
     public delegate void StatHandover(float value);
 
@@ -31,29 +33,33 @@ public class PropertyGetter : MonoBehaviour
         //StartCoroutine(GetValue((val) => Debug.Log(Mathf.RoundToInt(val)), "HealthMult", "red"));
     }
 
-    public IEnumerator GetValue(StatHandover callback, string property, string colour, float backup = 100.0f)
+    public IEnumerator GetValue(StatHandover callback, string category, string property, string colour)
     {
-        yield return new WaitUntil(() => adjustMultsPrepped && true);
-        float output = MultiplyProperty(backup, property, colour);
+        yield return new WaitUntil(() => adjustMultsPrepped && baseStatsPrepped);
+        float output = baseStats[category][property];
+        output = MultiplyProperty(output, category + "Mult", colour);
         callback(output);
     }
 
-    public float MultiplyProperty(float value, string property, string colour)
+    public float MultiplyProperty(float value, string category, string colour)
     {
-        return (value * adjustMultipliers[property][colour]);
+        return (value * adjustMultipliers[category][colour]);
     }
 
     private void SetValues()
     {
         adjustMultsPrepped = false;
+        baseStatsPrepped = false;
 
         if (isDedicatedServer)
         {
             _bcNetwork._bcS2S.Request(FormatPropertyRequest(new string[] { "adjustmult" }), HandleMultipliers);
+            _bcNetwork._bcS2S.Request(FormatPropertyRequest(new string[] { "basestat" }), HandleBaseStats);
         }
         else
         {
             _bcNetwork._wrapper.GlobalAppService.ReadPropertiesInCategories(new string[] { "adjustmult" }, HandleMultipliers, null);
+            _bcNetwork._wrapper.GlobalAppService.ReadPropertiesInCategories(new string[] { "basestat" }, HandleBaseStats, null);
         }
     }
 
@@ -92,5 +98,29 @@ public class PropertyGetter : MonoBehaviour
         }
 
         adjustMultsPrepped = true;
+    }
+
+    private void HandleBaseStats(string jsonResponse, object cbObject)
+    {
+        HandleBaseStats(jsonResponse);
+    }
+
+    private void HandleBaseStats(string jsonResponse)
+    {
+        var response = JsonReader.Deserialize<Dictionary<string, object>>(jsonResponse);
+        var data = response["data"] as Dictionary<string, object>;
+        foreach (KeyValuePair<string, object> ii in data)
+        {
+            var group = ii.Value as Dictionary<string, object>;
+            var properties = JsonReader.Deserialize<Dictionary<string, float>>(group["value"] as string);
+            Dictionary<string, float> output = new Dictionary<string, float>();
+            foreach (KeyValuePair<string, float> jj in properties)
+            {
+                output.Add(jj.Key, jj.Value);
+            }
+            baseStats.Add(ii.Key, output);
+        }
+
+        baseStatsPrepped = true;
     }
 }

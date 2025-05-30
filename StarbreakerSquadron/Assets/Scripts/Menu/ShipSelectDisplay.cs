@@ -25,6 +25,8 @@ public class ShipSelectDisplay : MonoBehaviour
 
     private void Start()
     {
+        if (PlayerPrefs.HasKey("ShipSelection")) selectedIndex = PlayerPrefs.GetInt("ShipSelection");
+
         MoveSelectedIndex(0);
     }
 
@@ -40,6 +42,8 @@ public class ShipSelectDisplay : MonoBehaviour
     public void MoveSelectedIndex(int direction)
     {
         selectedIndex += direction;
+        Network.sharedInstance.selectedShipIndex = selectedIndex;
+        PlayerPrefs.SetInt("ShipSelection", selectedIndex);
         animDirection = direction;
         animRemaining = 1.0f;
         leftArrow.SetActive(selectedIndex != 0);

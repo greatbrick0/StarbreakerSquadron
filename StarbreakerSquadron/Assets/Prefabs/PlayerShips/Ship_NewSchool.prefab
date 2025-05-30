@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 7861217751815612387}
   - component: {fileID: 310031751292967086}
   m_Layer: 6
-  m_Name: BasicShip
+  m_Name: Ship_NewSchool
   m_TagString: green
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,6 +84,8 @@ MonoBehaviour:
   rotationSpeed: 180
   accelPower: 15
   dragPower: 2
+  reverseStrength: 0.3
+  stunRemaining: 0
   forwardThrustVisuals:
   - {fileID: 688960020931812230}
   backwardThrustVisuals:
@@ -164,9 +166,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  <isAlive>k__BackingField: 1
   team: 1
-  statColour: green
-  <maxHealth>k__BackingField: 100
   deathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -218,6 +219,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  respawnEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  property: NewSchool
 --- !u!114 &-3943027448708870311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,7 +408,7 @@ MonoBehaviour:
   barrels:
   - {x: 0.15, y: 0.3, z: 0}
   - {x: -0.15, y: 0.3, z: 0}
-  statColour: green
+  property: FixedSingleBarrel
   team: 1
   bulletColour: '#92D050'
   cooldown: 0.5

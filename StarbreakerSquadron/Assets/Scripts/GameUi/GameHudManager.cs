@@ -150,14 +150,14 @@ public class GameHudManager : MonoBehaviour
         if (currentHealth <= criticalHealthAmount)
         {
             healthBarFill.color = Color.Lerp(baseHealthColour, criticalHealthColour, Mathf.Clamp01(Mathf.Sin(12 * animTime) + 0.7f));
-            healthBarCritical.color = new Color(1, 1, 1, 1 - Mathf.Pow(Mathf.Sin(8 * animTime), 6));
+            healthBarWarning.color = Color.white;
             healthBarWarning.color = Color.clear;
         }
         else if ((1.0f * currentHealth) / maxHealth < warningHealthAmount)
         {
             healthBarFill.color = Color.Lerp(baseHealthColour, warningHealthColour, Mathf.Clamp01(Mathf.Sin(12 * animTime) + 0.7f));
             healthBarCritical.color = Color.clear;
-            healthBarWarning.color = new Color(1, 1, 1, 1 - Mathf.Pow(Mathf.Sin(4 * animTime), 4));
+            healthBarWarning.color = Color.white;
         }
         else
         {

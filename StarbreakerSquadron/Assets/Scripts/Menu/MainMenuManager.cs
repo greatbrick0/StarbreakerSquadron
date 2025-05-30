@@ -97,7 +97,9 @@ public class MainMenuManager : MonoBehaviour
 
     public void FinishProfileEdit()
     {
-        if(canLeaveProfileEdit) ChangeActiveScreen(1);
+        if (!canLeaveProfileEdit) return;
+
+        ChangeActiveScreen(1);
     }
 
     public void QuitApp()
@@ -107,6 +109,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void ChangeActiveScreen(int newIndex)
     {
+        PlayerPrefs.Save();
         canvas.GetChild(activeScreen).gameObject.SetActive(false);
         canvas.GetChild(newIndex).gameObject.SetActive(true);
         activeScreen = newIndex;

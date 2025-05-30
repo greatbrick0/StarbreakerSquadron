@@ -28,7 +28,7 @@ public class TestEnemyController : NetworkBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    private void Update()
     {
         if (!IsServer) return;
 
@@ -68,5 +68,14 @@ public class TestEnemyController : NetworkBehaviour
             }
         }
         GetComponent<Movement>().inputVector = inputVec;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        foreach (Vector3 ii in waypoints) 
+        {
+            Gizmos.DrawWireSphere(ii, waypointSuccessRadius);
+        }
     }
 }

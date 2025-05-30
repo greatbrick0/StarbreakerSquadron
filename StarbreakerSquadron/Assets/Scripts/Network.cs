@@ -26,6 +26,7 @@ public class Network : MonoBehaviour
     private int _roomPort;
     [SerializeField]
     private string _lobbyId;
+    public int selectedShipIndex = 0;
 
     public bool IsDedicatedServer { get; private set; }
 
@@ -174,7 +175,7 @@ public class Network : MonoBehaviour
             case "ROOM_ASSIGNED":
                 UpdateConnectData(data);
 
-                _wrapper.LobbyService.UpdateReady(_lobbyId, true, new Dictionary<string, object>());
+                _wrapper.LobbyService.UpdateReady(_lobbyId, true, FormatExtraLobbyData());
                 break;
         }
     }
@@ -199,6 +200,8 @@ public class Network : MonoBehaviour
 
     private void OnLobbyData(string responseString)
     {
+        // Called once, on the server
+
         Dictionary<string, object> response =
         JsonReader.Deserialize<Dictionary<string, object>>(responseString);
         int status = (int)response["status"];
@@ -228,6 +231,15 @@ public class Network : MonoBehaviour
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         };
         _wrapper.LobbyService.LeaveLobby(_lobbyId, success);
+    }
+
+    private Dictionary<string, object> FormatExtraLobbyData()
+    {
+        Dictionary<string, object> extraData = new Dictionary<string, object>()
+        {
+            {"selectedShipIndex", selectedShipIndex },
+        };
+        return extraData;
     }
 
     public void PrintSpawnedObjects()
