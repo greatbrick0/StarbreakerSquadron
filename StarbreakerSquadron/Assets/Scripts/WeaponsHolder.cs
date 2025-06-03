@@ -53,7 +53,8 @@ public class WeaponsHolder : MonoBehaviour
     {
         for(int ii = 0; ii < slots.Count; ii++)
         {
-            if (slots[ii].remainingCooldown > 0f) slots[ii].remainingCooldown -= Time.deltaTime;
+            if (slots[ii].activesObjs.Count == 0) continue;
+            else if (slots[ii].remainingCooldown > 0f) slots[ii].remainingCooldown -= Time.deltaTime;
             else if ((inputActives & (1 << ii)) > 0) slots[ii].Activate();
         }
     }

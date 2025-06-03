@@ -11,20 +11,24 @@ public class Attack : NetworkBehaviour
     protected AnticipatedNetworkTransform anticipator;
     [SerializeField]
     protected SpriteRenderer sprite;
+    [SerializeField]
+    protected TrailRenderer trail;
+    [SerializeField, Range(0f, 1f)]
+    private float trailOpacity = 0.3f;
 
     [Header("Values")]
     [SerializeField]
     protected Teams team;
-    [SerializeField]
+    [SerializeField, Display]
     protected int primaryPower;
-    [SerializeField]
+    [SerializeField, Display]
     protected int secondaryPower;
-    [SerializeField]
+    [SerializeField, Display]
     protected float lifetime;
     protected float age;
-    [SerializeField]
+    [SerializeField, Display]
     protected float speed;
-    [SerializeField]
+    [SerializeField, Display]
     protected Vector2 direction;
     protected Vector2 originPos;
     protected Vector2 extraVelocity;
@@ -84,6 +88,15 @@ public class Attack : NetworkBehaviour
         }
     }
 
+    protected void SetTrailColour(Color fullColour)
+    {
+        if (trail == null) return;
+
+        fullColour.a = trailOpacity;
+        trail.startColor = fullColour;
+        trail.endColor = fullColour;
+    }
+
     [Rpc(SendTo.Everyone)]
     public void SetValuesRpc(AttackInfo newAttackInfo)
     {
@@ -94,6 +107,7 @@ public class Attack : NetworkBehaviour
         team = newAttackInfo.team;
         ColorUtility.TryParseHtmlString(newAttackInfo.colour, out Color parsedColour);
         sprite.color = parsedColour;
+        SetTrailColour(parsedColour);
         primaryPower = newAttackInfo.primaryPower;
         secondaryPower = newAttackInfo.secondaryPower;
         lifetime = newAttackInfo.lifetime;
@@ -114,6 +128,7 @@ public class Attack : NetworkBehaviour
 
         team = Teams.Environment;
         sprite.color = Color.white;
+        SetTrailColour(Color.white);
         primaryPower = 0;
         secondaryPower = 0;
         lifetime = 0;

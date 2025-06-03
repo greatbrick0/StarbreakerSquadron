@@ -324,9 +324,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  <isAlive>k__BackingField: 1
   team: 2
-  statColour: yellow
-  <maxHealth>k__BackingField: 300
   deathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -354,6 +353,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  respawnEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  property: NewSchool
 --- !u!61 &8822229176069795692
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -447,9 +450,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  <isAlive>k__BackingField: 1
   team: 2
-  statColour: yellow
-  <maxHealth>k__BackingField: 300
   deathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -477,6 +479,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  respawnEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  property: NewSchool
 --- !u!61 &3826106850731293198
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -693,11 +699,11 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3699706470943457548}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 1000
   m_LinearDamping: 0
   m_AngularDamping: 0
   m_GravityScale: 0
@@ -749,6 +755,7 @@ MonoBehaviour:
   angularDragPower: 30
   accelPower: 5
   dragPower: 1
+  reverseStrength: 0.6
   forwardThrustVisuals:
   - {fileID: 5855661920853033937}
   - {fileID: 9208691158469871261}
@@ -788,6 +795,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   waypoints: []
   clockwise: 1
+  waypointSuccessRadius: 3
+  waypointCarefulRadius: 10
+  carefulSpeed: 2
 --- !u!114 &8365001368536874354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,9 +811,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  <isAlive>k__BackingField: 1
   team: 2
-  statColour: yellow
-  <maxHealth>k__BackingField: 300
   deathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -843,6 +852,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  respawnEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  property: NewSchool
   distributionTargets:
   - {fileID: 2449934121703422927}
   - {fileID: 6249556173272517383}
@@ -896,9 +909,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  <isAlive>k__BackingField: 1
   team: 2
-  statColour: yellow
-  <maxHealth>k__BackingField: 200
   deathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -926,6 +938,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  respawnEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  property: NewSchool
 --- !u!61 &128233941445333685
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1019,9 +1035,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  <isAlive>k__BackingField: 1
   team: 2
-  statColour: yellow
-  <maxHealth>k__BackingField: 200
   deathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -1049,6 +1064,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  respawnEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  property: NewSchool
 --- !u!61 &1836718116740243077
 BoxCollider2D:
   m_ObjectHideFlags: 0
