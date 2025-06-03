@@ -72,7 +72,7 @@ public class ThrusterMovement : Movement
             
             sendVelocity.Value = rb.linearVelocity;
             sendAccel.Value = accelDirection;
-            if (accelDirection.magnitude != 0.0f) anticipator.SetState(transform.position);
+            if (inputVector.magnitude != 0.0f) anticipator.SetState(transform.position);
         }
     }
 

@@ -230,7 +230,7 @@ public class Network : MonoBehaviour
             _netManager.Shutdown();
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         };
-        _wrapper.LobbyService.LeaveLobby(_lobbyId, success);
+        _wrapper.LobbyService.LeaveLobby(_lobbyId, success, null);
     }
 
     private Dictionary<string, object> FormatExtraLobbyData()

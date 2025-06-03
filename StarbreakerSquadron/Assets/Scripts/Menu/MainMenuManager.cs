@@ -15,7 +15,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField]
     private Transform canvas;
     [SerializeField, Display]
-    private int activeScreen = 1;
+    private int activeScreen = 0;
     [SerializeField]
     private GameObject authenticateScreen;
     [SerializeField]
@@ -75,7 +75,7 @@ public class MainMenuManager : MonoBehaviour
             null, null, null
             );
 
-        ChangeActiveScreen(3);
+        ChangeActiveScreen(2);
     }
 
     public void ForceConnectClient()
@@ -99,7 +99,7 @@ public class MainMenuManager : MonoBehaviour
     {
         if (!canLeaveProfileEdit) return;
 
-        ChangeActiveScreen(1);
+        ChangeActiveScreen(0);
     }
 
     public void QuitApp()
