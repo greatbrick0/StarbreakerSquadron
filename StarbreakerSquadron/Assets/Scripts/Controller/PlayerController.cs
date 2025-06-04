@@ -24,29 +24,27 @@ public class PlayerController : NetworkBehaviour
     {
         if (IsServer)
         {
-            shipRef = Instantiate(shipObj);
-            shipRef.GetComponent<NetworkObject>().Spawn(true);
-            shipMovement = shipRef.GetComponent<Movement>();
-            shipWeapons = shipRef.GetComponent<WeaponsHolder>();
-            OwnerFindShipRpc(shipRef.GetComponent<NetworkObject>().NetworkObjectId);
+            
         }
         else
         {
+            cam = Camera.main.GetComponent<FollowCamera>();
             gameHud = FindFirstObjectByType<GameHudManager>();
             gameHud.attemptLeaveEvent.AddListener(Network.sharedInstance.DisconnectFromSession);
+            SendPasscodeRpc(Network.sharedInstance.clientPasscode);
         }
     }
 
     void Update()
     {
-        if (IsServer)
+        if (IsServer && shipRef != null)
         {
             shipMovement.inputVector = sendInputVec.Value;
             shipWeapons.inputActives = sendInputActives.Value;
         }
         if (!IsOwner) return;
-
         if(shipRefId != 0 && shipRef == null) InitShipRef(shipRefId);
+        if (shipRef == null) return;
 
         shipMovement.inputVector = sendInputVec.Value;
         shipWeapons.inputActives = sendInputActives.Value;
@@ -79,6 +77,21 @@ public class PlayerController : NetworkBehaviour
         sendInputActives.Value = inputActives;
     }
 
+    public void SpawnShip(GameObject shipObj)
+    {
+        shipRef = Instantiate(shipObj);
+        shipRef.GetComponent<NetworkObject>().Spawn(true);
+        shipMovement = shipRef.GetComponent<Movement>();
+        shipWeapons = shipRef.GetComponent<WeaponsHolder>();
+        OwnerFindShipRpc(shipRef.GetComponent<NetworkObject>().NetworkObjectId);
+    }
+
+    [Rpc(SendTo.Server)]
+    private void SendPasscodeRpc(string passcode)
+    {
+        ClientManager.instance.IdentifyPlayer(this, passcode);
+    }
+
     [Rpc(SendTo.Owner)]
     private void OwnerFindShipRpc(ulong id)
     {
@@ -93,7 +106,6 @@ public class PlayerController : NetworkBehaviour
         shipMovement = shipRef.GetComponent<Movement>();
         shipWeapons = shipRef.GetComponent<WeaponsHolder>();
         shipHealth = shipRef.GetComponent<SmallHealth>();
-        cam = Camera.main.GetComponent<FollowCamera>();
         cam.followTarget = shipRef.transform;
         cam.InitLead();
         gameHud.maxHealth = shipHealth.maxHealth;

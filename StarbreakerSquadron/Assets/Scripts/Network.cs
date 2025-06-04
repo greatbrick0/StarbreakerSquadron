@@ -21,9 +21,11 @@ public class Network : MonoBehaviour
     public BrainCloudWrapper _wrapper { get; private set; }
     public BrainCloudS2S _bcS2S { get; private set; } = new BrainCloudS2S();
     private NetworkManager _netManager;
+    private ClientManager _clientManager;
     private UnityTransport _unityTransport;
     private string _roomAddress;
     private int _roomPort;
+    public string clientPasscode { get; private set; }
     [SerializeField]
     private string _lobbyId;
     public int selectedShipIndex = 0;
@@ -67,7 +69,7 @@ public class Network : MonoBehaviour
                     {{ "lobbyId", _lobbyId }}
                     }
                 };
-            _bcS2S.Request(request, OnLobbyData);
+            _bcS2S.Request(request, OnLobbyDataInit);
         }
         else
         {
@@ -77,6 +79,9 @@ public class Network : MonoBehaviour
             if (HasAuthenticatedPreviously()) Reconnect();
             else SceneManager.LoadScene("Login", LoadSceneMode.Single);
         }
+
+        _clientManager = GetComponent<ClientManager>();
+        _clientManager.Initialize(IsDedicatedServer, _lobbyId);
     }
 
     private void Start()
@@ -196,9 +201,10 @@ public class Network : MonoBehaviour
         _roomAddress = (string)connectData["address"];
         _unityTransport.ConnectionData.Address = _roomAddress;
         _unityTransport.ConnectionData.Port = (ushort)_roomPort;
+        clientPasscode = data["passcode"] as string;
     }
 
-    private void OnLobbyData(string responseString)
+    private void OnLobbyDataInit(string responseString)
     {
         // Called once, on the server
 
