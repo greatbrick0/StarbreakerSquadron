@@ -37,11 +37,10 @@ public class ThrusterMovement : Movement
         health = GetComponent<Targetable>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!IsServer)
         {
-            
             Vector2 predictedVelocity = ApplyDrag(sendVelocity.Value, dragPower, Time.deltaTime);
             if (stunRemaining > 0.0f) stunRemaining -= 1.0f * Time.deltaTime;
             else

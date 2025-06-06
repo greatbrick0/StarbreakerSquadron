@@ -39,14 +39,14 @@ public class HeavyMovement : Movement
     private NetworkVariable<float> sendAngularVelocity = new NetworkVariable<float>(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private NetworkVariable<float> sendAngularAccel = new NetworkVariable<float>(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
-    void Start()
+    private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anticipator = GetComponent<AnticipatedNetworkTransform>();
         health = GetComponent<Targetable>();
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         if (!IsServer)
         {

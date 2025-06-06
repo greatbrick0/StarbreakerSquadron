@@ -89,7 +89,7 @@ public class PlayerController : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void SendPasscodeRpc(string passcode)
     {
-        ClientManager.instance.IdentifyPlayer(this, passcode);
+        StartCoroutine(ClientManager.instance.IdentifyPlayer(this, passcode));
     }
 
     [Rpc(SendTo.Owner)]

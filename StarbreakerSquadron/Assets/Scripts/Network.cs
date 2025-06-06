@@ -172,12 +172,14 @@ public class Network : MonoBehaviour
                 break;
 
             case "ROOM_READY":
+                Debug.Log("ROOM_READY");
                 UpdateConnectData(data);
 
                 _netManager.StartClient();
                 break;
 
             case "ROOM_ASSIGNED":
+                Debug.Log("ROOM_ASSIGNED");
                 UpdateConnectData(data);
 
                 _wrapper.LobbyService.UpdateReady(_lobbyId, true, FormatExtraLobbyData());
@@ -256,5 +258,16 @@ public class Network : MonoBehaviour
             output += obj.Key + " " + obj.Value.name + ". ";
         }
         Debug.Log(output);
+    }
+
+    [ContextMenu("Attempt Parse Json Test")]
+    public void AttemptParse()
+    {
+        JsonParseFunc("");
+    }
+
+    private void JsonParseFunc(string responseJson)
+    {
+        
     }
 }

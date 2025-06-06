@@ -1,4 +1,5 @@
 using BrainCloud.JsonFx.Json;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class ClientManager : MonoBehaviour
 
     private string _lobbyId;
     private List<ClientSummary> clients = new List<ClientSummary>();
+    private bool allPlayersAccountedFor = false;
 
     [SerializeField]
     private List<GameObject> playerShipObjs = new List<GameObject>();
@@ -43,6 +45,8 @@ public class ClientManager : MonoBehaviour
 
     private void OnClientJoined(ulong id)
     {
+        allPlayersAccountedFor = false;
+        Debug.Log("Client " + id + " joined");
         clients.Add(new ClientSummary());
 
         Dictionary<string, object> request = new Dictionary<string, object>
@@ -60,24 +64,30 @@ public class ClientManager : MonoBehaviour
     {
         Dictionary<string, object> response = JsonReader.Deserialize<Dictionary<string, object>>(responseJson);
         var data = response["data"] as Dictionary<string, object>;
-        var membersData = data["members"] as List<Dictionary<string, object>>;
+        Dictionary<string, object>[] membersData = data["members"] as Dictionary<string, object>[];
+        Dictionary<string, object> newestMember = membersData[^1];
 
-        clients[^1].username = membersData[^1]["name"] as string;
-        clients[^1].profileId = membersData[^1]["profileId"] as string;
-        clients[^1].userPasscode = membersData[^1]["passcode"] as string;
-        clients[^1].extraData = membersData[^1]["extra"] as Dictionary<string, object>;
+        clients[^1].username = newestMember["name"] as string;
+        clients[^1].profileId = newestMember["profileId"] as string;
+        clients[^1].userPasscode = newestMember["passcode"] as string;
+        clients[^1].extraData = newestMember["extra"] as Dictionary<string, object>;
+
+        allPlayersAccountedFor = true;
     }
 
-    public void IdentifyPlayer(PlayerController givenController, string givenPasscode)
+    public IEnumerator IdentifyPlayer(PlayerController givenController, string givenPasscode)
     {
-        int selectedShipIndex = 0;
+        Debug.Log("Client attempted identification");
+        yield return new WaitUntil(() => allPlayersAccountedFor || Application.isEditor);
+
+        int selectedShipIndex = 2;
         for (int ii = 0; ii < clients.Count; ii++)
         {
             if (clients[ii].userPasscode != givenPasscode) continue;
 
-            clients[ii].controllerRef = givenController;
-            try { selectedShipIndex = (int?)clients[ii].extraData["selectedShipIndex"] ?? 0; }
-            catch { selectedShipIndex = 0; }
+            clients[ii].controllerRef = givenController; 
+            try { selectedShipIndex = (int?)clients[ii].extraData["selectedShipIndex"] ?? 3; }
+            catch { selectedShipIndex = 5; }
             
         }
         givenController.SpawnShip(playerShipObjs[selectedShipIndex]);

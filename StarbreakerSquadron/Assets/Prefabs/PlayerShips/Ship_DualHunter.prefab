@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 7861217751815612387}
   - component: {fileID: 310031751292967086}
   m_Layer: 6
-  m_Name: Ship_DualHunters
+  m_Name: Ship_DualHunter
   m_TagString: green
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -308,7 +308,7 @@ MonoBehaviour:
   respawnEvent:
     m_PersistentCalls:
       m_Calls: []
-  property: NewSchool
+  property: DualHunter
 --- !u!114 &-3943027448708870311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -567,7 +567,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 5.12, y: 7.04}
+  m_Size: {x: 4, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
