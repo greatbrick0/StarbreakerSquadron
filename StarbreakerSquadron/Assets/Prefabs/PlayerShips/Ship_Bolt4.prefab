@@ -240,12 +240,16 @@ MonoBehaviour:
   inputActives: 0
   slots:
   - remainingCooldown: 0
+    cycle: 0
     activesObjs: []
   - remainingCooldown: 0
+    cycle: 0
     activesObjs: []
   - remainingCooldown: 0
+    cycle: 0
     activesObjs: []
   - remainingCooldown: 0
+    cycle: 0
     activesObjs: []
 --- !u!114 &7861217751815612387
 MonoBehaviour:
@@ -500,6 +504,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1378241810683905650}
     m_Modifications:
+    - target: {fileID: 1109917373342738283, guid: 86b2671322755ae44b4930f6ae150b5f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -5298468339783341963, guid: 39ec8a3fbee8ced4f8025ced2eeb5500, type: 3}
+    - target: {fileID: 1109917373342738283, guid: 86b2671322755ae44b4930f6ae150b5f, type: 3}
+      propertyPath: m_Color.a
+      value: 0.49803922
+      objectReference: {fileID: 0}
     - target: {fileID: 1375568646278181086, guid: 86b2671322755ae44b4930f6ae150b5f, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.6
@@ -678,6 +690,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1378241810683905650}
     m_Modifications:
+    - target: {fileID: 1109917373342738283, guid: 86b2671322755ae44b4930f6ae150b5f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -5298468339783341963, guid: 39ec8a3fbee8ced4f8025ced2eeb5500, type: 3}
+    - target: {fileID: 1109917373342738283, guid: 86b2671322755ae44b4930f6ae150b5f, type: 3}
+      propertyPath: m_Color.a
+      value: 0.49803922
+      objectReference: {fileID: 0}
     - target: {fileID: 1375568646278181086, guid: 86b2671322755ae44b4930f6ae150b5f, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.6

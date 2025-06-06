@@ -17,6 +17,8 @@ public class Network : MonoBehaviour
     public AuthenticationRequestCompleted authenticationRequestCompleted;
     public delegate void ShareLobbyData(string data);
     public ShareLobbyData shareLobbyData;
+    public delegate void LobbyDisbanded(int reason);
+    public LobbyDisbanded lobbyDisbanded;
 
     public BrainCloudWrapper _wrapper { get; private set; }
     public BrainCloudS2S _bcS2S { get; private set; } = new BrainCloudS2S();
@@ -166,9 +168,9 @@ public class Network : MonoBehaviour
         switch (response["operation"] as string)
         {
             case "DISBANDED":
-                var reason = data["reason"]
-                    as Dictionary<string, object>;
+                var reason = data["reason"] as Dictionary<string, object>;
                 var reasonCode = (int)reason["code"];
+                if (lobbyDisbanded != null) lobbyDisbanded(reasonCode);
                 break;
 
             case "ROOM_READY":

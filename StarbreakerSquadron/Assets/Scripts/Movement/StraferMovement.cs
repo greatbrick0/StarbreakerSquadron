@@ -1,10 +1,9 @@
-using NUnit.Framework;
+using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
-using System.Collections.Generic;
 
-public class ThrusterMovement : Movement
+public class StraferMovement : Movement
 {
     private Rigidbody2D rb;
     private AnticipatedNetworkTransform anticipator;
@@ -16,8 +15,6 @@ public class ThrusterMovement : Movement
     private float accelPower = 15f;
     [SerializeField]
     private float dragPower = 1.0f;
-    [SerializeField, Min(0.0f)]
-    private float reverseStrength = 0.3f;
 
     [SerializeField, Display]
     private float stunRemaining = 0.0f;
@@ -26,6 +23,10 @@ public class ThrusterMovement : Movement
     private List<Thrust> forwardThrustVisuals = new List<Thrust>();
     [SerializeField]
     private List<Thrust> backwardThrustVisuals = new List<Thrust>();
+    [SerializeField]
+    private List<Thrust> leftThrustVisuals = new List<Thrust>();
+    [SerializeField]
+    private List<Thrust> rightThrustVisuals = new List<Thrust>();
 
     private NetworkVariable<Vector2> sendVelocity = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private NetworkVariable<Vector2> sendAccel = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -61,14 +62,12 @@ public class ThrusterMovement : Movement
             {
                 if (!health.isAlive) return;
 
-                transform.Rotate(inputVector.x * rotationSpeed * Time.deltaTime * Vector3.back);
-                if (inputVector.y > 0) accelDirection += accelPower * transform.up.FlattenVec3();
-                else if (inputVector.y < 0) accelDirection += -reverseStrength * accelPower * transform.up.FlattenVec3();
+                if (inputVector.magnitude > 0) accelDirection += (accelPower * ((inputVector.y * transform.up) + (inputVector.x * transform.right))).FlattenVec3();
 
                 rb.linearVelocity += accelDirection * Time.deltaTime;
                 rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, maxSpeed);
             }
-            
+
             sendVelocity.Value = rb.linearVelocity;
             sendAccel.Value = accelDirection;
             if (inputVector.magnitude != 0.0f) anticipator.SetState(transform.position);
@@ -97,10 +96,13 @@ public class ThrusterMovement : Movement
         {
             visual.powered = Vector2.Dot(accel.normalized, transform.up) < -0.5f;
         }
-    }
-
-    public void InstantStopVelocity()
-    {
-        rb.linearVelocity = Vector2.zero;
+        foreach (Thrust visual in leftThrustVisuals)
+        {
+            visual.powered = Vector2.Dot(accel.normalized, transform.right) < -0.5f;
+        }
+        foreach (Thrust visual in rightThrustVisuals)
+        {
+            visual.powered = Vector2.Dot(accel.normalized, transform.right) > 0.5f;
+        }
     }
 }

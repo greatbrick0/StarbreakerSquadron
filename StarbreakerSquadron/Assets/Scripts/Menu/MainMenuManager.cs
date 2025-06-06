@@ -39,12 +39,14 @@ public class MainMenuManager : MonoBehaviour
         _bcNetwork = Network.sharedInstance;
         _netManager = _bcNetwork.GetComponent<NetworkManager>();
         _bcNetwork.shareLobbyData += SetMatchLoadingText;
+        _bcNetwork.lobbyDisbanded += CancelLobby;
         _bcNetwork._wrapper.PlayerStateService.ReadUserState(ReadUserStateSuccess, null);
         if (Application.isEditor) ActivateEditorMode();
     }
     private void OnDisable()
     {
         _bcNetwork.shareLobbyData -= SetMatchLoadingText;
+        _bcNetwork.lobbyDisbanded -= CancelLobby;
     }
 
     private void ReadUserStateSuccess(string jsonResponse, object cbObject)
@@ -99,6 +101,11 @@ public class MainMenuManager : MonoBehaviour
     {
         if (!canLeaveProfileEdit) return;
 
+        ChangeActiveScreen(0);
+    }
+
+    private void CancelLobby(int reason)
+    {
         ChangeActiveScreen(0);
     }
 

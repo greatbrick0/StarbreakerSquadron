@@ -13,18 +13,32 @@ public class WeaponsHolder : MonoBehaviour
         [Display]
         public float remainingCooldown = 0f;
         [SerializeField]
+        private bool cycle = false;
+        private int cycleIndex = 0;
+        [SerializeField]
         public List<GameObject> activesObjs = new List<GameObject>();
         private List<IActivatable> actives = new List<IActivatable>();
 
         public void Activate()
         {
-            foreach (IActivatable weapon in actives) weapon.Activate();
-            SetCooldown();
+            if (cycle)
+            {
+                actives[cycleIndex].Activate();
+                SetCooldown();
+                cycleIndex += 1;
+                cycleIndex %= actives.Count;
+            }
+            else
+            {
+                foreach (IActivatable weapon in actives) weapon.Activate();
+                SetCooldown();
+            }
         }
 
         private void SetCooldown()
         {
-            remainingCooldown = actives.Max(weapon => weapon.GetCooldown());
+            if(cycle) remainingCooldown = actives[cycleIndex].GetCooldown();
+            else remainingCooldown = actives.Max(weapon => weapon.GetCooldown());
         }
 
         public void InitializeActives()
