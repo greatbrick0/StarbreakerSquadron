@@ -9,6 +9,8 @@ public class SmallHealth : Targetable
     [SerializeField]
     private string property = "NewSchool";
 
+    public delegate void MaxHealthChanged(int newMax);
+    private MaxHealthChanged maxHealthChanged;
     public int maxHealth { get; private set; } = 100;
     protected NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
@@ -20,6 +22,7 @@ public class SmallHealth : Targetable
             (val) => { 
                 maxHealth = Mathf.RoundToInt(val);
                 ResetHealth();
+                if (maxHealthChanged != null) maxHealthChanged(maxHealth);
             }, 
             "Health", property, gameObject.tag));
     }
@@ -35,9 +38,10 @@ public class SmallHealth : Targetable
         AddHealthReactor((int prevValue, int newValue) => { if (newValue <= 0) Die(); });
     }
 
-    public void AddHealthReactor(NetworkVariable<int>.OnValueChangedDelegate reaction)
+    public void AddHealthReactor(NetworkVariable<int>.OnValueChangedDelegate reaction, MaxHealthChanged maxHealthReactor = null)
     {
         currentHealth.OnValueChanged += reaction;
+        if(maxHealthReactor != null) maxHealthChanged += maxHealthReactor;
     }
 
     public override void TakeDamage(int amount)

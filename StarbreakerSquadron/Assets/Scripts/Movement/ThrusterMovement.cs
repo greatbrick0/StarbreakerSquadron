@@ -11,10 +11,13 @@ public class ThrusterMovement : Movement
     private Targetable health;
 
     [SerializeField]
+    private string property = "NewSchool";
+
+    [SerializeField, Display]
     private float rotationSpeed = 90f;
-    [SerializeField]
+    [SerializeField, Display]
     private float accelPower = 15f;
-    [SerializeField]
+    [SerializeField, Display]
     private float dragPower = 1.0f;
     [SerializeField, Min(0.0f)]
     private float reverseStrength = 0.3f;
@@ -35,6 +38,16 @@ public class ThrusterMovement : Movement
         rb = GetComponent<Rigidbody2D>();
         anticipator = GetComponent<AnticipatedNetworkTransform>();
         health = GetComponent<Targetable>();
+    }
+
+    private void Start()
+    {
+        PropertyGetter properties = PropertyGetter.propertiesInstance;
+        string statColour = gameObject.tag;
+        StartCoroutine(properties.GetValue((val) => rotationSpeed = val, "RotationSpeed", property, statColour));
+        StartCoroutine(properties.GetValue((val) => maxSpeed = val, "Speed", property, statColour));
+        StartCoroutine(properties.GetValue((val) => accelPower = val, "Acceleration", property, statColour));
+        StartCoroutine(properties.GetValue((val) => dragPower = val, "DragPower", property, statColour));
     }
 
     private void FixedUpdate()

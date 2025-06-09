@@ -82,6 +82,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   inputVector: {x: 0, y: 0}
   maxSpeed: 14
+  property: Diver
   rotationSpeed: 180
   accelPower: 15
   dragPower: 2

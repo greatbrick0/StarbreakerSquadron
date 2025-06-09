@@ -150,7 +150,7 @@ public class GameHudManager : MonoBehaviour
         if (currentHealth <= criticalHealthAmount)
         {
             healthBarFill.color = Color.Lerp(baseHealthColour, criticalHealthColour, Mathf.Clamp01(Mathf.Sin(12 * animTime) + 0.7f));
-            healthBarWarning.color = Color.white;
+            healthBarCritical.color = Color.white;
             healthBarWarning.color = Color.clear;
         }
         else if ((1.0f * currentHealth) / maxHealth < warningHealthAmount)
@@ -172,6 +172,12 @@ public class GameHudManager : MonoBehaviour
         currentHealth = newHealth;
         healthBar.value = (1.0f * newHealth) / maxHealth;
         healthLabel.text = newHealth.ToString();
+    }
+
+    public void UpdateHealthBarMax(int newMax)
+    {
+        maxHealth = newMax;
+        UpdateHealthBar(currentHealth);
     }
 
     public void AttemptLeaveSession()

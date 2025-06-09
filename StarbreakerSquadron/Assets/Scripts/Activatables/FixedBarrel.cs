@@ -11,7 +11,7 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
     [SerializeField]
     private Rigidbody2D rb;
     [SerializeField]
-    private List<Vector3> barrels = new List<Vector3>();
+    protected List<Vector3> barrels = new List<Vector3>();
 
     [SerializeField]
     private string property = "FixedSingleBarrel";
@@ -36,6 +36,8 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
 
     private void Start()
     {
+        if(rb == null) inheritVelocity = false;
+
         PropertyGetter properties = PropertyGetter.propertiesInstance;
         string statColour = gameObject.tag;
         StartCoroutine(properties.GetValue((val) => bulletDamage = Mathf.RoundToInt(val), "Damage", property, statColour));
@@ -52,34 +54,35 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
         }
     }
 
-    public void Activate()
+    public virtual void Activate()
     {
-        
-        AttackInfo attackInfo;
-        foreach (Vector3 barrel in barrels)
+        if(IsServer)
         {
-            attackInfo = new AttackInfo(
-                team,
-                bulletDamage,
-                transform.localToWorldMatrix.MultiplyPoint3x4(barrel.SetZ()),
-                bulletLifeTime,
-                bulletColour,
-                bulletSpeed,
-                transform.up.RotateDegrees(barrel.z),
-                inheritVelocity ? InheritedVector() : Vector2.zero
-                );
-            if (IsServer)
-            {
-                bulletRef = Instantiate(bulletObj);
-                bulletRef.transform.position = attackInfo.originPos;
-                bulletRef.GetComponent<NetworkObject>().Spawn(true);
-                bulletRef.GetComponent<Attack>().SetValuesRpc(attackInfo);
-            }
-            else
-            {
-                GetComponent<AudioSource>().Play();
-            }
+            foreach (Vector3 barrel in barrels) FireBullet(barrel);
         }
+        else
+        {
+            GetComponent<AudioSource>().Play();
+        }
+    }
+
+    protected void FireBullet(Vector3 barrel)
+    {
+        AttackInfo attackInfo;
+        attackInfo = new AttackInfo(
+            team,
+            bulletDamage,
+            transform.localToWorldMatrix.MultiplyPoint3x4(barrel.SetZ()),
+            bulletLifeTime,
+            bulletColour,
+            bulletSpeed,
+            transform.up.RotateDegrees(barrel.z),
+            inheritVelocity ? InheritedVector() : Vector2.zero
+            );
+        bulletRef = Instantiate(bulletObj);
+        bulletRef.transform.position = attackInfo.originPos;
+        bulletRef.GetComponent<NetworkObject>().Spawn(true);
+        bulletRef.GetComponent<Attack>().SetValuesRpc(attackInfo);
     }
 
     public float GetCooldown()

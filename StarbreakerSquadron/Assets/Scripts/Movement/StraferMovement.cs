@@ -10,10 +10,11 @@ public class StraferMovement : Movement
     private Targetable health;
 
     [SerializeField]
-    private float rotationSpeed = 90f;
-    [SerializeField]
+    private string property = "NewSchool";
+
+    [SerializeField, Display]
     private float accelPower = 15f;
-    [SerializeField]
+    [SerializeField, Display]
     private float dragPower = 1.0f;
 
     [SerializeField, Display]
@@ -36,6 +37,15 @@ public class StraferMovement : Movement
         rb = GetComponent<Rigidbody2D>();
         anticipator = GetComponent<AnticipatedNetworkTransform>();
         health = GetComponent<Targetable>();
+    }
+
+    private void Start()
+    {
+        PropertyGetter properties = PropertyGetter.propertiesInstance;
+        string statColour = gameObject.tag;
+        StartCoroutine(properties.GetValue((val) => maxSpeed = val, "Speed", property, statColour));
+        StartCoroutine(properties.GetValue((val) => accelPower = val, "Acceleration", property, statColour));
+        StartCoroutine(properties.GetValue((val) => dragPower = val, "DragPower", property, statColour));
     }
 
     private void FixedUpdate()

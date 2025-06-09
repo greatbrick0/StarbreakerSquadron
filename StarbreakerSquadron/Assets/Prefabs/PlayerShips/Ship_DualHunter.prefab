@@ -167,6 +167,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   inputVector: {x: 0, y: 0}
   maxSpeed: 14
+  property: DualHunter
   rotationSpeed: 180
   accelPower: 15
   dragPower: 2
@@ -324,12 +325,16 @@ MonoBehaviour:
   inputActives: 0
   slots:
   - remainingCooldown: 0
+    cycle: 0
     activesObjs: []
   - remainingCooldown: 0
+    cycle: 0
     activesObjs: []
   - remainingCooldown: 0
+    cycle: 0
     activesObjs: []
   - remainingCooldown: 0
+    cycle: 0
     activesObjs: []
 --- !u!114 &7861217751815612387
 MonoBehaviour:
