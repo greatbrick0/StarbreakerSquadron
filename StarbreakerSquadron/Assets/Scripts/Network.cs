@@ -8,6 +8,8 @@ using System.Linq;
 using System.Collections.Generic;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Linq.Expressions;
 
 public class Network : MonoBehaviour
 {
@@ -19,6 +21,7 @@ public class Network : MonoBehaviour
     public ShareLobbyData shareLobbyData;
     public delegate void LobbyDisbanded(int reason);
     public LobbyDisbanded lobbyDisbanded;
+    public delegate bool FinishAttemptsCondition();
 
     public BrainCloudWrapper _wrapper { get; private set; }
     public BrainCloudS2S _bcS2S { get; private set; } = new BrainCloudS2S();
@@ -31,6 +34,9 @@ public class Network : MonoBehaviour
     [SerializeField]
     private string _lobbyId;
     public int selectedShipIndex = 0;
+    [Display]
+    public bool selectionDataApplied = false;
+    private BrainCloud.SuccessCallback onUpdateReadySuccess;
 
     public bool IsDedicatedServer { get; private set; }
 
@@ -171,22 +177,26 @@ public class Network : MonoBehaviour
                 var reason = data["reason"] as Dictionary<string, object>;
                 var reasonCode = (int)reason["code"];
                 if (lobbyDisbanded != null) lobbyDisbanded(reasonCode);
+                StopCoroutine(AttemptStartClient());
+                selectionDataApplied = false;
                 break;
 
             case "ROOM_READY":
-                Debug.Log("ROOM_READY");
                 UpdateConnectData(data);
-
-                _netManager.StartClient();
+                StartCoroutine(AttemptStartClient());
                 break;
 
             case "ROOM_ASSIGNED":
-                Debug.Log("ROOM_ASSIGNED");
                 UpdateConnectData(data);
-
-                _wrapper.LobbyService.UpdateReady(_lobbyId, true, FormatExtraLobbyData());
+                _wrapper.LobbyService.UpdateReady(_lobbyId, true, FormatExtraLobbyData(), onUpdateReadySuccess);
                 break;
         }
+    }
+
+    private IEnumerator AttemptStartClient()
+    {
+        yield return new WaitUntil(() => selectionDataApplied);
+        _netManager.StartClient();
     }
 
     private void UpdateConnectData(Dictionary<string, object> data)
@@ -245,11 +255,28 @@ public class Network : MonoBehaviour
 
     private Dictionary<string, object> FormatExtraLobbyData()
     {
+        onUpdateReadySuccess = (string jsonResponse, object cbObject) => { selectionDataApplied = true; };
+
         Dictionary<string, object> extraData = new Dictionary<string, object>()
         {
             {"selectedShipIndex", selectedShipIndex },
         };
         return extraData;
+    }
+
+    public static void StartRepeatAttemptServerRequest(Dictionary<string, object> request, BrainCloudS2S.S2SCallback callback, FinishAttemptsCondition condition, float frequency)
+    {
+        if (!sharedInstance.IsDedicatedServer) return;
+        sharedInstance.StartCoroutine(sharedInstance.RepeatAttemptServerRequest(request, callback, condition, frequency));
+    }
+
+    private IEnumerator RepeatAttemptServerRequest(Dictionary<string, object> request, BrainCloudS2S.S2SCallback callback, FinishAttemptsCondition condition, float frequency)
+    {
+        while (!condition())
+        {
+            _bcS2S.Request(request, callback);
+            yield return new WaitForSeconds(frequency);
+        }
     }
 
     public void PrintSpawnedObjects()

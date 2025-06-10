@@ -77,9 +77,14 @@ public class PlayerController : NetworkBehaviour
         sendInputActives.Value = inputActives;
     }
 
-    public void SpawnShip(GameObject shipObj)
+    public void SpawnShip(GameObject shipObj, Transform location = null)
     {
         shipRef = Instantiate(shipObj);
+        if(location != null)
+        {
+            shipRef.transform.position = location.position;
+            shipRef.transform.rotation = location.rotation;
+        }
         shipRef.GetComponent<NetworkObject>().Spawn(true);
         shipMovement = shipRef.GetComponent<Movement>();
         shipWeapons = shipRef.GetComponent<WeaponsHolder>();
@@ -96,6 +101,12 @@ public class PlayerController : NetworkBehaviour
     private void OwnerFindShipRpc(ulong id)
     {
         shipRefId = id;
+    }
+
+    [Rpc(SendTo.Owner)]
+    public void DebugServerMessageRpc(string message)
+    {
+        Debug.Log(message);
     }
 
     private void InitShipRef(ulong id)

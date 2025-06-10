@@ -1,6 +1,8 @@
 using BrainCloud.JsonFx.Json;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -26,6 +28,8 @@ public class ClientManager : MonoBehaviour
 
     [SerializeField]
     private List<GameObject> playerShipObjs = new List<GameObject>();
+    private List<Transform> spawnSpots = new List<Transform>();
+    private int nextSpawnIndex = 0;
 
     public void Initialize(bool isServer, string lobbyId)
     {
@@ -48,10 +52,8 @@ public class ClientManager : MonoBehaviour
     private void OnClientJoined(ulong id)
     {
         allPlayersAccountedFor = false;
-        Debug.Log("Client " + id + " joined");
         clients.Add(new ClientSummary());
         clientIds.Add(id);
-
         Dictionary<string, object> request = new Dictionary<string, object>
             {
                 { "service", "lobby" },
@@ -60,7 +62,8 @@ public class ClientManager : MonoBehaviour
                 {{ "lobbyId", _lobbyId }}
                 }
             };
-        _bcS2S.Request(request, OnLobbyDataMemberJoin); 
+        ServerDebugMessage("Client " + id + " joined");
+        Network.StartRepeatAttemptServerRequest(request, OnLobbyDataMemberJoin, () => { return allPlayersAccountedFor; }, 1.0f);
     }
 
     private void OnClientLeave(ulong id)
@@ -72,6 +75,10 @@ public class ClientManager : MonoBehaviour
 
     private void OnLobbyDataMemberJoin(string responseJson)
     {
+        ServerDebugMessage("Server tried to respond");
+        if (allPlayersAccountedFor) return;
+
+        ServerDebugMessage("Client joined and brainCloud responded");
         Dictionary<string, object> response = JsonReader.Deserialize<Dictionary<string, object>>(responseJson);
         var data = response["data"] as Dictionary<string, object>;
         Dictionary<string, object>[] membersData = data["members"] as Dictionary<string, object>[];
@@ -80,14 +87,16 @@ public class ClientManager : MonoBehaviour
         clients[^1].username = newestMember["name"] as string;
         clients[^1].profileId = newestMember["profileId"] as string;
         clients[^1].userPasscode = newestMember["passcode"] as string;
-        clients[^1].extraData = newestMember["extra"] as Dictionary<string, object>;
+        try { clients[^1].extraData = newestMember["extra"] as Dictionary<string, object>; }
+        catch { ServerDebugMessage(clients[^1].username + " did not have extra data"); }
 
         allPlayersAccountedFor = true;
+        ServerDebugMessage("All players accounted for");
     }
 
     public IEnumerator IdentifyPlayer(PlayerController givenController, string givenPasscode)
     {
-        Debug.Log("Client attempted identification");
+        ServerDebugMessage("Client attempted identification");
         yield return new WaitUntil(() => allPlayersAccountedFor || Application.isEditor);
 
         int selectedShipIndex = 0;
@@ -100,6 +109,34 @@ public class ClientManager : MonoBehaviour
             catch { selectedShipIndex = 1; }
             
         }
-        givenController.SpawnShip(playerShipObjs[selectedShipIndex]);
+        givenController.SpawnShip(playerShipObjs[selectedShipIndex], GetSpawnSpot());
+        ServerDebugMessage("Spawned " + playerShipObjs[selectedShipIndex].name);
+    }
+
+    public void AddSpawnSpots(List<Transform> newSpots)
+    {
+        spawnSpots.AddRange(newSpots);
+    }
+
+    public void AddSpawnSpot(Transform newSpot)
+    {
+        spawnSpots.Add(newSpot);
+    }
+
+    private Transform GetSpawnSpot()
+    {
+        if(spawnSpots.Count == 0) return null;
+        int output = nextSpawnIndex;
+        nextSpawnIndex += 1;
+        nextSpawnIndex %= spawnSpots.Count;
+        return spawnSpots[output];
+    }
+
+    public void ServerDebugMessage(string message)
+    {
+        foreach (PlayerController player in FindObjectsByType(typeof(PlayerController), FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+        {
+            player.DebugServerMessageRpc(message);
+        }
     }
 }

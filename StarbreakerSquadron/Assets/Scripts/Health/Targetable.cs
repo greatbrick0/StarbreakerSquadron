@@ -8,8 +8,8 @@ public abstract class Targetable : NetworkBehaviour
     public bool isAlive { get; protected set; } = true;
     public float timeSinceLastDamage { get; protected set; } = 0.0f;
 
-    [SerializeField]
-    public Teams team;
+    [field: SerializeField]
+    public Teams team { get; protected set; }
 
     [SerializeField]
     public UnityEvent deathEvent;
