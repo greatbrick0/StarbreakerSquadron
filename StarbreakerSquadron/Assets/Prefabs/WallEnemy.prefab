@@ -218,7 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   <isAlive>k__BackingField: 1
-  team: 2
+  <team>k__BackingField: 2
   deathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -262,7 +262,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   property: FixedWallEnemy
-  <maxHealth>k__BackingField: 100
 --- !u!114 &8497915012488310995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +277,7 @@ MonoBehaviour:
   inputActives: 0
   slots:
   - remainingCooldown: 0
+    cycle: 0
     activesObjs:
     - {fileID: 1503907508312363613}
 --- !u!114 &5049682111909379868

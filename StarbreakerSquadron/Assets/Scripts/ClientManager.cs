@@ -63,7 +63,7 @@ public class ClientManager : MonoBehaviour
                 }
             };
         ServerDebugMessage("Client " + id + " joined");
-        Network.StartRepeatAttemptServerRequest(request, OnLobbyDataMemberJoin, () => { return allPlayersAccountedFor; }, 1.0f);
+        Network.StartRepeatAttemptServerRequest(request, OnLobbyDataMemberJoin, () => { return allPlayersAccountedFor; }, 3.0f);
     }
 
     private void OnClientLeave(ulong id)

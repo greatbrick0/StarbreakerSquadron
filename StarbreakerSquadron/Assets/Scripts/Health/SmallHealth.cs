@@ -56,7 +56,7 @@ public class SmallHealth : Targetable
 
     public void Die()
     {
-        print("dead");
+        Debug.Log(gameObject.name + " dead");
         BecomeHidden();
     }
 

@@ -132,7 +132,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   inputVector: {x: 0, y: 0}
   maxSpeed: 14
-  rotationSpeed: 180
+  property: NewSchool
   accelPower: 15
   dragPower: 2
   stunRemaining: 0
@@ -221,7 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   <isAlive>k__BackingField: 1
-  team: 1
+  <team>k__BackingField: 1
   deathEvent:
     m_PersistentCalls:
       m_Calls:

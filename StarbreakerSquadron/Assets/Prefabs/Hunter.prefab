@@ -325,7 +325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   <isAlive>k__BackingField: 1
-  team: 2
+  <team>k__BackingField: 0
   deathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -451,7 +451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   <isAlive>k__BackingField: 1
-  team: 2
+  <team>k__BackingField: 0
   deathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -812,7 +812,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   <isAlive>k__BackingField: 1
-  team: 2
+  <team>k__BackingField: 2
   deathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -910,7 +910,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   <isAlive>k__BackingField: 1
-  team: 2
+  <team>k__BackingField: 0
   deathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -1036,7 +1036,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   <isAlive>k__BackingField: 1
-  team: 2
+  <team>k__BackingField: 0
   deathEvent:
     m_PersistentCalls:
       m_Calls:

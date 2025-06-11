@@ -31,6 +31,7 @@ public class Network : MonoBehaviour
     private string _roomAddress;
     private int _roomPort;
     public string clientPasscode { get; private set; }
+    public string clientProfileId { get; private set; }
     [SerializeField]
     private string _lobbyId;
     public int selectedShipIndex = 0;
@@ -45,6 +46,7 @@ public class Network : MonoBehaviour
         if (sharedInstance != null)
         {
             Debug.Log("Destroyed duplicate network");
+            ClientManager.instance.ServerDebugMessage("Network was destroyed");
             Destroy(gameObject);
             return;
         }
@@ -98,6 +100,16 @@ public class Network : MonoBehaviour
         {
             _unityTransport.SetConnectionData("0.0.0.0", 7777);
             BeginPlayServer("OpenLevel");
+
+            Dictionary<string, object> request = new Dictionary<string, object>
+            {
+                { "service", "globalApp" },
+                { "operation", "READ_PROPERTIES" },
+                { "data", new Dictionary<string, object>{}
+                }
+            };
+            BrainCloudS2S.S2SCallback success = (string responseJson) => { ClientManager.instance.ServerDebugMessage("Callbacks working..."); };
+            StartRepeatAttemptServerRequest(request, success, () => { return false; }, 10.0f);
         }
     }
 
@@ -146,6 +158,7 @@ public class Network : MonoBehaviour
 
         var response = JsonReader.Deserialize<Dictionary<string, object>>(responseData);
         var data = response["data"] as Dictionary<string, object>;
+        clientProfileId = data["id"] as string;
         if (authenticationRequestCompleted != null)
             authenticationRequestCompleted();
 
@@ -183,12 +196,20 @@ public class Network : MonoBehaviour
 
             case "ROOM_READY":
                 UpdateConnectData(data);
-                StartCoroutine(AttemptStartClient());
+                _wrapper.LobbyService.UpdateReady(_lobbyId, true, FormatExtraLobbyData(), onUpdateReadySuccess);
                 break;
 
             case "ROOM_ASSIGNED":
                 UpdateConnectData(data);
-                _wrapper.LobbyService.UpdateReady(_lobbyId, true, FormatExtraLobbyData(), onUpdateReadySuccess);
+                break;
+
+            case "MEMBER_UPDATE":
+                var newMember = data["member"] as Dictionary<string, object>;
+                var newMemberProfileId = newMember["profileId"] as string;
+                if(newMemberProfileId == clientProfileId)
+                {
+                    StartCoroutine(AttemptStartClient());
+                }
                 break;
         }
     }
