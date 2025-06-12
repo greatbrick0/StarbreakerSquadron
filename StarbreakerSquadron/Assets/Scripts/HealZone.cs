@@ -20,6 +20,9 @@ public class HealZone : MonoBehaviour
 
     private List<GameObject> targetedUnits = new List<GameObject>();
 
+    [SerializeField]
+    private float flatRegenAmount = 25.0f;
+
     private void Start()
     {
         isServer = Network.sharedInstance.IsDedicatedServer;
@@ -58,7 +61,7 @@ public class HealZone : MonoBehaviour
             if(smallTargetable.team == team)
             {
                 targetedUnits.Add(collision.gameObject);
-                Debug.Log("Added to targets");
+                smallTargetable.flatRegen += flatRegenAmount;
             }
         }
     }
@@ -70,7 +73,7 @@ public class HealZone : MonoBehaviour
         if (targetedUnits.Contains(collision.gameObject))
         {
             targetedUnits.Remove(collision.gameObject);
-            Debug.Log("Removed from targets");
+            collision.GetComponent<SmallHealth>().flatRegen -= flatRegenAmount;
         }
     }
 }

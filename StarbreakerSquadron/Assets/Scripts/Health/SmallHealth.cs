@@ -13,6 +13,12 @@ public class SmallHealth : Targetable
     private MaxHealthChanged maxHealthChanged;
     public int maxHealth { get; private set; } = 100;
     protected NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    [SerializeField]
+    private int regenChunkSize = 1;
+    [Display]
+    public float flatRegen = 0.0f;
+    [SerializeField, Display]
+    private float regenRemainder = 0.0f;
 
 
     private void Start()
@@ -30,6 +36,10 @@ public class SmallHealth : Targetable
     private void Update()
     {
         timeSinceLastDamage += Time.deltaTime;
+        if (IsServer)
+        {
+            HandleRegen(Time.deltaTime);
+        }
     }
 
     public override void OnNetworkSpawn()
@@ -52,6 +62,20 @@ public class SmallHealth : Targetable
 
         currentHealth.Value -= amount;
         timeSinceLastDamage = 0f;
+    }
+
+    private void HandleRegen(float delta)
+    {
+        if (GetHealth() < maxHealth)
+        {
+            regenRemainder += flatRegen * delta;
+            if (regenRemainder >= regenChunkSize) currentHealth.Value += Mathf.FloorToInt(regenRemainder);
+            regenRemainder %= regenChunkSize;
+        }
+        else
+        {
+            regenRemainder = 0.0f;
+        }
     }
 
     public void Die()
