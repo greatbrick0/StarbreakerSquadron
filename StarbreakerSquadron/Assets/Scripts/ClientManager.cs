@@ -63,7 +63,8 @@ public class ClientManager : MonoBehaviour
                 }
             };
         ServerDebugMessage("Client " + id + " joined");
-        Network.StartRepeatAttemptServerRequest(request, OnLobbyDataMemberJoin, () => { return allPlayersAccountedFor; }, 3.0f);
+        //Network.StartRepeatAttemptServerRequest(request, OnLobbyDataMemberJoin, () => { return allPlayersAccountedFor; }, 3.0f);
+        _bcS2S.Request(request, OnLobbyDataMemberJoin);
     }
 
     private void OnClientLeave(ulong id)
@@ -94,7 +95,7 @@ public class ClientManager : MonoBehaviour
         ServerDebugMessage("All players accounted for");
     }
 
-    public IEnumerator IdentifyPlayer(PlayerController givenController, string givenPasscode)
+    public IEnumerator IdentifyPlayer(PlayerController givenController, string givenPasscode, int claimedShip)
     {
         ServerDebugMessage("Client attempted identification");
         yield return new WaitUntil(() => allPlayersAccountedFor || Application.isEditor);
@@ -106,10 +107,10 @@ public class ClientManager : MonoBehaviour
 
             clients[ii].controllerRef = givenController; 
             try { selectedShipIndex = (int?)clients[ii].extraData["selectedShipIndex"] ?? 0; }
-            catch { selectedShipIndex = 1; }
+            catch { selectedShipIndex = 0; }
             
         }
-        givenController.SpawnShip(playerShipObjs[selectedShipIndex], GetSpawnSpot());
+        givenController.SpawnShip(playerShipObjs[Application.isEditor ? claimedShip : selectedShipIndex], GetSpawnSpot());
         ServerDebugMessage("Spawned " + playerShipObjs[selectedShipIndex].name);
     }
 

@@ -31,7 +31,7 @@ public class PlayerController : NetworkBehaviour
             cam = Camera.main.GetComponent<FollowCamera>();
             gameHud = FindFirstObjectByType<GameHudManager>();
             gameHud.attemptLeaveEvent.AddListener(Network.sharedInstance.DisconnectFromSession);
-            SendPasscodeRpc(Network.sharedInstance.clientPasscode);
+            SendPasscodeRpc(Network.sharedInstance.clientPasscode, Network.sharedInstance.selectedShipIndex);
         }
     }
 
@@ -92,9 +92,9 @@ public class PlayerController : NetworkBehaviour
     }
 
     [Rpc(SendTo.Server)]
-    private void SendPasscodeRpc(string passcode)
+    private void SendPasscodeRpc(string passcode, ushort claimedShip)
     {
-        StartCoroutine(ClientManager.instance.IdentifyPlayer(this, passcode));
+        StartCoroutine(ClientManager.instance.IdentifyPlayer(this, passcode, (int)claimedShip));
     }
 
     [Rpc(SendTo.Owner)]

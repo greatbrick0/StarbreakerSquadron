@@ -34,7 +34,7 @@ public class Network : MonoBehaviour
     public string clientProfileId { get; private set; }
     [SerializeField]
     private string _lobbyId;
-    public int selectedShipIndex = 0;
+    public ushort selectedShipIndex = 0;
     [Display]
     public bool selectionDataApplied = false;
     private BrainCloud.SuccessCallback onUpdateReadySuccess;
@@ -224,15 +224,8 @@ public class Network : MonoBehaviour
     {
         var connectData = data["connectData"] as Dictionary<string, object>;
 
-        try
-        {
-            _roomPort = (int?)connectData["ports"] ?? -1;
-        }
-        catch (Exception)
-        {
-            var ports = connectData["ports"] as Dictionary<string, object>;
-            _roomPort = (int)ports["7777/tcp"];
-        }
+        var ports = connectData["ports"] as Dictionary<string, object>;
+        _roomPort = (int)ports["7777/tcp"];
         _roomAddress = (string)connectData["address"];
         _unityTransport.ConnectionData.Address = _roomAddress;
         _unityTransport.ConnectionData.Port = (ushort)_roomPort;

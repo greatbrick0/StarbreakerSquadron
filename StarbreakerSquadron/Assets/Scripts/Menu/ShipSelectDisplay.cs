@@ -42,7 +42,7 @@ public class ShipSelectDisplay : MonoBehaviour
     public void MoveSelectedIndex(int direction)
     {
         selectedIndex += direction;
-        Network.sharedInstance.selectedShipIndex = selectedIndex;
+        Network.sharedInstance.selectedShipIndex = (ushort)selectedIndex;
         PlayerPrefs.SetInt("ShipSelection", selectedIndex);
         animDirection = direction;
         animRemaining = 1.0f;
