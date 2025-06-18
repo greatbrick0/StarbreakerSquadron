@@ -513,25 +513,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: WarpEffect
       objectReference: {fileID: 0}
+    - target: {fileID: 4761875947873419781, guid: 34c2d7e4faed8ae418e80bcf37981e4a, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5297945825777401518, guid: 34c2d7e4faed8ae418e80bcf37981e4a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5297945825777401518, guid: 34c2d7e4faed8ae418e80bcf37981e4a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5297945825777401518, guid: 34c2d7e4faed8ae418e80bcf37981e4a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5297945825777401518, guid: 34c2d7e4faed8ae418e80bcf37981e4a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 21.31
+      value: 27.63
       objectReference: {fileID: 0}
     - target: {fileID: 5297945825777401518, guid: 34c2d7e4faed8ae418e80bcf37981e4a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.52
+      value: -2.42
       objectReference: {fileID: 0}
     - target: {fileID: 5297945825777401518, guid: 34c2d7e4faed8ae418e80bcf37981e4a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5297945825777401518, guid: 34c2d7e4faed8ae418e80bcf37981e4a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2953,13 +2961,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: HudCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 8705049939418912453, guid: 6b2539cd6c32cda44afb1eb486045dc9, type: 3}
-      propertyPath: m_AnchorMax.x
+    - target: {fileID: 5729624662734922765, guid: 6b2539cd6c32cda44afb1eb486045dc9, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8705049939418912453, guid: 6b2539cd6c32cda44afb1eb486045dc9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8705049939418912453, guid: 6b2539cd6c32cda44afb1eb486045dc9, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
