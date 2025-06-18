@@ -20,7 +20,9 @@ public class PlayerController : NetworkBehaviour
     private byte inputActives = 0;
     private NetworkVariable<byte> sendInputActives = new NetworkVariable<byte>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-    void Start()
+    private float respawnTime = 0.0f;
+
+    private void Start()
     {
         if (IsServer)
         {
@@ -35,7 +37,7 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         if (IsServer && shipRef != null)
         {

@@ -381,7 +381,7 @@ MonoBehaviour:
   m_ProtocolType: 0
   m_UseWebSockets: 0
   m_UseEncryption: 0
-  m_MaxPacketQueueSize: 128
+  m_MaxPacketQueueSize: 256
   m_MaxPayloadSize: 6144
   m_HeartbeatTimeoutMS: 500
   m_ConnectTimeoutMS: 1000
@@ -452,6 +452,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lobbyId: 
   selectedShipIndex: 0
+  selectionDataApplied: 0
 --- !u!4 &271905700
 Transform:
   m_ObjectHideFlags: 0

@@ -63,16 +63,16 @@ public class MainMenuManager : MonoBehaviour
         else profileEditScreen.GetComponent<EditProfileManager>().GenerateUsername(newUserData["profileId"] as string);
     }
 
-    public void BeginClientJoinLobby()
+    public void BeginClientJoinLobby(string lobbyType)
     {
         _bcNetwork.selectionDataApplied = false;
 
         var algo = new Dictionary<string, object>();
         algo["strategy"] = "ranged-absolute";
         algo["alignment"] = "center";
-        algo["ranges"] = new List<int> { 1000 };
+        algo["ranges"] = new List<int> { 999 };
         _bcNetwork._wrapper.LobbyService.FindOrCreateLobby(
-            "CustomGame", 0, 1, algo,
+            lobbyType, 0, 1, algo,
             new Dictionary<string, object>(), true,
             new Dictionary<string, object>(), "all",
             new Dictionary<string, object>(),

@@ -49,7 +49,6 @@ public class AmbushTrapSpawner : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     public void ActivateTrapRpc()
     {
-        Debug.Log("ambush");
         trapHealth.BecomeShown();
         trapRef.GetComponent<Movement>().Stun(0.3f, true, transform.up * kickPower);
     }

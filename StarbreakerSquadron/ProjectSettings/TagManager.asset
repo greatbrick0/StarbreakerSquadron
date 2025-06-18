@@ -17,7 +17,7 @@ TagManager:
   - SmallUnit
   - BigUnit
   - Damage
-  - 
+  - DistortionEffect
   - 
   - 
   - 
@@ -49,6 +49,9 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: GameEffects
+    uniqueID: 2336377937
     locked: 0
   - name: UiElements
     uniqueID: 1147717225
