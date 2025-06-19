@@ -34,8 +34,8 @@ Material:
     m_Floats:
     - _DstBlend: 0
     - _QueueControl: 1
-    - _Radius: 0.681
-    - _RadiusWidth: 0.304
+    - _Radius: 0.945
+    - _RadiusWidth: 0.636
     - _RotateSpeed: -0.2
     - _SrcBlend: 1
     m_Colors:
