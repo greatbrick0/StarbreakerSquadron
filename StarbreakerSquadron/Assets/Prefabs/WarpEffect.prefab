@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5297945825777401518}
   - component: {fileID: 4761875947873419781}
+  - component: {fileID: 7892174910571854994}
   m_Layer: 9
   m_Name: WarpEffect
   m_TagString: Untagged
@@ -87,3 +88,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7892174910571854994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4263170151884672905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4f7aa717c6b8f44589398c7d6dddbb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isServer: 0
+  radiusCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5156562
+      value: 0.4689621
+      inSlope: 2.6062233
+      outSlope: 2.6062233
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.08811103
+    - serializedVersion: 3
+      time: 1.0000142
+      value: 0.9009452
+      inSlope: 0.020590037
+      outSlope: 0.020590037
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.2291775
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animDuration: 0.6

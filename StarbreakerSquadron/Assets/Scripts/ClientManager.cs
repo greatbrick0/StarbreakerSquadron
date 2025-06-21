@@ -110,7 +110,8 @@ public class ClientManager : MonoBehaviour
             catch { selectedShipIndex = 0; }
             
         }
-        givenController.SpawnShip(playerShipObjs[Application.isEditor ? claimedShip : selectedShipIndex], GetSpawnSpot());
+        Transform spot = GetSpawnSpot();
+        givenController.SpawnShip(playerShipObjs[Application.isEditor ? claimedShip : selectedShipIndex], spot);
         ServerDebugMessage("Spawned " + playerShipObjs[selectedShipIndex].name);
     }
 
@@ -124,7 +125,7 @@ public class ClientManager : MonoBehaviour
         spawnSpots.Add(newSpot);
     }
 
-    private Transform GetSpawnSpot()
+    public Transform GetSpawnSpot()
     {
         if(spawnSpots.Count == 0) return null;
         int output = nextSpawnIndex;

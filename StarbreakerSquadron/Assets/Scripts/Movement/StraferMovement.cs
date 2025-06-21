@@ -115,4 +115,9 @@ public class StraferMovement : Movement
             visual.powered = Vector2.Dot(accel.normalized, transform.right) > 0.5f;
         }
     }
+
+    public void InstantStopVelocity()
+    {
+        rb.linearVelocity = Vector2.zero;
+    }
 }

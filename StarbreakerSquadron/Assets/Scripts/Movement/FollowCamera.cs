@@ -47,4 +47,9 @@ public class FollowCamera : MonoBehaviour
         }
         leadVec = Vector3.zero;
     }
+
+    public void SnapTo(Vector3 newPos)
+    {
+        transform.position = newPos.SetZ(-10);
+    }
 }

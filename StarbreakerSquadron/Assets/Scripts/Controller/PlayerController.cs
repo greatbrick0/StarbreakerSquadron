@@ -5,7 +5,8 @@ using Unity.Collections.LowLevel.Unsafe;
 public class PlayerController : NetworkBehaviour
 {
     [SerializeField]
-    private GameObject shipObj;
+    private GameObject warpEffectObj;
+    private GameObject warpEffectRef;
     private GameObject shipRef;
     private ulong shipRefId = 0;
 
@@ -20,7 +21,8 @@ public class PlayerController : NetworkBehaviour
     private byte inputActives = 0;
     private NetworkVariable<byte> sendInputActives = new NetworkVariable<byte>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-    private float respawnTime = 0.0f;
+    private float respawnTime = 10.0f;
+    public float respawnProgress { get; private set; } = 0.0f;
 
     private void Start()
     {
@@ -48,6 +50,11 @@ public class PlayerController : NetworkBehaviour
         if(shipRefId != 0 && shipRef == null) InitShipRef(shipRefId);
         if (shipRef == null) return;
 
+        if (!shipHealth.isAlive)
+        {
+            respawnProgress -= 1.0f * Time.deltaTime;
+            gameHud.respawnProgress = respawnProgress;
+        }
         shipMovement.inputVector = sendInputVec.Value;
         shipWeapons.inputActives = sendInputActives.Value;
         inputVec = Vector2.zero;
@@ -79,24 +86,72 @@ public class PlayerController : NetworkBehaviour
         sendInputActives.Value = inputActives;
     }
 
-    public void SpawnShip(GameObject shipObj, Transform location = null)
+    public void SpawnShip(GameObject shipObj, Transform location)
     {
-        shipRef = Instantiate(shipObj);
-        if(location != null)
+        WarpEffect.WarpCallback spawnFunc = () =>
+        {
+            shipRef = Instantiate(shipObj);
+            shipRef.transform.position = location.position;
+            shipRef.transform.rotation = location.rotation;
+            shipRef.GetComponent<NetworkObject>().Spawn(true);
+            shipMovement = shipRef.GetComponent<Movement>();
+            shipWeapons = shipRef.GetComponent<WeaponsHolder>();
+            shipHealth = shipRef.GetComponent<SmallHealth>();
+            OwnerFindShipRpc(shipRef.GetComponent<NetworkObject>().NetworkObjectId);
+        };
+
+        TeleportCameraRpc(location.position);
+        CreateWarpEffectRpc(1.6f, 1.2f, location.position);
+        warpEffectRef.GetComponent<WarpEffect>().warpCallback = spawnFunc;
+    }
+
+    private void RespawnShip(Transform location)
+    {
+        WarpEffect.WarpCallback spawnFunc = () =>
         {
             shipRef.transform.position = location.position;
             shipRef.transform.rotation = location.rotation;
-        }
-        shipRef.GetComponent<NetworkObject>().Spawn(true);
-        shipMovement = shipRef.GetComponent<Movement>();
-        shipWeapons = shipRef.GetComponent<WeaponsHolder>();
-        OwnerFindShipRpc(shipRef.GetComponent<NetworkObject>().NetworkObjectId);
+            FinishRespawnRpc();
+        };
+
+        TeleportCameraRpc(location.position);
+        CreateWarpEffectRpc(1.6f, 1.2f, location.position);
+        warpEffectRef.GetComponent<WarpEffect>().warpCallback = spawnFunc;
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void CreateWarpEffectRpc(float sizeMult, float duration, Vector3 location = default)
+    {
+        warpEffectRef = Instantiate(warpEffectObj);
+        warpEffectRef.transform.position = location;
+        warpEffectRef.transform.localScale = Vector3.one * sizeMult;
+        warpEffectRef.GetComponent<WarpEffect>().Initialize(IsServer, duration);
     }
 
     [Rpc(SendTo.Server)]
     private void SendPasscodeRpc(string passcode, ushort claimedShip)
     {
-        StartCoroutine(ClientManager.instance.IdentifyPlayer(this, passcode, (int)claimedShip));
+        StartCoroutine(ClientManager.instance.IdentifyPlayer(this, passcode, claimedShip));
+    }
+
+    [Rpc(SendTo.Server)]
+    public void AttemptRespawnRpc()
+    {
+        if (shipHealth.isAlive) return;
+        if (respawnProgress > 0.0f) return;
+
+        RespawnShip(ClientManager.instance.GetSpawnSpot());
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void FinishRespawnRpc()
+    {
+        shipHealth.BecomeShown();
+        if (!IsServer)
+        {
+            gameHud.ChangeGameHudState(GameHudState.Gameplay);
+            cam.InitLead();
+        }
     }
 
     [Rpc(SendTo.Owner)]
@@ -109,6 +164,12 @@ public class PlayerController : NetworkBehaviour
     public void DebugServerMessageRpc(string message)
     {
         Debug.Log(message);
+    }
+
+    [Rpc(SendTo.Owner)]
+    private void TeleportCameraRpc(Vector3 newPos)
+    {
+        cam.SnapTo(newPos);
     }
 
     private void InitShipRef(ulong id)
@@ -126,6 +187,8 @@ public class PlayerController : NetworkBehaviour
         gameHud.UpdateHealthBarMax(shipHealth.maxHealth);
         gameHud.UpdateHealthBar(gameHud.maxHealth);
         shipHealth.deathEvent.AddListener(() => StartCoroutine(gameHud.StartRespawningHud()));
+        shipHealth.deathEvent.AddListener(() => respawnProgress = respawnTime);
+        gameHud.respawnButton.onClick.AddListener(AttemptRespawnRpc);
         gameHud.ChangeGameHudState(GameHudState.Gameplay);
     }
 }

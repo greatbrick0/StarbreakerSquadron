@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 8642871577613889334}
   - component: {fileID: 1244640571643664621}
   m_Layer: 0
-  m_Name: Pillar
+  m_Name: Beam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -140,7 +140,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: -1
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 2, y: 0, z: 1}
@@ -307,6 +307,7 @@ MonoBehaviour:
   beamBaseWidth: 0.12
   beamWidthVariance: 0.04
   beamVarianceFrequency: 6
+  flatRegenAmount: 25
 --- !u!1 &7695785900217420682
 GameObject:
   m_ObjectHideFlags: 0

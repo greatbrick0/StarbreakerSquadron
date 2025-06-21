@@ -16,8 +16,6 @@ public class GameHudManager : MonoBehaviour
     private GameObject gameMenu;
     [SerializeField]
     private GameObject respawnTimer;
-    [SerializeField, Min(0)]
-    private float deathShockTime = 2.0f;
     [SerializeField] 
     private GameObject closeMenuButton;
     [SerializeField]
@@ -52,6 +50,18 @@ public class GameHudManager : MonoBehaviour
     [SerializeField]
     private TMP_Text healthLabel;
 
+    [Header("Respawn Display")]
+    [SerializeField, Min(0)]
+    private float deathShockTime = 2.0f;
+    public float respawnProgress = 0.0f;
+    [SerializeField]
+    private TMP_Text respawnTimeLabel;
+    [SerializeField]
+    private GameObject respawnCountdownHolder;
+    [SerializeField]
+    private GameObject respawnButtonHolder;
+    public Button respawnButton;
+
     private float animTime = 0.0f;
 
     private void Awake()
@@ -75,6 +85,9 @@ public class GameHudManager : MonoBehaviour
             case GameHudState.Shocked:
                 break;
             case GameHudState.Respawn:
+                respawnCountdownHolder.SetActive(respawnProgress > 0.0f);
+                respawnButtonHolder.SetActive(respawnProgress <= 0.0f);
+                respawnTimeLabel.text = respawnProgress.ToString("0.00") + "s";
                 break;
             case GameHudState.Spectating:
                 break;
@@ -85,6 +98,8 @@ public class GameHudManager : MonoBehaviour
     {
         ChangeGameHudState(GameHudState.Shocked);
         yield return new WaitForSeconds(deathShockTime);
+        respawnCountdownHolder.SetActive(respawnProgress > 0.0f);
+        respawnButtonHolder.SetActive(respawnProgress <= 0.0f);
         ChangeGameHudState(GameHudState.Respawn);
     }
 

@@ -3463,7 +3463,7 @@
     "m_DismissedVersion": 0,
     "m_Precision": 0,
     "overrideHLSLDeclaration": true,
-    "hlslDeclarationOverride": 3,
+    "hlslDeclarationOverride": 2,
     "m_Hidden": false,
     "m_Value": 0.6000000238418579,
     "m_FloatType": 1,
@@ -4983,8 +4983,8 @@
     "m_ObjectId": "62ed9ae5a51849df948aefcf456e9833",
     "m_Title": "Outline",
     "m_Position": {
-        "x": -2917.999755859375,
-        "y": -130.99986267089845
+        "x": -2918.0,
+        "y": -131.0
     }
 }
 
@@ -5803,7 +5803,7 @@
     "m_FloatType": 1,
     "m_RangeValues": {
         "x": 0.0,
-        "y": 1.0
+        "y": 2.0
     }
 }
 
@@ -10363,8 +10363,8 @@
     "m_ObjectId": "edf92c23fc064fdd8244273e30c45402",
     "m_Title": "Warping",
     "m_Position": {
-        "x": -1343.9998779296875,
-        "y": -1565.9998779296875
+        "x": -1344.0,
+        "y": -1566.0
     }
 }
 
@@ -10487,7 +10487,7 @@
     "m_Title": "Position Tracking",
     "m_Position": {
         "x": -4203.0,
-        "y": -2066.999755859375
+        "y": -2067.0
     }
 }
 
