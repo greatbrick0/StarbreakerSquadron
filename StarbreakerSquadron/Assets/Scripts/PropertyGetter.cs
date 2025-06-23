@@ -30,7 +30,6 @@ public class PropertyGetter : MonoBehaviour
         isDedicatedServer = _bcNetwork.IsDedicatedServer;
 
         SetValues();
-        //StartCoroutine(GetValue((val) => Debug.Log(Mathf.RoundToInt(val)), "HealthMult", "red"));
     }
 
     public IEnumerator GetValue(StatHandover callback, string category, string property, string colour)
@@ -122,5 +121,6 @@ public class PropertyGetter : MonoBehaviour
         }
 
         baseStatsPrepped = true;
+        if (isDedicatedServer) ClientManager.instance.ServerDebugMessage("Got properies");
     }
 }

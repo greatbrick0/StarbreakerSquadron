@@ -40,6 +40,8 @@ public class FollowCamera : MonoBehaviour
 
     public void InitLead()
     {
+        posQ.Clear();
+        deltaQ.Clear();
         for (int ii = 0; ii < 20; ii++)
         {
             posQ.Enqueue(followTarget.position);

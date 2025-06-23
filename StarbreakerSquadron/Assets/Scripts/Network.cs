@@ -10,6 +10,7 @@ using Unity.Netcode.Transports.UTP;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Linq.Expressions;
+using Unity.Mathematics;
 
 public class Network : MonoBehaviour
 {
@@ -263,6 +264,7 @@ public class Network : MonoBehaviour
         {
             _netManager.Shutdown();
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+            selectionDataApplied = false;
         };
         _wrapper.LobbyService.LeaveLobby(_lobbyId, success, null);
     }

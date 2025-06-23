@@ -6,8 +6,12 @@ public class SpawnPoints : MonoBehaviour
     public Teams team { get; protected set; }
     [SerializeField]
     private Transform pointHolder;
+    [SerializeField]
+    private Transform visuals;
+    [SerializeField]
+    private Sprite platformSprite;
 
-    void Start()
+    private void Start()
     {
         switch (team)
         {
@@ -15,12 +19,31 @@ public class SpawnPoints : MonoBehaviour
                 break;
             case Teams.Green:
                 if (pointHolder.childCount == 0) break;
-                if (ClientManager.instance == null) break;
-                for (int ii = 0; ii < pointHolder.childCount; ii++)
-                    ClientManager.instance.AddSpawnSpot(pointHolder.GetChild(ii));
+                if (ClientManager.instance == null)
+                {
+                    AddPlatforms();
+                }
+                else
+                {
+                    for (int ii = 0; ii < pointHolder.childCount; ii++)
+                        ClientManager.instance.AddSpawnSpot(pointHolder.GetChild(ii));
+                }
                 break;
             case Teams.Yellow:
                 break;
+        }
+    }
+
+    private void AddPlatforms()
+    {
+        for (int ii = 0; ii < pointHolder.childCount; ii++)
+        {
+            GameObject platform = new GameObject("platform" + ii.ToString());
+            platform.transform.parent = visuals;
+            platform.transform.localPosition = pointHolder.GetChild(ii).transform.localPosition;
+            platform.transform.localScale = Vector3.one * 0.2f;
+            platform.AddComponent<SpriteRenderer>().sprite = platformSprite;
+            platform.GetComponent<SpriteRenderer>().sortingLayerName = "Spawner";
         }
     }
 }

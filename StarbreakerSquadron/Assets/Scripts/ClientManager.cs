@@ -77,6 +77,7 @@ public class ClientManager : MonoBehaviour
     private void OnLobbyDataMemberJoin(string responseJson)
     {
         ServerDebugMessage("Server tried to respond");
+
         if (allPlayersAccountedFor) return;
 
         ServerDebugMessage("Client joined and brainCloud responded");
