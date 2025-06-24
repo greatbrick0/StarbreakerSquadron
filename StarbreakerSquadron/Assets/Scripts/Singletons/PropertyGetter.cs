@@ -121,6 +121,5 @@ public class PropertyGetter : MonoBehaviour
         }
 
         baseStatsPrepped = true;
-        if (isDedicatedServer) ClientManager.instance.ServerDebugMessage("Got properies");
     }
 }

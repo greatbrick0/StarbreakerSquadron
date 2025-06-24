@@ -87,7 +87,7 @@ public class GameHudManager : MonoBehaviour
             case GameHudState.Respawn:
                 respawnCountdownHolder.SetActive(respawnProgress > 0.0f);
                 respawnButtonHolder.SetActive(respawnProgress <= 0.0f);
-                respawnTimeLabel.text = respawnProgress.ToString("0.00") + "s";
+                respawnTimeLabel.text = string.Format(StringUtils.SPAWN_TIME_FORMAT, respawnProgress);
                 break;
             case GameHudState.Spectating:
                 break;

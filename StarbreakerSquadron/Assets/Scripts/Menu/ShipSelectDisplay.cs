@@ -4,6 +4,7 @@ using TMPro;
 
 public class ShipSelectDisplay : MonoBehaviour
 {
+    private const string SHIP_SELECTION_PREF = "ShipSelection";
     [SerializeField]
     Transform shipHolder;
     [SerializeField, Display]
@@ -25,7 +26,7 @@ public class ShipSelectDisplay : MonoBehaviour
 
     private void Start()
     {
-        if (PlayerPrefs.HasKey("ShipSelection")) selectedIndex = PlayerPrefs.GetInt("ShipSelection");
+        if (PlayerPrefs.HasKey(SHIP_SELECTION_PREF)) selectedIndex = PlayerPrefs.GetInt(SHIP_SELECTION_PREF);
 
         MoveSelectedIndex(0);
     }
@@ -43,7 +44,7 @@ public class ShipSelectDisplay : MonoBehaviour
     {
         selectedIndex += direction;
         Network.sharedInstance.selectedShipIndex = (ushort)selectedIndex;
-        PlayerPrefs.SetInt("ShipSelection", selectedIndex);
+        PlayerPrefs.SetInt(SHIP_SELECTION_PREF, selectedIndex);
         animDirection = direction;
         animRemaining = 1.0f;
         leftArrow.SetActive(selectedIndex != 0);

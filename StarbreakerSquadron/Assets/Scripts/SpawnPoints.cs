@@ -36,6 +36,8 @@ public class SpawnPoints : MonoBehaviour
 
     private void AddPlatforms()
     {
+        if (platformSprite == null) return;
+
         for (int ii = 0; ii < pointHolder.childCount; ii++)
         {
             GameObject platform = new GameObject("platform" + ii.ToString());

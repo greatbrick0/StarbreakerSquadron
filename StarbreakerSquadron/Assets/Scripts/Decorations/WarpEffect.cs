@@ -5,7 +5,7 @@ public class WarpEffect : MonoBehaviour
 {
     public bool isServer = false;
     private Material mat;
-    private const string radiusProperty = "_Radius";
+    private const string RADIUS_PROPERTY = "_Radius";
     [SerializeField]
     private AnimationCurve radiusCurve;
     private float animDuration = 1.0f;
@@ -20,7 +20,7 @@ public class WarpEffect : MonoBehaviour
         if (!isServer)
         {
             mat = GetComponent<SpriteRenderer>().material;
-            mat.SetFloat(radiusProperty, 0.0f);
+            mat.SetFloat(RADIUS_PROPERTY, 0.0f);
         }
         else
         {
@@ -37,7 +37,7 @@ public class WarpEffect : MonoBehaviour
         {
             if (!isServer)
             {
-                mat.SetFloat(radiusProperty, radiusCurve.Evaluate(animTime/animDuration));
+                mat.SetFloat(RADIUS_PROPERTY, radiusCurve.Evaluate(animTime/animDuration));
             }
             animTime += Time.deltaTime;
             yield return null;
@@ -52,7 +52,7 @@ public class WarpEffect : MonoBehaviour
         {
             if (!isServer)
             {
-                mat.SetFloat(radiusProperty, radiusCurve.Evaluate(1.0f - (animTime / animDuration)));
+                mat.SetFloat(RADIUS_PROPERTY, radiusCurve.Evaluate(1.0f - (animTime / animDuration)));
             }
             animTime += Time.deltaTime;
             yield return null;

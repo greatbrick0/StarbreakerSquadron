@@ -67,12 +67,8 @@ public class MainMenuManager : MonoBehaviour
     {
         _bcNetwork.selectionDataApplied = false;
 
-        var algo = new Dictionary<string, object>();
-        algo["strategy"] = "ranged-absolute";
-        algo["alignment"] = "center";
-        algo["ranges"] = new List<int> { 999 };
         _bcNetwork._wrapper.LobbyService.FindOrCreateLobby(
-            lobbyType, 0, 1, algo,
+            lobbyType, 0, 1, StringUtils.GeneralMatchMakeAlgo(),
             new Dictionary<string, object>(), true,
             new Dictionary<string, object>(), "all",
             new Dictionary<string, object>(),

@@ -357,6 +357,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   property: NewSchool
+  regenChunkSize: 1
+  flatRegen: 0
+  regenRemainder: 0
 --- !u!61 &8822229176069795692
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -483,6 +486,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   property: NewSchool
+  regenChunkSize: 1
+  flatRegen: 0
+  regenRemainder: 0
 --- !u!61 &3826106850731293198
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -546,6 +552,7 @@ GameObject:
   - component: {fileID: 1673427962579452551}
   - component: {fileID: 7052713684858465621}
   - component: {fileID: 8365001368536874354}
+  - component: {fileID: 84640075691970757}
   m_Layer: 7
   m_Name: Hunter
   m_TagString: yellow
@@ -856,12 +863,30 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   property: NewSchool
+  regenChunkSize: 1
+  flatRegen: 0
+  regenRemainder: 0
   distributionTargets:
   - {fileID: 2449934121703422927}
   - {fileID: 6249556173272517383}
   - {fileID: 9159821731754970476}
   - {fileID: 965540891465511328}
   leftOverDamage: 0
+--- !u!114 &84640075691970757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3699706470943457548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae10d1ff8b7cb1d46806ababaa0162d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontalStops: {x: -0.9, y: 0.9}
+  verticalStops: {x: -0.8, y: 0.8}
+  arrowObj: {fileID: 1541750225992747895, guid: 7e2a406570769d44abe581ce8015d161, type: 3}
 --- !u!1 &3983912331752469483
 GameObject:
   m_ObjectHideFlags: 0
@@ -942,6 +967,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   property: NewSchool
+  regenChunkSize: 1
+  flatRegen: 0
+  regenRemainder: 0
 --- !u!61 &128233941445333685
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1068,6 +1096,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   property: NewSchool
+  regenChunkSize: 1
+  flatRegen: 0
+  regenRemainder: 0
 --- !u!61 &1836718116740243077
 BoxCollider2D:
   m_ObjectHideFlags: 0
