@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8701689273054667025
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -7,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_StarShader
-  m_Shader: {fileID: -6465566751694194690, guid: 14fae1746cdbefe45957d1bdfaf312b9, type: 3}
+  m_Name: HealRadius
+  m_Shader: {fileID: -6465566751694194690, guid: fd73afa417771c54ab9c6d5ba4f3bd2f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -24,7 +37,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 3091ba9fb0383e1439e328f0d78653ef, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -41,14 +54,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _CosmicScale: 1
-    - _FlickerTime: 50
-    - _StarDensity: 1.1
+    - _Radius: 0.904
+    - _RadiusWidth: 0.01
+    - _WobbleFrequency: 0.2
+    - _WobbleStrength: 30
     m_Colors:
-    - _BaseColor: {r: 0, g: 0, b: 0, a: 0}
-    - _BaseColour: {r: 0, g: 0, b: 0, a: 0}
-    - _SecondaryColour: {r: 0.0470588, g: 0.043137237, b: 0.18823525, a: 0}
-    - _StarColour: {r: 1, g: 1, b: 1, a: 0}
-    - _TertiaryColour: {r: 0.254717, g: 0.061276253, b: 0.23906612, a: 0}
+    - _BaseColor: {r: 0.078431375, g: 0.84313726, b: 0.53333336, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
