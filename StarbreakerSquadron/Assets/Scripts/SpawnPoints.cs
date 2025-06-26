@@ -10,6 +10,8 @@ public class SpawnPoints : MonoBehaviour
     private Transform visuals;
     [SerializeField]
     private Sprite platformSprite;
+    [SerializeField]
+    private float platformSpriteScale = 0.25f;
 
     private void Start()
     {
@@ -43,7 +45,7 @@ public class SpawnPoints : MonoBehaviour
             GameObject platform = new GameObject("platform" + ii.ToString());
             platform.transform.parent = visuals;
             platform.transform.localPosition = pointHolder.GetChild(ii).transform.localPosition;
-            platform.transform.localScale = Vector3.one * 0.2f;
+            platform.transform.localScale = Vector3.one * platformSpriteScale;
             platform.AddComponent<SpriteRenderer>().sprite = platformSprite;
             platform.GetComponent<SpriteRenderer>().sortingLayerName = "Spawner";
         }

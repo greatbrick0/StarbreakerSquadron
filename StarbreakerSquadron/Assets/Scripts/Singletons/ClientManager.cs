@@ -135,8 +135,10 @@ public class ClientManager : MonoBehaviour
         return spawnSpots[output];
     }
 
-    public void ServerDebugMessage(string message)
+    public static void ServerDebugMessage(string message)
     {
+        if (instance == null) return;
+
         foreach (PlayerController player in FindObjectsByType(typeof(PlayerController), FindObjectsInactive.Exclude, FindObjectsSortMode.None))
         {
             player.DebugServerMessageRpc(message);

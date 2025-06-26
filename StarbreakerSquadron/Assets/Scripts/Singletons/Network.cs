@@ -47,7 +47,7 @@ public class Network : MonoBehaviour
         if (sharedInstance != null)
         {
             Debug.Log("Destroyed duplicate network");
-            ClientManager.instance.ServerDebugMessage("Network was destroyed");
+            ClientManager.ServerDebugMessage("Network was destroyed");
             Destroy(gameObject);
             return;
         }
@@ -109,7 +109,7 @@ public class Network : MonoBehaviour
                 { "data", new Dictionary<string, object>{}
                 }
             };
-            BrainCloudS2S.S2SCallback success = (string responseJson) => { ClientManager.instance.ServerDebugMessage("Callbacks working..."); };
+            BrainCloudS2S.S2SCallback success = (string responseJson) => { ClientManager.ServerDebugMessage("Callbacks working..."); };
             StartRepeatAttemptServerRequest(request, success, () => { return false; }, 10.0f);
         }
     }

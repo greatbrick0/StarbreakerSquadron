@@ -54,10 +54,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Radius: 0.904
-    - _RadiusWidth: 0.01
+    - _Radius: 0.9
+    - _RadiusWidth: 0.006
     - _WobbleFrequency: 0.2
-    - _WobbleStrength: 30
+    - _WobbleStrength: 20
     m_Colors:
     - _BaseColor: {r: 0.078431375, g: 0.84313726, b: 0.53333336, a: 1}
   m_BuildTextureStacks: []

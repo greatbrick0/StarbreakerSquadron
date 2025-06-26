@@ -29,7 +29,7 @@ public class PropertyGetter : MonoBehaviour
         _bcNetwork = Network.sharedInstance;
         isDedicatedServer = _bcNetwork.IsDedicatedServer;
 
-        SetValues();
+        //SetValues();
     }
 
     public IEnumerator GetValue(StatHandover callback, string category, string property, string colour)
