@@ -884,8 +884,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae10d1ff8b7cb1d46806ababaa0162d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  symbolSprite: {fileID: -5967028118277756997, guid: 5aaea592dbc7ed1488bda7cb91ee8aff, type: 3}
+  pointerColour: {r: 1, g: 0.64705884, b: 0.023529412, a: 1}
   horizontalStops: {x: -0.9, y: 0.9}
-  verticalStops: {x: -0.8, y: 0.8}
+  verticalStops: {x: -0.8, y: 0.75}
+  tooCloseBuffer: 6
+  fadeSpeed: 10
   arrowObj: {fileID: 1541750225992747895, guid: 7e2a406570769d44abe581ce8015d161, type: 3}
 --- !u!1 &3983912331752469483
 GameObject:

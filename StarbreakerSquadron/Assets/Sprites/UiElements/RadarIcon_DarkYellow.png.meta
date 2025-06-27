@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 06c0c0d1a3833e64590fc40585cff8ca
+guid: 5aaea592dbc7ed1488bda7cb91ee8aff
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8837633455861704248
-    second: RadarIcon_0
+      213: -5967028118277756997
+    second: RadarIcon_DarkYellow_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,7 +126,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RadarIcon_0
+      name: RadarIcon_DarkYellow_0
       rect:
         serializedVersion: 2
         x: 0
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 836aeb7edc495aa70800000000000000
-      internalID: 8837633455861704248
+      spriteID: bb769458a8bd03da0800000000000000
+      internalID: -5967028118277756997
       vertices: []
       indices: 
       edges: []

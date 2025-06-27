@@ -11,6 +11,8 @@ public class PropertyGetter : MonoBehaviour
     private Network _bcNetwork;
     private bool isDedicatedServer;
 
+    [SerializeField]
+    private string multCategorySuffix = "Mult";
     private Dictionary<string, Dictionary<string, float>> adjustMultipliers = new Dictionary<string, Dictionary<string, float>>();
     private Dictionary<string, Dictionary<string, float>> baseStats = new Dictionary<string, Dictionary<string, float>>();
     public bool adjustMultsPrepped { get; private set; } = false;
@@ -29,14 +31,14 @@ public class PropertyGetter : MonoBehaviour
         _bcNetwork = Network.sharedInstance;
         isDedicatedServer = _bcNetwork.IsDedicatedServer;
 
-        //SetValues();
+        SetValues();
     }
 
     public IEnumerator GetValue(StatHandover callback, string category, string property, string colour)
     {
-        yield return new WaitUntil(() => adjustMultsPrepped && baseStatsPrepped);
+        yield return new WaitUntil(() => baseStatsPrepped);
         float output = baseStats[category][property];
-        output = MultiplyProperty(output, category + "Mult", colour);
+        output = MultiplyProperty(output, category + multCategorySuffix, colour);
         callback(output);
     }
 
@@ -52,13 +54,11 @@ public class PropertyGetter : MonoBehaviour
 
         if (isDedicatedServer)
         {
-            _bcNetwork._bcS2S.Request(FormatPropertyRequest(new string[] { "adjustmult" }), HandleMultipliers);
-            _bcNetwork._bcS2S.Request(FormatPropertyRequest(new string[] { "basestat" }), HandleBaseStats);
+            _bcNetwork._bcS2S.Request(FormatPropertyRequest(new string[] { "basestat", "adjustmult" }), HandleBaseStats);
         }
         else
         {
-            _bcNetwork._wrapper.GlobalAppService.ReadPropertiesInCategories(new string[] { "adjustmult" }, HandleMultipliers, null);
-            _bcNetwork._wrapper.GlobalAppService.ReadPropertiesInCategories(new string[] { "basestat" }, HandleBaseStats, null);
+            _bcNetwork._wrapper.GlobalAppService.ReadPropertiesInCategories(new string[] { "basestat", "adjustmult" }, HandleBaseStats, null);
         }
     }
 
@@ -117,7 +117,10 @@ public class PropertyGetter : MonoBehaviour
             {
                 output.Add(jj.Key, jj.Value);
             }
-            baseStats.Add(ii.Key, output);
+            if (ii.Key.EndsWith(multCategorySuffix))
+                adjustMultipliers.Add(ii.Key, output);
+            else
+                baseStats.Add(ii.Key, output);
         }
 
         baseStatsPrepped = true;

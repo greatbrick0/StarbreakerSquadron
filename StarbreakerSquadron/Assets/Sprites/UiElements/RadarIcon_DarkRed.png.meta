@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: dce0e9a73bff87a4285e21734778a428
+guid: 8e02f3a4310957143a26e7a8a96f54a3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3731464802426936719
-    second: RadarArrow 1_0
+      213: -8757403615614512754
+    second: RadarIcon_DarkRed_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RadarArrow 1_0
+      name: RadarIcon_DarkRed_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 246
-        height: 553
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 707
+        height: 614
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f8dd788b773d8c330800000000000000
-      internalID: 3731464802426936719
+      spriteID: e8153907fc3777680800000000000000
+      internalID: -8757403615614512754
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 0b87eaf4be52a2246baef1e10df2412e
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +160,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      RadarArrow 1_0: 3731464802426936719
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

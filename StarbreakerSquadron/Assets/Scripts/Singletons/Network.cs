@@ -101,16 +101,6 @@ public class Network : MonoBehaviour
         {
             _unityTransport.SetConnectionData("0.0.0.0", 7777);
             BeginPlayServer("OpenLevel");
-
-            Dictionary<string, object> request = new Dictionary<string, object>
-            {
-                { "service", "globalApp" },
-                { "operation", "READ_PROPERTIES" },
-                { "data", new Dictionary<string, object>{}
-                }
-            };
-            BrainCloudS2S.S2SCallback success = (string responseJson) => { ClientManager.ServerDebugMessage("Callbacks working..."); };
-            StartRepeatAttemptServerRequest(request, success, () => { return false; }, 10.0f);
         }
     }
 
