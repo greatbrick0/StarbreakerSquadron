@@ -42,7 +42,7 @@ public class EditProfileManager : MonoBehaviour
     public void GenerateUsername(string profileId)
     {
         string profileIdSubstring = profileId.Substring(0, 8);
-        AttemptChangeUsername("Player_" + profileIdSubstring);
+        AttemptChangeUsername(string.Format(StringUtils.GUEST_NAME_FORMAT, profileIdSubstring));
     }
 
     public void AttemptChangeUsername(string newUsername)

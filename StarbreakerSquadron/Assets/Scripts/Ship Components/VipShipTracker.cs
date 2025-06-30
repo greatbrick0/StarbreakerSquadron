@@ -56,8 +56,8 @@ public class VipShipTracker : MonoBehaviour
 
         opacity += (tooClose ? -fadeSpeed : fadeSpeed) * Time.deltaTime;
         opacity = Mathf.Clamp01(opacity);
-        pointerSpriteRef.color = ChangeAlpha(pointerSpriteRef.color, opacity);
-        symbolSpriteRef.color = ChangeAlpha(symbolSpriteRef.color, opacity);
+        pointerSpriteRef.color = pointerSpriteRef.color.ChangeAlpha(opacity);
+        symbolSpriteRef.color = symbolSpriteRef.color.ChangeAlpha(opacity);
     }
 
     private void CreateArrow()
@@ -69,11 +69,6 @@ public class VipShipTracker : MonoBehaviour
         symbolSpriteRef.sprite = symbolSprite;
         pointerSpriteRef.color = pointerColour;
         opacity = 0.0f;
-    }
-
-    private Color ChangeAlpha(Color oldColour, float newAlpha)
-    {
-        return new Color(oldColour.r, oldColour.g, oldColour.b, newAlpha);
     }
 
     private void DestroyArrow()

@@ -35,4 +35,9 @@ public static class VecUtils
             vec.z
         );
     }
+
+    public static Color ChangeAlpha(this Color oldColour, float newAlpha)
+    {
+        return new Color(oldColour.r, oldColour.g, oldColour.b, newAlpha);
+    }
 }

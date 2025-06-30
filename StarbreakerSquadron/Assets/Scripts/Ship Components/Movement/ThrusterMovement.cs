@@ -4,10 +4,8 @@ using Unity.Netcode.Components;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class ThrusterMovement : Movement
+public class ThrusterMovement : AccelMovement
 {
-    private Rigidbody2D rb;
-    private AnticipatedNetworkTransform anticipator;
     private Targetable health;
 
     [SerializeField]
@@ -15,23 +13,8 @@ public class ThrusterMovement : Movement
 
     [SerializeField, Display]
     private float rotationSpeed = 90f;
-    [SerializeField, Display]
-    private float accelPower = 15f;
-    [SerializeField, Display]
-    private float dragPower = 1.0f;
     [SerializeField, Min(0.0f)]
     private float reverseStrength = 0.3f;
-
-    [SerializeField, Display]
-    private float stunRemaining = 0.0f;
-
-    [SerializeField]
-    private List<Thrust> forwardThrustVisuals = new List<Thrust>();
-    [SerializeField]
-    private List<Thrust> backwardThrustVisuals = new List<Thrust>();
-
-    private NetworkVariable<Vector2> sendVelocity = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    private NetworkVariable<Vector2> sendAccel = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     private void Awake()
     {
@@ -88,32 +71,8 @@ public class ThrusterMovement : Movement
         }
     }
 
-    private Vector2 ApplyDrag(Vector2 velocity, float strength, float delta)
-    {
-        Vector2 drag = -velocity.normalized * strength;
-        return velocity + Vector2.ClampMagnitude(drag * delta, velocity.magnitude);
-    }
-
-    public override void Stun(float duration, bool setVelocity = true, Vector2 newVelocity = default)
-    {
-        if (setVelocity) rb.linearVelocity = newVelocity;
-        stunRemaining = duration;
-    }
-
     private void HandleThrustVisuals(Vector2 accel)
     {
-        foreach (Thrust visual in forwardThrustVisuals)
-        {
-            visual.powered = Vector2.Dot(accel.normalized, transform.up) > 0.5f;
-        }
-        foreach (Thrust visual in backwardThrustVisuals)
-        {
-            visual.powered = Vector2.Dot(accel.normalized, transform.up) < -0.5f;
-        }
-    }
-
-    public void InstantStopVelocity()
-    {
-        rb.linearVelocity = Vector2.zero;
+        MainThrustVisuals(accel);
     }
 }

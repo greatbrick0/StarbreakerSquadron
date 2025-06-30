@@ -3,6 +3,7 @@ using UnityEngine;
 
 public static class StringUtils
 {
+    public const string GUEST_NAME_FORMAT = "PLayer_{0}";
     public const string SPAWN_TIME_FORMAT = "{0:N2}s";
     public static Dictionary<string, object> GeneralMatchMakeAlgo()
     {

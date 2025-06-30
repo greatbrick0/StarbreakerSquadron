@@ -5,7 +5,7 @@ using Unity.Netcode.Components;
 
 public class Attack : NetworkBehaviour
 {
-    private bool used = false;
+    protected bool used = false;
 
     protected Rigidbody2D rb;
     protected AnticipatedNetworkTransform anticipator;
@@ -20,6 +20,8 @@ public class Attack : NetworkBehaviour
     [SerializeField]
     protected Teams team;
     [SerializeField, Display]
+    protected string colourString;
+    [SerializeField, Display]
     protected int primaryPower;
     [SerializeField, Display]
     protected int secondaryPower;
@@ -33,7 +35,7 @@ public class Attack : NetworkBehaviour
     protected Vector2 originPos;
     protected Vector2 extraVelocity;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anticipator = GetComponent<AnticipatedNetworkTransform>();
@@ -82,10 +84,18 @@ public class Attack : NetworkBehaviour
     {
         if(targetable.team != team)
         {
-            print(targetable.team);
             targetable.TakeDamage(primaryPower);
             ResetToHiddenRpc();
         }
+    }
+
+    protected virtual void ValueInitialize()
+    {
+        ColorUtility.TryParseHtmlString(colourString, out Color parsedColour);
+        sprite.color = parsedColour;
+        SetTrailColour(parsedColour);
+
+        age = 0;
     }
 
     protected void SetTrailColour(Color fullColour)
@@ -105,25 +115,24 @@ public class Attack : NetworkBehaviour
         used = true;
 
         team = newAttackInfo.team;
-        ColorUtility.TryParseHtmlString(newAttackInfo.colour, out Color parsedColour);
-        sprite.color = parsedColour;
-        SetTrailColour(parsedColour);
+        colourString = newAttackInfo.colour;
         primaryPower = newAttackInfo.primaryPower;
         secondaryPower = newAttackInfo.secondaryPower;
         lifetime = newAttackInfo.lifetime;
-        age = 0;
         speed = newAttackInfo.speed;
         direction = newAttackInfo.direction;
         originPos = newAttackInfo.originPos;
         extraVelocity = newAttackInfo.extraVelocity;
+
+        ValueInitialize();
     }
 
     [Rpc(SendTo.Everyone)]
-    private void ResetToHiddenRpc()
+    protected void ResetToHiddenRpc()
     {
         GetComponent<Collider2D>().enabled = false;
         sprite.gameObject.SetActive(false);
-        rb.linearVelocity = Vector2.zero;
+        if(rb != null) rb.linearVelocity = Vector2.zero;
         used = false;
 
         team = Teams.Environment;

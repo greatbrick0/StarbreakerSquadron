@@ -9,4 +9,6 @@ public abstract class Movement : NetworkBehaviour
     public float maxSpeed = 5f;
 
     public abstract void Stun(float duration, bool setVelocity = true, Vector2 newVelocity = default);
+
+    public abstract Vector2 ReadVelocity();
 }

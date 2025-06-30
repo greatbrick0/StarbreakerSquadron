@@ -3,10 +3,8 @@ using Unity.Netcode;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class HeavyMovement : Movement
+public class HeavyMovement : AccelMovement
 {
-    private Rigidbody2D rb;
-    private AnticipatedNetworkTransform anticipator;
     private Targetable health;
 
     [SerializeField]
@@ -16,30 +14,18 @@ public class HeavyMovement : Movement
     [SerializeField]
     private float angularDragPower = 20f;
 
-    [SerializeField]
-    private float accelPower = 500f;
-    [SerializeField]
-    private float dragPower = 1.0f;
     [SerializeField, Min(0.0f)]
     private float reverseStrength = 0.6f;
 
-    private float stunRemaining = 0.0f;
-
-    [SerializeField]
-    private List<Thrust> forwardThrustVisuals = new List<Thrust>();
-    [SerializeField]
-    private List<Thrust> backwardThrustVisuals = new List<Thrust>();
     [SerializeField]
     private List<Thrust> leftThrustVisuals = new List<Thrust>();
     [SerializeField]
     private List<Thrust> rightThrustVisuals = new List<Thrust>();
 
-    private NetworkVariable<Vector2> sendVelocity = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    private NetworkVariable<Vector2> sendAccel = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private NetworkVariable<float> sendAngularVelocity = new NetworkVariable<float>(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private NetworkVariable<float> sendAngularAccel = new NetworkVariable<float>(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
-    private void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anticipator = GetComponent<AnticipatedNetworkTransform>();
@@ -85,12 +71,6 @@ public class HeavyMovement : Movement
         }
     }
 
-    private Vector2 ApplyDrag(Vector2 velocity, float strength, float delta)
-    {
-        Vector2 drag = -velocity.normalized * strength;
-        return velocity + Vector2.ClampMagnitude(drag * delta, velocity.magnitude);
-    }
-
     private float ApplyAngularDrag(float velocity, float strength, float delta)
     {
         float drag = -Mathf.Sign(velocity) * strength;
@@ -109,14 +89,7 @@ public class HeavyMovement : Movement
 
     private void HandleThrustVisuals(Vector2 accel, float spin)
     {
-        foreach (Thrust visual in forwardThrustVisuals)
-        {
-            visual.powered = Vector2.Dot(accel.normalized, transform.up) > 0.5f;
-        }
-        foreach (Thrust visual in backwardThrustVisuals)
-        {
-            visual.powered = Vector2.Dot(accel.normalized, transform.up) < -0.5f;
-        }
+        MainThrustVisuals(accel);
         foreach (Thrust visual in leftThrustVisuals)
         {
             visual.powered = spin > 0f;
@@ -125,11 +98,5 @@ public class HeavyMovement : Movement
         {
             visual.powered = spin < 0f;
         }
-    }
-
-    public void InstantStopVelocity()
-    {
-        rb.linearVelocity = Vector2.zero;
-        rb.angularVelocity = 0;
     }
 }
