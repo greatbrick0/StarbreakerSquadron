@@ -64,7 +64,7 @@ public class Attack : NetworkBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!IsServer) return;
-
+        
         if(collision.gameObject.layer == 3)
         {
             HitTerrain();

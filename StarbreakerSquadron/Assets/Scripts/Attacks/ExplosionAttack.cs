@@ -42,7 +42,6 @@ public class ExplosionAttack : Attack
     {
         if (targetable.team != team)
         {
-            print(targetable.gameObject.name + " " + primaryPower);
             targetable.TakeDamage(primaryPower);
         }
     }
@@ -50,8 +49,8 @@ public class ExplosionAttack : Attack
     protected override void ValueInitialize()
     {
         base.ValueInitialize();
-        print(speed);
+        
         GetComponent<CircleCollider2D>().radius = speed;
-        sprite.size = Vector2.one * speed;
+        sprite.transform.localScale = Vector2.one * speed;
     }
 }

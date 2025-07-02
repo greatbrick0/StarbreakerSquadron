@@ -145,7 +145,7 @@ public class Network : MonoBehaviour
 
     public void HandleAuthenticationSuccess(string responseData, object cbObject)
     {
-        Debug.Log("brainCloud client version: " + Network.sharedInstance.BrainCloudClientVersion);
+        Debug.Log("brainCloud client version: " + BrainCloudClientVersion);
 
         var response = JsonReader.Deserialize<Dictionary<string, object>>(responseData);
         var data = response["data"] as Dictionary<string, object>;
