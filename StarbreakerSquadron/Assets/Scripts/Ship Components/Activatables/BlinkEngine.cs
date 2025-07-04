@@ -117,7 +117,7 @@ public class BlinkEngine : NetworkBehaviour, IActivatable
 
     private RaycastHit2D GetBlinkCast()
     {
-        return Physics2D.Raycast(target.transform.position, target.transform.up, maxBlinkDistance, LayerMask.GetMask("Terrain"), -1, 1);
+        return Physics2D.Raycast(target.transform.position, target.transform.up, maxBlinkDistance, LayerMask.GetMask("Terrain") | LayerMask.GetMask("BigUnit"), -1, 1);
         //return Physics2D.CircleCast(target.transform.position, unitRadius, target.transform.up,LayerMask.GetMask("Terrain"), ~0, -1f, 1f);
     }
 

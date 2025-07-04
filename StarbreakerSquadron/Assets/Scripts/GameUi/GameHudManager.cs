@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using static StringUtils;
 
 public class GameHudManager : MonoBehaviour
 {
@@ -21,8 +22,17 @@ public class GameHudManager : MonoBehaviour
     [SerializeField]
     private GameObject versionLabel;
 
-    [SerializeField]
+    [HideInInspector]
     public UnityEvent attemptLeaveEvent;
+
+    [Header("Game State Display")]
+    [SerializeField]
+    private TMP_Text gameTimeLabel;
+    [SerializeField]
+    private TMP_Text matchEndTimeLabel;
+    [SerializeField]
+    private TMP_Text matchEndLabel;
+    private GameStateController gameStateController;
 
     [Header("Health Display")]
     [Display]
@@ -79,15 +89,18 @@ public class GameHudManager : MonoBehaviour
         {
             case GameHudState.Gameplay:
                 HandleHealthBarAnimation();
+                HandleGameTimer(gameTimeLabel);
                 break;
             case GameHudState.Paused:
+                HandleMatchEndTimer();
                 break;
             case GameHudState.Shocked:
                 break;
             case GameHudState.Respawn:
+                HandleMatchEndTimer();
                 respawnCountdownHolder.SetActive(respawnProgress > 0.0f);
                 respawnButtonHolder.SetActive(respawnProgress <= 0.0f);
-                respawnTimeLabel.text = string.Format(StringUtils.SPAWN_TIME_FORMAT, respawnProgress);
+                respawnTimeLabel.text = string.Format(SPAWN_TIME_FORMAT, respawnProgress);
                 break;
             case GameHudState.Spectating:
                 break;
@@ -132,7 +145,7 @@ public class GameHudManager : MonoBehaviour
     public void ChangeGameHudState(GameHudState newState)
     {
         hudHolder.gameObject.SetActive(newState == GameHudState.Gameplay);
-        closeMenuButton.gameObject.SetActive(newState == GameHudState.Paused);
+        closeMenuButton.SetActive(newState == GameHudState.Paused);
 
         switch (newState)
         {
@@ -179,6 +192,33 @@ public class GameHudManager : MonoBehaviour
             healthBarFill.color = baseHealthColour;
             healthBarCritical.color = Color.clear;
             healthBarWarning.color = Color.clear;
+        }
+    }
+
+    private void HandleGameTimer(TMP_Text label)
+    {
+        if (gameStateController == null)
+        {
+            label.text = string.Empty;
+            gameStateController = GameStateController.instance;
+            return;
+        }
+
+        TimeSpan time = TimeSpan.FromSeconds(gameStateController.GetGameRemianingTime());
+        label.text = string.Format(GAME_TIME_REMAINING_FORMAT, time);
+    }
+
+    private void HandleMatchEndTimer()
+    {
+        if (gameStateController.GetGameRemianingTime() < 0.0f)
+        {
+            matchEndLabel.text = GAME_TIME_ENDED_LABEL;
+            matchEndTimeLabel.text = string.Empty;
+        }
+        else
+        {
+            matchEndLabel.text = GAME_TIME_COUNTDOWN_LABEL;
+            HandleGameTimer(matchEndTimeLabel);
         }
     }
 

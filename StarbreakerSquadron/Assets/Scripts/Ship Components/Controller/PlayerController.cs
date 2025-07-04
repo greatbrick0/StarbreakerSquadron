@@ -35,6 +35,7 @@ public class PlayerController : NetworkBehaviour
             cam = Camera.main.GetComponent<FollowCamera>();
             gameHud = FindFirstObjectByType<GameHudManager>();
             gameHud.attemptLeaveEvent.AddListener(Network.sharedInstance.DisconnectFromSession);
+            GameStateController.instance.attemptLeaveEvent.AddListener(Network.sharedInstance.DisconnectFromSession);
             SendPasscodeRpc(Network.sharedInstance.clientPasscode, Network.sharedInstance.selectedShipIndex);
         }
     }
