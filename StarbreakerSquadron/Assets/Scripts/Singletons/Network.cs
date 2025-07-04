@@ -38,7 +38,7 @@ public class Network : MonoBehaviour
     public ushort selectedShipIndex = 0;
     [Display]
     public bool selectionDataApplied = false;
-    private BrainCloud.SuccessCallback onUpdateReadySuccess;
+    private SuccessCallback onUpdateReadySuccess;
 
     public bool IsDedicatedServer { get; private set; }
 
@@ -46,8 +46,6 @@ public class Network : MonoBehaviour
     {
         if (sharedInstance != null)
         {
-            Debug.Log("Destroyed duplicate network");
-            ClientManager.ServerDebugMessage("Network was destroyed");
             Destroy(gameObject);
             return;
         }
@@ -133,7 +131,7 @@ public class Network : MonoBehaviour
 
     private void Reconnect()
     {
-        BrainCloud.SuccessCallback success = (responseData, cbObject) =>
+        SuccessCallback success = (responseData, cbObject) =>
         {
             HandleAuthenticationSuccess(responseData, cbObject);
             Debug.Log("Reconnected " + _wrapper.GetStoredAnonymousId());
@@ -250,7 +248,7 @@ public class Network : MonoBehaviour
 
     public void DisconnectFromSession()
     {
-        BrainCloud.SuccessCallback success = (responseData, cbObject) =>
+        SuccessCallback success = (responseData, cbObject) =>
         {
             _netManager.Shutdown();
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);

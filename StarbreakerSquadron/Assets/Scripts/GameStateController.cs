@@ -12,13 +12,13 @@ public class GameStateController : NetworkBehaviour
     public UnityEvent attemptLeaveEvent;
 
     [field: SerializeField, Display]
-    public ulong gameStartTime { get; private set; }
+    public long gameStartTime { get; private set; }
     [SerializeField]
     private float gameMaxDuration = 600;
     [SerializeField]
     private float postGameMaxDuration = 60;
 
-    NetworkVariable<ulong> sendGameStartTime = new NetworkVariable<ulong>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    NetworkVariable<long> sendGameStartTime = new NetworkVariable<long>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     void Start()
     {
@@ -46,7 +46,7 @@ public class GameStateController : NetworkBehaviour
         {
             if(GetCurrentGameAge() > gameMaxDuration + postGameMaxDuration)
             {
-                attemptLeaveEvent.Invoke();
+                //attemptLeaveEvent.Invoke();
             }
         }
     }
@@ -77,8 +77,8 @@ public class GameStateController : NetworkBehaviour
         return GetGameMaxDuration() - (float)GetCurrentGameAge();
     }
 
-    private ulong GetTime()
+    private long GetTime()
     {
-        return (ulong)(DateTime.UtcNow - StringUtils.epochStart).TotalMilliseconds;
+        return (long)(DateTime.UtcNow - StringUtils.epochStart).TotalMilliseconds;
     }
 }
