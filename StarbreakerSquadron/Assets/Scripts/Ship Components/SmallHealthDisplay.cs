@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(SmallHealth))]
 public class SmallHealthDisplay : MonoBehaviour
@@ -20,12 +21,16 @@ public class SmallHealthDisplay : MonoBehaviour
     private void Start()
     {
         healthBarRef = Instantiate(healthBarObj);
-        healthBarRef.GetComponent<PipHealthBar>().Initialize(health);
+        PipHealthBar pipBar = healthBarRef.GetComponent<PipHealthBar>();
+        pipBar.SetColourData(gameObject.tag, false);
+        pipBar.Initialize(health);
+        health.AddHealthReactor((int prevValue, int newValue) => pipBar.UpdateHealthBar(newValue), pipBar.UpdateHealthBarMax);
     }
 
     private void Update()
     {
         healthBarRef.transform.position = transform.position + offset;
+        healthBarRef.SetActive(health.isAlive);
     }
 
     private void OnDrawGizmosSelected()

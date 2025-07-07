@@ -395,6 +395,7 @@ MonoBehaviour:
   pointHolder: {fileID: 2927149285399626352}
   visuals: {fileID: 4623147200836528108}
   platformSprite: {fileID: 982025455926190458, guid: 81b7fb1b28f4cfc44bca49479740b744, type: 3}
+  platformSpriteScale: 0.25
 --- !u!114 &6280746532878475636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,7 +413,7 @@ MonoBehaviour:
   beamBaseWidth: 0.12
   beamWidthVariance: 0.04
   beamVarianceFrequency: 6
-  flatRegenAmount: 25
+  flatRegenAmount: 250
 --- !u!1 &4228211749539911288
 GameObject:
   m_ObjectHideFlags: 0

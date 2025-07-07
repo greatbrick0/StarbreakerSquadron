@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 8497915012488310995}
   - component: {fileID: 3177487282645122991}
   - component: {fileID: 70025308639407794}
+  - component: {fileID: 6371555403490413614}
   m_Layer: 6
   m_Name: TestEnemy
   m_TagString: yellow
@@ -81,16 +82,16 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   inputVector: {x: 0, y: 0}
   maxSpeed: 7
-  property: NewSchool
-  rotationSpeed: 180
   accelPower: 15
   dragPower: 5
-  reverseStrength: 0.3
   stunRemaining: 0
   forwardThrustVisuals:
   - {fileID: 8557730582735723187}
   backwardThrustVisuals:
   - {fileID: 5421451070873389491}
+  property: NewSchool
+  rotationSpeed: 180
+  reverseStrength: 0.3
 --- !u!50 &7764124592271108407
 Rigidbody2D:
   serializedVersion: 5
@@ -291,6 +292,9 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
   property: NewSchool
+  regenChunkSize: 1
+  flatRegen: 0
+  regenRemainder: 0
 --- !u!114 &8497915012488310995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,6 +373,20 @@ MonoBehaviour:
   UseRigidBodyForMotion: 0
   AutoUpdateKinematicState: 1
   AutoSetKinematicOnDespawn: 1
+--- !u!114 &6371555403490413614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1904197541174504897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2489056aa0288c48a6c970561dfb3c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarObj: {fileID: 8681135136988067494, guid: e176c0fed38693543b6bc7bca62e24bf, type: 3}
+  offset: {x: 0, y: -0.7, z: 0}
 --- !u!1 &8067236441583749978
 GameObject:
   m_ObjectHideFlags: 0

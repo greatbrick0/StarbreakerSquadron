@@ -45,7 +45,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pipObj: {fileID: 4141296490256364995, guid: 1e7f7da7b270b0448a36f8cea4d332f1, type: 3}
-  amountPerPip: 20
+  ownedColour: {r: 0.078431375, g: 0.84313726, b: 0.53333336, a: 1}
+  teamColours:
+  - {r: 0, g: 0.5629108, b: 1, a: 1}
+  - {r: 0.9245283, g: 0.7869776, b: 0.082858644, a: 1}
+  - {r: 0.9607843, g: 0.17393906, b: 0.14117643, a: 1}
+  teamToColourMapping:
+  - green
+  - yellow
+  - red
+  amountPerPip: 200
   maxPipCount: 5
-  pipSpacingFactor: 1.3
+  pipSpacingFactor: 0.3
   pipScaleFactor: 0.2
+  borderWidth: 0.09

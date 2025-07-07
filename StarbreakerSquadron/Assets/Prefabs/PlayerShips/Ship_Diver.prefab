@@ -274,7 +274,7 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
   property: Diver
-  regenChunkSize: 1
+  regenChunkSize: 10
   flatRegen: 0
   regenRemainder: 0
 --- !u!114 &-3943027448708870311

@@ -11,7 +11,7 @@ public class SmallHealth : Targetable
 
     public delegate void MaxHealthChanged(int newMax);
     private MaxHealthChanged maxHealthChanged;
-    public int maxHealth { get; private set; } = 100;
+    public int maxHealth { get; private set; } = 1000;
     protected NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [SerializeField]
     private int regenChunkSize = 1;
