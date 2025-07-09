@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class WarpEffect : MonoBehaviour
 {
+    [HideInInspector]
     public bool isServer = false;
     private Material mat;
     private const string RADIUS_PROPERTY = "_Radius";

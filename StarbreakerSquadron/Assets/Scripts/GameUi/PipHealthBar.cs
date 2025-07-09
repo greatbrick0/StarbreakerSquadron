@@ -36,6 +36,7 @@ public class PipHealthBar : MonoBehaviour
     public void Awake()
     {
         pipFillPrevSize = pipObj.transform.GetChild(1).GetComponent<SpriteRenderer>().size;
+        transform.localScale = Vector3.one * pipScaleFactor;
     }
 
     public void SetColourData(string teamColour, bool owned)
@@ -65,8 +66,8 @@ public class PipHealthBar : MonoBehaviour
         {
             pipRefs.Add(Instantiate(pipObj));
             pipRefs[ii].transform.parent = transform;
-            pipRefs[ii].transform.localScale = Vector3.one * pipScaleFactor;
-            pipRefs[ii].transform.localPosition = new Vector3((ii - (Ceil(pipCount) / 2) + 0.5f) * pipSpacingFactor, 0, 0);
+            pipRefs[ii].transform.localScale = Vector3.one;
+            pipRefs[ii].transform.localPosition = new Vector3((ii - (Ceil(pipCount) / 2) + 0.5f) * pipSpacingFactor / pipScaleFactor, 0, 0);
 
             if (pipCount % 1 > 0 && ii == CeilToInt(pipCount) - 1)
             {
@@ -93,6 +94,7 @@ public class PipHealthBar : MonoBehaviour
         {
             transform.GetChild(ii).GetChild(1).GetComponent<SpriteRenderer>().color = newColour;
         }
+        GetComponent<SpriteRenderer>().color = (newColour * 0.6f).ChangeAlpha(1);
     }
 
     public void UpdateHealthBar(int newValue)
