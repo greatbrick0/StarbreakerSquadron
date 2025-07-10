@@ -10,6 +10,7 @@ public class PipHealthBar : MonoBehaviour
     private List<GameObject> pipRefs = new List<GameObject>();
 
     private SmallHealth health;
+    private int maxHealth;
 
     [Header("Display Colours")]
     [SerializeField]
@@ -32,10 +33,12 @@ public class PipHealthBar : MonoBehaviour
     private Vector2 pipFillPrevSize = Vector2.one;
     [SerializeField]
     private float borderWidth = 0.09f;
+    private Vector2 overFillPrevSize = Vector2.one;
 
     public void Awake()
     {
         pipFillPrevSize = pipObj.transform.GetChild(1).GetComponent<SpriteRenderer>().size;
+        overFillPrevSize = GetComponent<SpriteRenderer>().size;
         transform.localScale = Vector3.one * pipScaleFactor;
     }
 
@@ -106,10 +109,17 @@ public class PipHealthBar : MonoBehaviour
             output = Clamp01(output / amountPerPip);
             ModifyPipFillWidth(pipRefs[ii], output);
         }
+
+        float overFillPercent;
+        if (maxHealth - (amountPerPip * maxPipCount) <= 0) overFillPercent = 0;
+        else overFillPercent = Clamp01((float)(newValue - (amountPerPip * maxPipCount)) / (maxHealth - (amountPerPip * maxPipCount)));
+        Debug.Log(overFillPercent);
+        GetComponent<SpriteRenderer>().size = new Vector2(overFillPrevSize.x * overFillPercent, overFillPrevSize.y);
     }
 
     public void UpdateHealthBarMax(int newMax)
     {
+        maxHealth = newMax;
         for (int ii = transform.childCount - 1; ii >= 0; ii--)
         {
             Destroy(transform.GetChild(ii).gameObject);
@@ -117,5 +127,6 @@ public class PipHealthBar : MonoBehaviour
         pipRefs.Clear();
         CreateHealthPips(newMax);
         ChangePipColour(colour);
+        UpdateHealthBar(health.GetHealth());
     }
 }
