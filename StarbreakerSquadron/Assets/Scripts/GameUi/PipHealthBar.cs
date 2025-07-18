@@ -104,7 +104,6 @@ public class PipHealthBar : MonoBehaviour
     {
         for(int ii = 0; ii < pipRefs.Count; ii++)
         {
-            Debug.Log(newValue - ii * amountPerPip);
             float output = newValue - ii * amountPerPip;
             output = Clamp01(output / amountPerPip);
             ModifyPipFillWidth(pipRefs[ii], output);
@@ -113,7 +112,6 @@ public class PipHealthBar : MonoBehaviour
         float overFillPercent;
         if (maxHealth - (amountPerPip * maxPipCount) <= 0) overFillPercent = 0;
         else overFillPercent = Clamp01((float)(newValue - (amountPerPip * maxPipCount)) / (maxHealth - (amountPerPip * maxPipCount)));
-        Debug.Log(overFillPercent);
         GetComponent<SpriteRenderer>().size = new Vector2(overFillPrevSize.x * overFillPercent, overFillPrevSize.y);
     }
 

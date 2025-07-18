@@ -1,10 +1,10 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class TimedButton : Targetable
 {
-    [SerializeField]
-    private bool pressed = false;
+    private NetworkVariable<bool> pressed = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     [SerializeField]
     private float activeDuration = 20.0f;
@@ -14,24 +14,41 @@ public class TimedButton : Targetable
     [SerializeField]
     public UnityEvent deactivateEvent;
 
-    public override void TakeDamage(int amount)
+    private void Start()
     {
-        timeSinceLastDamage = 0.0f;
-
-        if (!pressed)
+        if (!IsServer)
         {
-            pressed = true;
-            activateEvent.Invoke();
+            pressed.OnValueChanged += (bool prevValue, bool newValue) =>
+            {
+                if(newValue) activateEvent.Invoke();
+                else deactivateEvent.Invoke();
+            };
         }
     }
-    
-    void Update()
+
+    private void Update()
     {
+        if (!IsServer) return;
+
         timeSinceLastDamage += 1.0f * Time.deltaTime;
-        if (timeSinceLastDamage > activeDuration && pressed) 
+        if (timeSinceLastDamage > activeDuration && pressed.Value)
         {
-            pressed = false;
+            pressed.Value = false;
             deactivateEvent.Invoke();
+        }
+    }
+
+    public override void TakeDamage(int amount)
+    {
+        if (!IsServer) return;
+
+        timeSinceLastDamage = 0.0f;
+
+        if (!pressed.Value)
+        {
+            Debug.Log("pressed");
+            pressed.Value = true;
+            activateEvent.Invoke();
         }
     }
 }
