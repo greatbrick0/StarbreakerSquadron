@@ -12,6 +12,10 @@ public class WeaponsHolder : MonoBehaviour
     {
         [Display]
         public float remainingCooldown = 0f;
+        [field: SerializeField]
+        public bool showCooldown { get; private set; } = false;
+        [field: SerializeField]
+        public float shownMaximum { get; private set; } = 0f;
         [SerializeField]
         private bool cycle = false;
         private int cycleIndex = 0;

@@ -25,13 +25,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1893353854858776844}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.13052624, w: 0.9914449}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.82, y: -0.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1378241810683905650}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -15}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8022352819503645365
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -487,7 +487,7 @@ GameObject:
   - component: {fileID: 7603421106355309127}
   - component: {fileID: 4612379261707964668}
   - component: {fileID: 615183705045333814}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: FixedShotgun
   m_TagString: green
   m_Icon: {fileID: 0}
@@ -571,14 +571,14 @@ MonoBehaviour:
   bulletObj: {fileID: 4364611554046747562, guid: acdeed06c53e6174eb6339eb8358e2fc, type: 3}
   rb: {fileID: 0}
   barrels:
-  - {x: -0.2, y: 0.4, z: -30}
-  - {x: -0.2, y: 0.4, z: -10}
-  - {x: -0.2, y: 0.4, z: 10}
-  - {x: -0.2, y: 0.4, z: 30}
+  - {x: -0.2, y: 0.4, z: -21}
+  - {x: -0.2, y: 0.4, z: -7}
+  - {x: -0.2, y: 0.4, z: 7}
+  - {x: -0.2, y: 0.4, z: 21}
   property: FixedShotgun
   team: 1
   bulletColour: '#92D050'
-  cooldown: 0.5
+  cooldown: 0.4
   inheritVelocity: 1
   inheritPortion: 0.7
   bulletDamage: 10
@@ -693,8 +693,10 @@ GameObject:
   - component: {fileID: 5833605278182618956}
   - component: {fileID: 9057495841756115724}
   - component: {fileID: 4861355201757580985}
-  m_Layer: 6
-  m_Name: FixedSingleBarrel
+  - component: {fileID: 4913551467557065296}
+  - component: {fileID: 5506175143955418186}
+  m_Layer: 0
+  m_Name: AimingSingleBarrel
   m_TagString: green
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -709,7 +711,7 @@ Transform:
   m_GameObject: {fileID: 6596372549986074538}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.165, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -777,11 +779,11 @@ MonoBehaviour:
   bulletObj: {fileID: 4364611554046747562, guid: acdeed06c53e6174eb6339eb8358e2fc, type: 3}
   rb: {fileID: 7764124592271108407}
   barrels:
-  - {x: 0.16, y: -0.01, z: -45}
-  property: FixedSingleBarrel
+  - {x: 0, y: 0, z: 0}
+  property: AimingSingleBarrel
   team: 1
   bulletColour: '#92D050'
-  cooldown: 1
+  cooldown: 1.2
   inheritVelocity: 1
   inheritPortion: 0.7
   bulletDamage: 10
@@ -884,6 +886,56 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4913551467557065296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6596372549986074538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7049da5c777f8a4e9a0d307d48e8550, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteTransform: {fileID: 1404284859692085481}
+  team: 1
+--- !u!58 &5506175143955418186
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6596372549986074538}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 12
 --- !u!1 &8067236441583749978
 GameObject:
   m_ObjectHideFlags: 0

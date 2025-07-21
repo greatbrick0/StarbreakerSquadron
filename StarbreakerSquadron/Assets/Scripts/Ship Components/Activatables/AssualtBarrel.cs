@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AssualtBarrel : FixedBarrel
 {
+    [Header("Assualt properties")]
     [SerializeField]
     private float fireSpacingTime = 0.2f;
     [SerializeField]

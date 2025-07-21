@@ -26,7 +26,7 @@ public static class VecUtils
         );
     }
 
-    public static Vector2 RotateDegrees(this Vector3 vec, float angle)
+    public static Vector3 RotateDegrees(this Vector3 vec, float angle)
     {
         float delta = Mathf.Deg2Rad * angle;
         return new Vector3(

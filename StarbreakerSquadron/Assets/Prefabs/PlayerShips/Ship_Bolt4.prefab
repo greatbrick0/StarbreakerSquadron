@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 4612079867923291521}
   - component: {fileID: 8192696893795445304}
   - component: {fileID: 1016269540941854676}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: FixedSingleBarrel
   m_TagString: green
   m_Icon: {fileID: 0}
@@ -604,7 +604,7 @@ GameObject:
   - component: {fileID: 7855038313133613528}
   - component: {fileID: 7910967293659330323}
   - component: {fileID: 4671096117839526994}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: BlinkEngine
   m_TagString: green
   m_Icon: {fileID: 0}

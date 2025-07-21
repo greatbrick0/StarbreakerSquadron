@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2665451326338285457}
   - component: {fileID: 5699608756226623113}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Rotator1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -448,7 +448,7 @@ GameObject:
   - component: {fileID: 4665536000906334307}
   - component: {fileID: 1761905615765698855}
   - component: {fileID: 6613210593441363872}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: FixedSingleBarrel
   m_TagString: green
   m_Icon: {fileID: 0}
@@ -650,7 +650,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7544805854915672642}
   - component: {fileID: 14083823161039388}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Rotator2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
