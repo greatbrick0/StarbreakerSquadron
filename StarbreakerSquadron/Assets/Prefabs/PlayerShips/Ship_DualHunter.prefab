@@ -887,19 +887,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputActives: 0
-  slots:
+  <slots>k__BackingField:
   - remainingCooldown: 0
+    <showCooldown>k__BackingField: 0
+    <shownMaximum>k__BackingField: 0
+    cooldownColour: {r: 0, g: 1, b: 1, a: 1}
     cycle: 1
     activesObjs:
     - {fileID: 24548142658784347}
     - {fileID: 1059327662415592125}
   - remainingCooldown: 0
+    <showCooldown>k__BackingField: 0
+    <shownMaximum>k__BackingField: 0
+    cooldownColour: {r: 0, g: 1, b: 1, a: 1}
     cycle: 0
     activesObjs: []
   - remainingCooldown: 0
+    <showCooldown>k__BackingField: 0
+    <shownMaximum>k__BackingField: 0
+    cooldownColour: {r: 0, g: 1, b: 1, a: 1}
     cycle: 0
     activesObjs: []
   - remainingCooldown: 0
+    <showCooldown>k__BackingField: 0
+    <shownMaximum>k__BackingField: 0
+    cooldownColour: {r: 0, g: 1, b: 1, a: 1}
     cycle: 0
     activesObjs: []
 --- !u!114 &7861217751815612387

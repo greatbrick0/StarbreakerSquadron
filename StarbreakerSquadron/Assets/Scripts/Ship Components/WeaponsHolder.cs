@@ -10,12 +10,17 @@ public class WeaponsHolder : MonoBehaviour
     [Serializable]
     public class WeaponSlot
     {
+        public delegate void OnActivated(float newCooldown);
+        public OnActivated onActivated;
+
         [Display]
         public float remainingCooldown = 0f;
         [field: SerializeField]
         public bool showCooldown { get; private set; } = false;
         [field: SerializeField]
         public float shownMaximum { get; private set; } = 0f;
+        [SerializeField]
+        private Color cooldownColour = Color.cyan;
         [SerializeField]
         private bool cycle = false;
         private int cycleIndex = 0;
@@ -25,24 +30,26 @@ public class WeaponsHolder : MonoBehaviour
 
         public void Activate()
         {
+            if (onActivated != null) onActivated(GetCooldown());
+
             if (cycle)
             {
                 actives[cycleIndex].Activate();
-                SetCooldown();
+                remainingCooldown = GetCooldown();
                 cycleIndex += 1;
                 cycleIndex %= actives.Count;
             }
             else
             {
                 foreach (IActivatable weapon in actives) weapon.Activate();
-                SetCooldown();
+                remainingCooldown = GetCooldown();
             }
         }
 
-        private void SetCooldown()
+        public float GetCooldown()
         {
-            if(cycle) remainingCooldown = actives[cycleIndex].GetCooldown();
-            else remainingCooldown = actives.Max(weapon => weapon.GetCooldown());
+            if (cycle) return actives[cycleIndex].GetCooldown();
+            else return actives.Max(weapon => weapon.GetCooldown());
         }
 
         public void InitializeActives()
@@ -52,12 +59,17 @@ public class WeaponsHolder : MonoBehaviour
                 actives.Add(obj.GetComponent<IActivatable>());
             }
         }
+
+        public Color GetCooldownColour()
+        {
+            return cooldownColour;
+        }
     }
 
     [Display]
     public byte inputActives = 0;
-    [SerializeField]
-    private List<WeaponSlot> slots = new List<WeaponSlot>(4);
+    [field: SerializeField]
+    public List<WeaponSlot> slots { get; private set; } = new List<WeaponSlot>(4);
 
     private void Awake()
     {

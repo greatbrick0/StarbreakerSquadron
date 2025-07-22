@@ -122,8 +122,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3b3f06aca674524e8dae1390fa4f9d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 7529986130044541633}
+  cooldownBar: {fileID: 7529986130044541633}
   cooldownBarFill: {fileID: 3436588448977545992}
+  remainingTimeLabel: {fileID: 8638172865813897860}
+  remainingTime: 0
 --- !u!1 &7013974592220313846
 GameObject:
   m_ObjectHideFlags: 0

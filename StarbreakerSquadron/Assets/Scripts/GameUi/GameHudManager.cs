@@ -34,6 +34,10 @@ public class GameHudManager : MonoBehaviour
     private TMP_Text matchEndLabel;
     private GameStateController gameStateController;
 
+    [Header("Cooldown Display")]
+    [SerializeField]
+    private GameObject cooldownDisplayObj;
+
     [Header("Health Display")]
     [Display]
     public int maxHealth = 100;
@@ -171,6 +175,23 @@ public class GameHudManager : MonoBehaviour
                 break;
         }
         state = newState;
+    }
+
+    public void CreateCooldownDisplay(WeaponsHolder weaponsHolder)
+    {
+        GameObject cooldownDisplayRef;
+        int jj = 0;
+        for(int ii = 0; ii < weaponsHolder.slots.Count; ii++)
+        {
+            if (weaponsHolder.slots[ii].showCooldown)
+            {
+                cooldownDisplayRef = Instantiate(cooldownDisplayObj, hudHolder);
+                cooldownDisplayRef.GetComponent<CooldownDisplay>().AssignSlot(weaponsHolder.slots[ii]);
+                cooldownDisplayRef.transform.localScale = Vector3.one;
+                cooldownDisplayRef.GetComponent<RectTransform>().anchoredPosition = new Vector3(-20, 70 + (jj * 50));
+                jj++;
+            }
+        }
     }
 
     private void HandleHealthBarAnimation()

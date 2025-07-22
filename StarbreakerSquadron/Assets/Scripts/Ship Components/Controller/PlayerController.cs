@@ -183,6 +183,7 @@ public class PlayerController : NetworkBehaviour
         shipHealth = shipRef.GetComponent<SmallHealth>();
         cam.followTarget = shipRef.transform;
         cam.InitLead();
+        gameHud.CreateCooldownDisplay(shipWeapons);
         gameHud.maxHealth = shipHealth.maxHealth;
         shipHealth.AddHealthReactor((int prevValue, int newValue) => gameHud.UpdateHealthBar(newValue), gameHud.UpdateHealthBarMax);
         gameHud.UpdateHealthBarMax(shipHealth.maxHealth);

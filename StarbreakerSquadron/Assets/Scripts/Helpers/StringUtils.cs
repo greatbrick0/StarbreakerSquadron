@@ -9,6 +9,7 @@ public static class StringUtils
     public const string GAME_TIME_REMAINING_FORMAT = "{0:%m}:{0:ss}";
     public const string GAME_TIME_COUNTDOWN_LABEL = "Match Ends In:";
     public const string GAME_TIME_ENDED_LABEL = "Match Ended";
+    public const string COOLDOWN_TIME_LABEL_FORMAT = "{0:N1}s";
 
     public static DateTime epochStart = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
