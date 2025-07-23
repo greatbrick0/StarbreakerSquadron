@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 using Unity.Collections.LowLevel.Unsafe;
+using System;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -26,12 +27,10 @@ public class PlayerController : NetworkBehaviour
 
     private void Start()
     {
-        if (IsServer)
+        if (!IsServer)
         {
-            
-        }
-        else
-        {
+            if (!IsOwner) return;
+
             cam = Camera.main.GetComponent<FollowCamera>();
             gameHud = FindFirstObjectByType<GameHudManager>();
             gameHud.attemptLeaveEvent.AddListener(Network.sharedInstance.DisconnectFromSession);
@@ -48,7 +47,7 @@ public class PlayerController : NetworkBehaviour
             shipWeapons.inputActives = sendInputActives.Value;
         }
         if (!IsOwner) return;
-        if(shipRefId != 0 && shipRef == null) InitShipRef(shipRefId);
+        if (shipRefId != 0 && shipRef == null) InitShipRef(shipRefId);
         if (shipRef == null) return;
 
         if (!shipHealth.isAlive)
@@ -132,6 +131,7 @@ public class PlayerController : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void SendPasscodeRpc(string passcode, ushort claimedShip)
     {
+        Debug.Log("passcode: " + passcode);
         StartCoroutine(ClientManager.instance.IdentifyPlayer(this, passcode, claimedShip));
     }
 
@@ -178,19 +178,32 @@ public class PlayerController : NetworkBehaviour
         if (!NetworkManager.Singleton.SpawnManager.SpawnedObjects.ContainsKey(shipRefId)) return;
 
         shipRef = NetworkManager.Singleton.SpawnManager.SpawnedObjects[id].gameObject;
+
+        //components
         shipMovement = shipRef.GetComponent<Movement>();
         shipWeapons = shipRef.GetComponent<WeaponsHolder>();
         shipHealth = shipRef.GetComponent<SmallHealth>();
+        shipRef.GetComponent<SmallHealthDisplay>().isOwner = true;
+        shipRef.GetComponent<PlayerNameDisplay>().isOwner = true;
+
+        //camera
         cam.followTarget = shipRef.transform;
         cam.InitLead();
+
+        //cooldowns
         gameHud.CreateCooldownDisplay(shipWeapons);
+
+        //health
         gameHud.maxHealth = shipHealth.maxHealth;
         shipHealth.AddHealthReactor((int prevValue, int newValue) => gameHud.UpdateHealthBar(newValue), gameHud.UpdateHealthBarMax);
         gameHud.UpdateHealthBarMax(shipHealth.maxHealth);
         gameHud.UpdateHealthBar(gameHud.maxHealth);
+
+        //dying and respawning
         shipHealth.deathEvent.AddListener(() => StartCoroutine(gameHud.StartRespawningHud()));
         shipHealth.deathEvent.AddListener(() => respawnProgress = respawnTime);
         gameHud.respawnButton.onClick.AddListener(AttemptRespawnRpc);
+
         gameHud.ChangeGameHudState(GameHudState.Gameplay);
     }
 }

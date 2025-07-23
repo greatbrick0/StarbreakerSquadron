@@ -105,7 +105,6 @@ public class ClientManager : MonoBehaviour
         for (int ii = 0; ii < clients.Count; ii++)
         {
             if (clients[ii].userPasscode != givenPasscode) continue;
-
             clients[ii].controllerRef = givenController; 
             try { selectedShipIndex = (int?)clients[ii].extraData["selectedShipIndex"] ?? 0; }
             catch { selectedShipIndex = 0; }

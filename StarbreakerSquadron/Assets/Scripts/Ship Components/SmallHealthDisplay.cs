@@ -10,6 +10,8 @@ public class SmallHealthDisplay : MonoBehaviour
 
     private SmallHealth health;
 
+    public bool isOwner = false;
+
     [SerializeField]
     private Vector3 offset;
 
@@ -22,7 +24,7 @@ public class SmallHealthDisplay : MonoBehaviour
     {
         healthBarRef = Instantiate(healthBarObj);
         PipHealthBar pipBar = healthBarRef.GetComponent<PipHealthBar>();
-        pipBar.SetColourData(gameObject.tag, false);
+        pipBar.SetColourData(gameObject.tag, isOwner);
         pipBar.Initialize(health);
         health.AddHealthReactor((int prevValue, int newValue) => pipBar.UpdateHealthBar(newValue), pipBar.UpdateHealthBarMax);
     }
