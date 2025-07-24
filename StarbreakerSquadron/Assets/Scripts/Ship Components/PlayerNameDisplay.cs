@@ -1,16 +1,15 @@
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerNameDisplay : MonoBehaviour
+public class PlayerNameDisplay : NetworkBehaviour
 {
     [SerializeField]
     private GameObject labelObj;
     private GameObject labelRef;
 
     private SmallHealth health;
-
-    public bool isOwner = false;
 
     [SerializeField]
     private Vector3 offset;
@@ -22,7 +21,7 @@ public class PlayerNameDisplay : MonoBehaviour
 
     private void Start()
     {
-        if (isOwner) return;
+        
         labelRef = Instantiate(labelObj);
     }
 
@@ -36,5 +35,11 @@ public class PlayerNameDisplay : MonoBehaviour
     {
         labelRef.transform.position = transform.position + offset;
         labelRef.SetActive(health.isAlive);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void SetNameRpc(string newName)
+    {
+        labelRef.GetComponent<TMP_Text>().text = newName;
     }
 }

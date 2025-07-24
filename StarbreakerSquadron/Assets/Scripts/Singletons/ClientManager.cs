@@ -22,7 +22,7 @@ public class ClientManager : MonoBehaviour
     private BrainCloudS2S _bcS2S;
 
     private string _lobbyId;
-    private List<ClientSummary> clients = new List<ClientSummary>();
+    public List<ClientSummary> clients { get; private set; } = new List<ClientSummary>();
     private List<ulong> clientIds = new List<ulong>();
     private bool allPlayersAccountedFor = false;
 

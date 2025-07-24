@@ -183,8 +183,6 @@ public class PlayerController : NetworkBehaviour
         shipMovement = shipRef.GetComponent<Movement>();
         shipWeapons = shipRef.GetComponent<WeaponsHolder>();
         shipHealth = shipRef.GetComponent<SmallHealth>();
-        shipRef.GetComponent<SmallHealthDisplay>().isOwner = true;
-        shipRef.GetComponent<PlayerNameDisplay>().isOwner = true;
 
         //camera
         cam.followTarget = shipRef.transform;
