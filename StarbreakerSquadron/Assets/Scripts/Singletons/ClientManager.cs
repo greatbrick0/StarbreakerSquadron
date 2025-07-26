@@ -10,7 +10,7 @@ public class ClientManager : MonoBehaviour
 {
     public class ClientSummary
     {
-        public string username;
+        public string username = "---";
         public string profileId;
         public string userPasscode;
         public Dictionary<string, object> extraData;
@@ -23,7 +23,7 @@ public class ClientManager : MonoBehaviour
 
     private string _lobbyId;
     public List<ClientSummary> clients { get; private set; } = new List<ClientSummary>();
-    private List<ulong> clientIds = new List<ulong>();
+    public List<ulong> clientIds { get; private set; } = new List<ulong>();
     private bool allPlayersAccountedFor = false;
 
     [SerializeField]
@@ -63,7 +63,6 @@ public class ClientManager : MonoBehaviour
                 }
             };
         ServerDebugMessage("Client " + id + " joined");
-        //Network.StartRepeatAttemptServerRequest(request, OnLobbyDataMemberJoin, () => { return allPlayersAccountedFor; }, 3.0f);
         _bcS2S.Request(request, OnLobbyDataMemberJoin);
     }
 
@@ -102,16 +101,17 @@ public class ClientManager : MonoBehaviour
         yield return new WaitUntil(() => allPlayersAccountedFor || Application.isEditor);
 
         int selectedShipIndex = 0;
+        int clientIndex = 0;
         for (int ii = 0; ii < clients.Count; ii++)
         {
             if (clients[ii].userPasscode != givenPasscode) continue;
             clients[ii].controllerRef = givenController; 
             try { selectedShipIndex = (int?)clients[ii].extraData["selectedShipIndex"] ?? 0; }
             catch { selectedShipIndex = 0; }
-            
+            clientIndex = ii;
         }
         Transform spot = GetSpawnSpot();
-        givenController.SpawnShip(playerShipObjs[Application.isEditor ? claimedShip : selectedShipIndex], spot);
+        givenController.SpawnShip(playerShipObjs[Application.isEditor ? claimedShip : selectedShipIndex], spot, clientIds[clientIndex]);
         ServerDebugMessage("Spawned " + playerShipObjs[selectedShipIndex].name);
     }
 
@@ -132,6 +132,12 @@ public class ClientManager : MonoBehaviour
         nextSpawnIndex += 1;
         nextSpawnIndex %= spawnSpots.Count;
         return spawnSpots[output];
+    }
+
+    public ClientSummary GetSummaryFromId(ulong id)
+    {
+        ClientSummary output = null;
+        return output;
     }
 
     public static void ServerDebugMessage(string message)

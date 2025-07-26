@@ -1,10 +1,14 @@
+using System.Collections.Generic;
 using TMPro;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerNameDisplay : NetworkBehaviour
 {
+    public ulong id { get; private set; }
+
     [SerializeField]
     private GameObject labelObj;
     private GameObject labelRef;
@@ -19,10 +23,14 @@ public class PlayerNameDisplay : NetworkBehaviour
         health = GetComponent<SmallHealth>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        
         labelRef = Instantiate(labelObj);
+    }
+
+    private void OnDisable()
+    {
+        Destroy(labelRef);
     }
 
     private void OnDrawGizmosSelected()
@@ -37,9 +45,23 @@ public class PlayerNameDisplay : NetworkBehaviour
         labelRef.SetActive(health.isAlive);
     }
 
-    [Rpc(SendTo.Everyone)]
-    private void SetNameRpc(string newName)
+    public void SetNameFromId(ulong newId)
     {
-        labelRef.GetComponent<TMP_Text>().text = newName;
+        id = newId;
+        FixedString32Bytes output = new FixedString32Bytes(ClientManager.instance.clients[ClientManager.instance.clientIds.IndexOf(id)].username);
+        SetNameRpc(output, newId);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void SetNameRpc(FixedString32Bytes newName, ulong clientId)
+    {
+        if(NetworkManager.Singleton.LocalClientId == clientId)
+        {
+            labelRef.GetComponent<TMP_Text>().text = "";
+            return;
+        }
+
+        Debug.Log("Set name");
+        labelRef.GetComponent<TMP_Text>().text = newName.ToString();
     }
 }

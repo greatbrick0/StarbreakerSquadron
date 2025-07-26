@@ -20,13 +20,18 @@ public class SmallHealthDisplay : MonoBehaviour
         health = GetComponent<SmallHealth>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
         healthBarRef = Instantiate(healthBarObj);
         PipHealthBar pipBar = healthBarRef.GetComponent<PipHealthBar>();
         pipBar.SetColourData(gameObject.tag, isOwner);
         pipBar.Initialize(health);
         health.AddHealthReactor((int prevValue, int newValue) => pipBar.UpdateHealthBar(newValue), pipBar.UpdateHealthBarMax);
+    }
+
+    private void OnDisable()
+    {
+        Destroy(healthBarRef);
     }
 
     private void Update()

@@ -1,11 +1,10 @@
 fileFormatVersion: 2
-guid: ae10d1ff8b7cb1d46806ababaa0162d8
+guid: 2f1b14dff8ff6d34dbaba0e6e663a292
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - symbolSprite: {instanceID: 0}
-  - arrowObj: {fileID: 1541750225992747895, guid: 7e2a406570769d44abe581ce8015d161, type: 3}
+  - explosionObj: {fileID: 3289363193490557934, guid: c43c7e9f5ccf65143a6d01ba2073d9bd, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

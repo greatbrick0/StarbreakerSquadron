@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using Unity.Collections.LowLevel.Unsafe;
 using System;
+using Unity.Collections;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -35,7 +36,7 @@ public class PlayerController : NetworkBehaviour
             gameHud = FindFirstObjectByType<GameHudManager>();
             gameHud.attemptLeaveEvent.AddListener(Network.sharedInstance.DisconnectFromSession);
             GameStateController.instance.attemptLeaveEvent.AddListener(Network.sharedInstance.DisconnectFromSession);
-            SendPasscodeRpc(Network.sharedInstance.clientPasscode, Network.sharedInstance.selectedShipIndex);
+            SendPasscodeRpc(new FixedString32Bytes(Network.sharedInstance.clientPasscode), Network.sharedInstance.selectedShipIndex);
         }
     }
 
@@ -86,7 +87,7 @@ public class PlayerController : NetworkBehaviour
         sendInputActives.Value = inputActives;
     }
 
-    public void SpawnShip(GameObject shipObj, Transform location)
+    public void SpawnShip(GameObject shipObj, Transform location, ulong id)
     {
         WarpEffect.WarpCallback spawnFunc = () =>
         {
@@ -97,6 +98,7 @@ public class PlayerController : NetworkBehaviour
             shipMovement = shipRef.GetComponent<Movement>();
             shipWeapons = shipRef.GetComponent<WeaponsHolder>();
             shipHealth = shipRef.GetComponent<SmallHealth>();
+            shipRef.GetComponent<PlayerNameDisplay>().SetNameFromId(id);
             OwnerFindShipRpc(shipRef.GetComponent<NetworkObject>().NetworkObjectId);
         };
 
@@ -129,10 +131,9 @@ public class PlayerController : NetworkBehaviour
     }
 
     [Rpc(SendTo.Server)]
-    private void SendPasscodeRpc(string passcode, ushort claimedShip)
+    private void SendPasscodeRpc(FixedString32Bytes passcode, ushort claimedShip)
     {
-        Debug.Log("passcode: " + passcode);
-        StartCoroutine(ClientManager.instance.IdentifyPlayer(this, passcode, claimedShip));
+        StartCoroutine(ClientManager.instance.IdentifyPlayer(this, passcode.ToString(), claimedShip));
     }
 
     [Rpc(SendTo.Server)]
