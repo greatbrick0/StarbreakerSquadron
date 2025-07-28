@@ -3697,6 +3697,7 @@ GameObject:
   - component: {fileID: 954956888}
   - component: {fileID: 954956889}
   - component: {fileID: 954956890}
+  - component: {fileID: 954956891}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3862,6 +3863,18 @@ MultiplayerRolesData:
   m_ComponentsRolesMasks:
   - m_Object: {fileID: 954956889}
     m_RolesMask: 3
+--- !u!114 &954956891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954956883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78317b122fb47a047aa617cb90f60080, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &956453301
 PrefabInstance:
   m_ObjectHideFlags: 0

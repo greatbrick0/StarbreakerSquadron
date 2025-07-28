@@ -188,6 +188,7 @@ public class PlayerController : NetworkBehaviour
         //camera
         cam.followTarget = shipRef.transform;
         cam.InitLead();
+        cam.GetComponent<CameraShakeHandler>().cameraShook += gameHud.StartHudShake;
 
         //cooldowns
         gameHud.CreateCooldownDisplay(shipWeapons);

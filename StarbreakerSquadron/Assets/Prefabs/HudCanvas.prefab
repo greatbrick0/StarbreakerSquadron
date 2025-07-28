@@ -2196,6 +2196,7 @@ MonoBehaviour:
   gameTimeLabel: {fileID: 4377860123238940331}
   matchEndTimeLabel: {fileID: 198912576893175423}
   matchEndLabel: {fileID: 3505207107868525963}
+  shakeAmplitudeMult: 0.3
   cooldownDisplayObj: {fileID: 6672145799285445153, guid: 42406232330be044aaf7594c8fbad6c6, type: 3}
   maxHealth: 100
   currentHealth: 100

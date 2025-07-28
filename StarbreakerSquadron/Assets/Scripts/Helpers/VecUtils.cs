@@ -40,4 +40,9 @@ public static class VecUtils
     {
         return new Color(oldColour.r, oldColour.g, oldColour.b, newAlpha);
     }
+
+    public static float ModifiedDistance(Vector3 p1, Vector3 p2, float modify)
+    {
+        return Mathf.Pow((Mathf.Pow(p1.x - p2.x, modify) + Mathf.Pow(p1.y - p2.y, modify)), 1.0f / modify);
+    }
 }

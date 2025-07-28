@@ -34,6 +34,13 @@ public class GameHudManager : MonoBehaviour
     private TMP_Text matchEndLabel;
     private GameStateController gameStateController;
 
+    [Header("Screen Shake")]
+    [SerializeField]
+    private float shakeAmplitudeMult = 50.0f;
+    private float hudShakeProgress = 0.0f;
+    private AnimationCurve currentShakeCurve;
+    private float currentShakeAmplitude = 0;
+
     [Header("Cooldown Display")]
     [SerializeField]
     private GameObject cooldownDisplayObj;
@@ -94,6 +101,7 @@ public class GameHudManager : MonoBehaviour
             case GameHudState.Gameplay:
                 HandleHealthBarAnimation();
                 HandleGameTimer(gameTimeLabel);
+                if (currentShakeAmplitude > 0) HandleHudShake(Time.deltaTime);
                 break;
             case GameHudState.Paused:
                 HandleMatchEndTimer();
@@ -254,6 +262,23 @@ public class GameHudManager : MonoBehaviour
     {
         maxHealth = newMax;
         UpdateHealthBar(currentHealth);
+    }
+
+    public void StartHudShake(float newAmplitude, AnimationCurve newCurve)
+    {
+        Debug.Log(newAmplitude);
+        if(newAmplitude > currentShakeAmplitude || hudShakeProgress > 1.0f)
+        {
+            currentShakeAmplitude = newAmplitude;
+            currentShakeCurve = newCurve;
+            hudShakeProgress = 0.0f;
+        }
+    }
+
+    private void HandleHudShake(float delta)
+    {
+        hudShakeProgress += 1.0f * delta;
+        hudHolder.localPosition = new Vector3(0, Mathf.Clamp(currentShakeCurve.Evaluate(hudShakeProgress) * currentShakeAmplitude * shakeAmplitudeMult, -(1 << 10), (1 << 10)), 0);
     }
 
     public void AttemptLeaveSession()
