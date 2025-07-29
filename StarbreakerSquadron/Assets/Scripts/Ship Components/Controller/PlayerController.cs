@@ -87,7 +87,7 @@ public class PlayerController : NetworkBehaviour
         sendInputActives.Value = inputActives;
     }
 
-    public void SpawnShip(GameObject shipObj, Transform location, ulong id)
+    public void SpawnShip(GameObject shipObj, Transform location)
     {
         WarpEffect.WarpCallback spawnFunc = () =>
         {
@@ -98,7 +98,7 @@ public class PlayerController : NetworkBehaviour
             shipMovement = shipRef.GetComponent<Movement>();
             shipWeapons = shipRef.GetComponent<WeaponsHolder>();
             shipHealth = shipRef.GetComponent<SmallHealth>();
-            shipRef.GetComponent<PlayerNameDisplay>().SetNameFromId(id);
+            shipRef.GetComponent<PlayerNameDisplay>().SetPlayerId(OwnerClientId);
             OwnerFindShipRpc(shipRef.GetComponent<NetworkObject>().NetworkObjectId);
         };
 

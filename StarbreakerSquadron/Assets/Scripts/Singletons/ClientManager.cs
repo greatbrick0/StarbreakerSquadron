@@ -101,17 +101,15 @@ public class ClientManager : MonoBehaviour
         yield return new WaitUntil(() => allPlayersAccountedFor || Application.isEditor);
 
         int selectedShipIndex = 0;
-        int clientIndex = 0;
         for (int ii = 0; ii < clients.Count; ii++)
         {
             if (clients[ii].userPasscode != givenPasscode) continue;
             clients[ii].controllerRef = givenController; 
             try { selectedShipIndex = (int?)clients[ii].extraData["selectedShipIndex"] ?? 0; }
             catch { selectedShipIndex = 0; }
-            clientIndex = ii;
         }
         Transform spot = GetSpawnSpot();
-        givenController.SpawnShip(playerShipObjs[Application.isEditor ? claimedShip : selectedShipIndex], spot, clientIds[clientIndex]);
+        givenController.SpawnShip(playerShipObjs[Application.isEditor ? claimedShip : selectedShipIndex], spot);
         ServerDebugMessage("Spawned " + playerShipObjs[selectedShipIndex].name);
     }
 

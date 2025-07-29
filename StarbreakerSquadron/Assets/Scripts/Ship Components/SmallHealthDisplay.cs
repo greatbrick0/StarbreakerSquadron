@@ -6,7 +6,7 @@ public class SmallHealthDisplay : MonoBehaviour
 {
     [SerializeField]
     private GameObject healthBarObj;
-    private GameObject healthBarRef;
+    public GameObject healthBarRef { get; private set; }
 
     private SmallHealth health;
 

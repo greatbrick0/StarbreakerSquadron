@@ -31,7 +31,7 @@ public class Network : MonoBehaviour
     private UnityTransport _unityTransport;
     private string _roomAddress;
     private int _roomPort;
-    public string clientPasscode { get; private set; }
+    public string clientPasscode { get; private set; } = "000000";
     public string clientProfileId { get; private set; }
     [SerializeField]
     private string _lobbyId;

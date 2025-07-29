@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class PlayerNameDisplay : NetworkBehaviour
 {
-    public ulong id { get; private set; }
+    public NetworkVariable<ulong> playerId { get; private set; } = new NetworkVariable<ulong>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     [SerializeField]
     private GameObject labelObj;
@@ -23,6 +23,14 @@ public class PlayerNameDisplay : NetworkBehaviour
         health = GetComponent<SmallHealth>();
     }
 
+    public override void OnNetworkSpawn()
+    {
+        if (!IsServer) return;
+
+        playerId.OnValueChanged += DisplayName;
+        if (playerId.Value != 0) DisplayName(0, playerId.Value);
+    }
+
     private void OnEnable()
     {
         labelRef = Instantiate(labelObj);
@@ -33,10 +41,16 @@ public class PlayerNameDisplay : NetworkBehaviour
         Destroy(labelRef);
     }
 
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        playerId.OnValueChanged -= DisplayName;
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(offset, new Vector3(2.0f, 0.2f, 0.1f));
+        Gizmos.DrawWireCube(offset, new Vector3(2.4f, 0.35f, 0.1f));
     }
 
     private void Update()
@@ -45,23 +59,25 @@ public class PlayerNameDisplay : NetworkBehaviour
         labelRef.SetActive(health.isAlive);
     }
 
-    public void SetNameFromId(ulong newId)
+    public void SetPlayerId(ulong newId)
     {
-        id = newId;
-        FixedString32Bytes output = new FixedString32Bytes(ClientManager.instance.clients[ClientManager.instance.clientIds.IndexOf(id)].username);
-        SetNameRpc(output, newId);
+        playerId.Value = newId;
+    }
+
+    private void DisplayName(ulong prevId, ulong newId)
+    {
+        Debug.Log("new ID: " + newId);
+        FixedString32Bytes output;
+        //if (NetworkManager.Singleton.LocalClientId == newId) output = new FixedString32Bytes(string.Empty);
+        //else output = new FixedString32Bytes(ClientManager.instance.clients[ClientManager.instance.clientIds.IndexOf(newId)].username);
+        output = new FixedString32Bytes(ClientManager.instance.clients[ClientManager.instance.clientIds.IndexOf(newId)].username);
+
+        SetNameRpc(output);
     }
 
     [Rpc(SendTo.Everyone)]
-    private void SetNameRpc(FixedString32Bytes newName, ulong clientId)
+    private void SetNameRpc(FixedString32Bytes newName)
     {
-        if(NetworkManager.Singleton.LocalClientId == clientId)
-        {
-            labelRef.GetComponent<TMP_Text>().text = "";
-            return;
-        }
-
-        Debug.Log("Set name");
         labelRef.GetComponent<TMP_Text>().text = newName.ToString();
     }
 }
