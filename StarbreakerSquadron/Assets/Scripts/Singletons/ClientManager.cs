@@ -68,9 +68,13 @@ public class ClientManager : MonoBehaviour
 
     private void OnClientLeave(ulong id)
     {
+        Debug.Log("client left");
         int removeIndex = clientIds.IndexOf(id);
-        clientIds.RemoveAt(removeIndex);
-        clients.RemoveAt(removeIndex);
+        if(removeIndex != -1)
+        {
+            clientIds.RemoveAt(removeIndex);
+            clients.RemoveAt(removeIndex);
+        }
     }
 
     private void OnLobbyDataMemberJoin(string responseJson)

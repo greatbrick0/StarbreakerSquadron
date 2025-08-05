@@ -575,12 +575,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   bulletObj: {fileID: 4364611554046747562, guid: acdeed06c53e6174eb6339eb8358e2fc, type: 3}
-  rb: {fileID: 7764124592271108407}
+  <rb>k__BackingField: {fileID: 0}
   barrels:
   - {x: 0.15, y: 0.3, z: 0}
   - {x: -0.15, y: 0.3, z: 0}
-  property: FixedSingleBarrel
-  team: 1
+  <property>k__BackingField: FixedSingleBarrel
+  <team>k__BackingField: 1
   bulletColour: '#92D050'
   cooldown: 0.5
   inheritVelocity: 1

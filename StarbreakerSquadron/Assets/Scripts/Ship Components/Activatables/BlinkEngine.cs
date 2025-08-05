@@ -29,14 +29,14 @@ public class BlinkEngine : NetworkBehaviour, IActivatable
 
     [Header("Blink properties")]
     [SerializeField, Display]
-    private int maxBlinkDistance = 10;
+    private float maxBlinkDistance = 10;
     private float timeSinceBlink = 0.0f;
 
     [Header("Explosion properties")]
     [SerializeField, Display]
     private int explosionDamage = 50;
     [SerializeField, Display]
-    private int explosionRadius = 3;
+    private float explosionRadius = 3;
     [SerializeField]
     private float explosionLifeTime = 0.05f;
 
@@ -51,9 +51,9 @@ public class BlinkEngine : NetworkBehaviour, IActivatable
     {
         PropertyGetter properties = PropertyGetter.propertiesInstance;
         string statColour = gameObject.tag;
-        StartCoroutine(properties.GetValue((val) => maxBlinkDistance = Mathf.RoundToInt(val), "BulletSpeed", property, statColour));
+        StartCoroutine(properties.GetValue((val) => maxBlinkDistance = val, "BulletSpeed", property, statColour));
         StartCoroutine(properties.GetValue((val) => explosionDamage = Mathf.RoundToInt(val), "Damage", property, statColour));
-        StartCoroutine(properties.GetValue((val) => explosionRadius = Mathf.RoundToInt(val), "AreaOfEffectRadius", property, statColour));
+        StartCoroutine(properties.GetValue((val) => explosionRadius = val, "AreaOfEffectRadius", property, statColour));
     }
 
     private void Update()
@@ -135,6 +135,7 @@ public class BlinkEngine : NetworkBehaviour, IActivatable
             transform.position,
             explosionLifeTime,
             explosionColour,
+            0,
             explosionRadius
             );
         explosionRef = Instantiate(explosionObj);

@@ -5,34 +5,34 @@ using UnityEngine;
 public class FixedBarrel : NetworkBehaviour, IActivatable
 {
     [SerializeField]
-    private GameObject bulletObj;
-    private GameObject bulletRef;
+    protected GameObject bulletObj;
+    protected GameObject bulletRef;
 
-    [SerializeField]
-    private Rigidbody2D rb;
+    [field: SerializeField]
+    protected Rigidbody2D rb { get; private set; }
     [SerializeField]
     protected List<Vector3> barrels = new List<Vector3>();
 
+    [field: SerializeField]
+    protected string property { get; private set; } = "FixedSingleBarrel";
+    [field: SerializeField]
+    protected Teams team { get; private set; } = Teams.Environment;
     [SerializeField]
-    private string property = "FixedSingleBarrel";
+    protected string bulletColour = "#cccccc";
     [SerializeField]
-    private Teams team = Teams.Environment;
+    protected float cooldown = 1.0f;
     [SerializeField]
-    private string bulletColour = "#cccccc";
-    [SerializeField]
-    private float cooldown = 1.0f;
-    [SerializeField]
-    private bool inheritVelocity = false;
+    protected bool inheritVelocity = false;
     [SerializeField, Range(0f, 1f)]
-    private float inheritPortion = 0.7f;
+    protected float inheritPortion = 0.7f;
 
     [Header("Bullet properties")]
     [SerializeField, Display]
-    private int bulletDamage = 10;
+    protected int bulletDamage = 10;
     [SerializeField, Display]
-    private float bulletLifeTime = 0.7f;
+    protected float bulletLifeTime = 0.7f;
     [SerializeField, Display]
-    private float bulletSpeed = 30f;
+    protected float bulletSpeed = 30f;
 
     private void Start()
     {
@@ -66,7 +66,7 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
         }
     }
 
-    protected void FireBullet(Vector3 barrel)
+    protected virtual void FireBullet(Vector3 barrel)
     {
         AttackInfo attackInfo;
         attackInfo = new AttackInfo(
@@ -76,6 +76,7 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
             bulletLifeTime,
             bulletColour,
             bulletSpeed,
+            1,
             transform.up.RotateDegrees(barrel.z),
             inheritVelocity ? InheritedVector() : Vector2.zero
             );
@@ -90,7 +91,7 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
         return cooldown;
     }
 
-    private Vector2 InheritedVector()
+    protected Vector2 InheritedVector()
     {
         return inheritPortion * Vector2.Dot(rb.linearVelocity, rb.transform.up) * rb.transform.up;
     }

@@ -31,6 +31,8 @@ public class Attack : NetworkBehaviour
     [SerializeField, Display]
     protected float speed;
     [SerializeField, Display]
+    protected float aoeSize;
+    [SerializeField, Display]
     protected Vector2 direction;
     protected Vector2 originPos;
     protected Vector2 extraVelocity;
@@ -120,6 +122,7 @@ public class Attack : NetworkBehaviour
         secondaryPower = newAttackInfo.secondaryPower;
         lifetime = newAttackInfo.lifetime;
         speed = newAttackInfo.speed;
+        aoeSize = newAttackInfo.aoeSize;
         direction = newAttackInfo.direction;
         originPos = newAttackInfo.originPos;
         extraVelocity = newAttackInfo.extraVelocity;

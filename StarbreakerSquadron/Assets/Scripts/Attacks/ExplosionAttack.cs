@@ -50,7 +50,7 @@ public class ExplosionAttack : Attack
     {
         base.ValueInitialize();
         
-        GetComponent<CircleCollider2D>().radius = speed;
-        sprite.transform.localScale = Vector2.one * speed;
+        GetComponent<CircleCollider2D>().radius = aoeSize;
+        sprite.transform.localScale = Vector2.one * aoeSize;
     }
 }
