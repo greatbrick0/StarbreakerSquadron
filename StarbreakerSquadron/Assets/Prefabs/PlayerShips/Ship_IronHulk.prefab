@@ -736,7 +736,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5535373654437825178}
   - component: {fileID: 5833605278182618956}
-  - component: {fileID: 9057495841756115724}
+  - component: {fileID: 6770867092787649247}
   - component: {fileID: 4861355201757580985}
   - component: {fileID: 4913551467557065296}
   - component: {fileID: 5506175143955418186}
@@ -808,7 +808,7 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &9057495841756115724
+--- !u!114 &6770867092787649247
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -817,15 +817,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 6596372549986074538}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c55b0a6ea60dd264aba35ceca05f2520, type: 3}
+  m_Script: {fileID: 11500000, guid: 20848c26ffa504f47b8640ce3d7d24bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  bulletObj: {fileID: 4364611554046747562, guid: acdeed06c53e6174eb6339eb8358e2fc, type: 3}
+  bulletObj: {fileID: 4364611554046747562, guid: a6f13e5921b6c0f409eb2c57351289a6, type: 3}
   <rb>k__BackingField: {fileID: 0}
   barrels:
   - {x: 0, y: 0, z: 0}
-  <property>k__BackingField: FixedSingleBarrel
+  <property>k__BackingField: GrenadeLauncher
   <team>k__BackingField: 1
   bulletColour: '#92D050'
   cooldown: 1.2
@@ -834,6 +834,7 @@ MonoBehaviour:
   bulletDamage: 10
   bulletLifeTime: 0.7
   bulletSpeed: 30
+  explosionRadius: 3
 --- !u!82 &4861355201757580985
 AudioSource:
   m_ObjectHideFlags: 0
@@ -943,6 +944,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7049da5c777f8a4e9a0d307d48e8550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leadingAim: 1
+  barrel: {fileID: 6770867092787649247}
   spriteTransform: {fileID: 1404284859692085481}
   team: 1
 --- !u!58 &5506175143955418186
@@ -980,7 +983,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 12
+  m_Radius: 9
 --- !u!1 &8067236441583749978
 GameObject:
   m_ObjectHideFlags: 0

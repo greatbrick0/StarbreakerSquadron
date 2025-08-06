@@ -1,13 +1,27 @@
 using UnityEngine;
+using Unity.Mathematics;
 
 public class ExplosionAttack : Attack
 {
     [SerializeField]
     private float visualRemainTime = 2.0f;
+    [SerializeField]
+    private Vector2 soundBounds = Vector2.one * 14;
+    [SerializeField]
+    private AudioSource audioPlayer;
 
     protected override void Awake()
     {
-        return; // do nothing 
+        
+        if (audioPlayer != null)
+        {
+            Camera cam = Camera.main;
+            float dist = VecUtils.ModifiedDistance(transform.position, Camera.main.transform.position, 4);
+            float volume = Mathf.Clamp01(math.remap(soundBounds.x, soundBounds.y, 1, 0, dist));
+            audioPlayer.volume = volume;
+            audioPlayer.Play();
+        }
+            
     }
 
     protected override void Update()
@@ -35,7 +49,7 @@ public class ExplosionAttack : Attack
 
     protected override void HitTerrain()
     {
-        return; // do nothing 
+        return; // override to do nothing 
     }
 
     protected override void HitTargetable(Targetable targetable)

@@ -52,6 +52,8 @@ public class BombAttack : Attack
 
     private void CreateExplosion()
     {
+        if (!IsServer) return;
+
         AttackInfo attackInfo;
         attackInfo = new AttackInfo(
             team,
@@ -63,9 +65,8 @@ public class BombAttack : Attack
             aoeSize
             );
         explosionRef = Instantiate(explosionObj);
-        explosionRef = Instantiate(explosionObj);
         explosionRef.transform.position = attackInfo.originPos;
         explosionRef.GetComponent<NetworkObject>().Spawn(true);
-        explosionRef.GetComponent<Attack>().SetValuesRpc(attackInfo);
+        explosionRef.GetComponent<ExplosionAttack>().SetValuesRpc(attackInfo);
     }
 }

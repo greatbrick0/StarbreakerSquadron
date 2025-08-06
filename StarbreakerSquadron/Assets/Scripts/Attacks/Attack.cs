@@ -126,7 +126,7 @@ public class Attack : NetworkBehaviour
         direction = newAttackInfo.direction;
         originPos = newAttackInfo.originPos;
         extraVelocity = newAttackInfo.extraVelocity;
-
+        
         ValueInitialize();
     }
 
@@ -146,6 +146,7 @@ public class Attack : NetworkBehaviour
         lifetime = 0;
         age = 0;
         speed = 0;
+        aoeSize = 1;
         direction = Vector2.zero;
         extraVelocity = Vector2.zero;
 
