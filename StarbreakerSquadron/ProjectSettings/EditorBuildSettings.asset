@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/OpenLevel.unity
     guid: 47da855ad5f17f44db4ae00bc40bd578
+  - enabled: 1
+    path: Assets/Scenes/CartLevel.unity
+    guid: a01ab11bf8d8c1e488f095ad0678021a
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

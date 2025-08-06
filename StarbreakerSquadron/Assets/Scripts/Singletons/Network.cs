@@ -98,7 +98,7 @@ public class Network : MonoBehaviour
         if (IsDedicatedServer)
         {
             _unityTransport.SetConnectionData("0.0.0.0", 7777);
-            BeginPlayServer("OpenLevel");
+            BeginPlayServer("CartLevel");
         }
     }
 
