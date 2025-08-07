@@ -234,7 +234,7 @@ public class GameHudManager : MonoBehaviour
         }
 
         TimeSpan time = TimeSpan.FromSeconds(gameStateController.GetGameRemianingTime());
-        label.text = string.Format(GAME_TIME_REMAINING_FORMAT, time);
+        label.text = (time.TotalSeconds < 0 ? "-" : "") + string.Format(GAME_TIME_REMAINING_FORMAT, time);
     }
 
     private void HandleMatchEndTimer()

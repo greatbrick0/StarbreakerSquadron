@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Hunter_Yellow_LeftRear_0: -4604310410405827026
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

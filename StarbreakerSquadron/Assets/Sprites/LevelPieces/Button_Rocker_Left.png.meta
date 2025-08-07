@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Button_Rocker_Left_0: 4136253933093827095
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

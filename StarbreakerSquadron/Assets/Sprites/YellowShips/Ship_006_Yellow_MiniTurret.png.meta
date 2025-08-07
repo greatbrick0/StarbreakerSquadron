@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Ship_006_Yellow_MiniTurret_0: 6849355110253823347
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

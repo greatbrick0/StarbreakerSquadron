@@ -14,6 +14,9 @@ public class GameStateController : NetworkBehaviour
     [field: SerializeField, Display]
     public long gameStartTime { get; private set; }
     [SerializeField]
+    private float serverReadyTime = 3.0f;
+    private bool isServerReady = false;
+    [SerializeField]
     private float gameMaxDuration = 600;
     [SerializeField]
     private float postGameMaxDuration = 60;
@@ -37,6 +40,11 @@ public class GameStateController : NetworkBehaviour
     {
         if (IsServer)
         {
+            if (!isServerReady && GetCurrentGameAge() > serverReadyTime)
+            {
+                Network.sharedInstance.BeginServerReady();
+                isServerReady = true;
+            }
             if (GetCurrentGameAge() > gameMaxDuration + postGameMaxDuration)
             {
                 Application.Quit();

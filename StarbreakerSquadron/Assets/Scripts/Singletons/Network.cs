@@ -71,16 +71,6 @@ public class Network : MonoBehaviour
             _lobbyId = Environment.GetEnvironmentVariable("LOBBY_ID");
             _bcS2S.Init(appId, serverName, serverSecret, true, serverUrl);
             _bcS2S.LoggingEnabled = true;
-
-            Dictionary<string, object> request = new Dictionary<string, object>
-                {
-                    { "service", "lobby" },
-                    { "operation", "GET_LOBBY_DATA" },
-                    { "data", new Dictionary<string, object>
-                    {{ "lobbyId", _lobbyId }}
-                    }
-                };
-            _bcS2S.Request(request, OnLobbyDataInit);
         }
         else
         {
@@ -114,6 +104,19 @@ public class Network : MonoBehaviour
     {
         _netManager.StartServer();
         _netManager.SceneManager.LoadScene(sceneIndex, LoadSceneMode.Single);
+    }
+
+    public void BeginServerReady()
+    {
+        Dictionary<string, object> request = new Dictionary<string, object>
+            {
+                { "service", "lobby" },
+                { "operation", "GET_LOBBY_DATA" },
+                { "data", new Dictionary<string, object>
+                {{ "lobbyId", _lobbyId }}
+                }
+            };
+        _bcS2S.Request(request, OnLobbyDataInit);
     }
 
     public string BrainCloudClientVersion
@@ -223,10 +226,8 @@ public class Network : MonoBehaviour
         clientPasscode = data["passcode"] as string;
     }
 
-    private void OnLobbyDataInit(string responseString)
+    private void OnLobbyDataInit(string responseString) // Called once, on the server
     {
-        // Called once, on the server
-
         Dictionary<string, object> response =
         JsonReader.Deserialize<Dictionary<string, object>>(responseString);
         int status = (int)response["status"];
