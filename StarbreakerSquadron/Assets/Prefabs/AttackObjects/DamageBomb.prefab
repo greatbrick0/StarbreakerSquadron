@@ -143,7 +143,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.06741524
+        value: 0.1823597
         inSlope: -0.016374841
         outSlope: -0.016374841
         tangentMode: 0
@@ -409,7 +409,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   sprite: {fileID: 1293537736885697587}
   trail: {fileID: 7793270559044061661}
-  trailOpacity: 0.15
+  trailOpacity: 0.3
   team: 0
   colourString: 
   primaryPower: 0

@@ -253,6 +253,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7049da5c777f8a4e9a0d307d48e8550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leadingAim: 1
+  barrel: {fileID: 5442027210412829}
   spriteTransform: {fileID: 8041464163759695084}
   team: 1
 --- !u!1 &1059327662415592125
@@ -508,6 +510,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7049da5c777f8a4e9a0d307d48e8550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leadingAim: 1
+  barrel: {fileID: 3834656517880595789}
   spriteTransform: {fileID: 1404284859692085481}
   team: 1
 --- !u!1 &1893353854858776844
@@ -1037,7 +1041,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3590879055388220346}
   - component: {fileID: 2127460316904780897}
-  - component: {fileID: 8501883872166806680}
+  - component: {fileID: 5249313771219931626}
   - component: {fileID: 1551168392283152322}
   m_Layer: 0
   m_Name: BombBarrel
@@ -1107,7 +1111,7 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &8501883872166806680
+--- !u!114 &5249313771219931626
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1116,14 +1120,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 3914357079191179945}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c55b0a6ea60dd264aba35ceca05f2520, type: 3}
+  m_Script: {fileID: 11500000, guid: 20848c26ffa504f47b8640ce3d7d24bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   bulletObj: {fileID: 4364611554046747562, guid: a6f13e5921b6c0f409eb2c57351289a6, type: 3}
   <rb>k__BackingField: {fileID: 7764124592271108407}
   barrels:
-  - {x: 0, y: 0.4, z: 0}
+  - {x: 0, y: 0.4, z: 3}
+  - {x: 0, y: 0.4, z: -3}
   <property>k__BackingField: DualHunterBomb
   <team>k__BackingField: 1
   bulletColour: '#92D050'
@@ -1133,6 +1138,7 @@ MonoBehaviour:
   bulletDamage: 10
   bulletLifeTime: 0.7
   bulletSpeed: 30
+  explosionRadius: 3
 --- !u!82 &1551168392283152322
 AudioSource:
   m_ObjectHideFlags: 0

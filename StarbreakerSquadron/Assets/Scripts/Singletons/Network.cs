@@ -33,11 +33,13 @@ public class Network : MonoBehaviour
     private int _roomPort;
     public string clientPasscode { get; private set; } = "000000";
     public string clientProfileId { get; private set; }
-    [SerializeField]
+    [SerializeField, Display]
     private string _lobbyId;
     public ushort selectedShipIndex = 0;
     [Display]
     public bool selectionDataApplied = false;
+    [SerializeField]
+    private string serverSceneToLoad = "OpenLevel";
     private SuccessCallback onUpdateReadySuccess;
 
     public bool IsDedicatedServer { get; private set; }
@@ -98,7 +100,7 @@ public class Network : MonoBehaviour
         if (IsDedicatedServer)
         {
             _unityTransport.SetConnectionData("0.0.0.0", 7777);
-            BeginPlayServer("CartLevel");
+            BeginPlayServer(serverSceneToLoad);
         }
     }
 

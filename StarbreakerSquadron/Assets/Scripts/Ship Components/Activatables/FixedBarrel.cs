@@ -91,6 +91,11 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
         return cooldown;
     }
 
+    public float GetProjectileSpeed()
+    {
+        return bulletSpeed;
+    }
+
     protected Vector2 InheritedVector()
     {
         return inheritPortion * Vector2.Dot(rb.linearVelocity, rb.transform.up) * rb.transform.up;

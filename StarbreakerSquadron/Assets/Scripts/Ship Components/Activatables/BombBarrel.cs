@@ -45,6 +45,6 @@ public class BombBarrel : FixedBarrel
         bulletRef = Instantiate(bulletObj);
         bulletRef.transform.position = attackInfo.originPos;
         bulletRef.GetComponent<NetworkObject>().Spawn(true);
-        bulletRef.GetComponent<Attack>().SetValuesRpc(attackInfo);
+        bulletRef.GetComponent<BombAttack>().SetValuesRpc(attackInfo);
     }
 }

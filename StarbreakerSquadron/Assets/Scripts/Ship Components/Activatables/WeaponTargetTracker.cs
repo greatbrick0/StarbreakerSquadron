@@ -8,6 +8,10 @@ public class WeaponTargetTracker : MonoBehaviour
     private Transform closestTarget;
 
     [SerializeField]
+    private bool leadingAim = true;
+    [SerializeField]
+    private FixedBarrel barrel;
+    [SerializeField]
     private Transform spriteTransform;
     [SerializeField]
     private Teams team = Teams.Environment;
@@ -17,7 +21,9 @@ public class WeaponTargetTracker : MonoBehaviour
         closestTarget = FindClosestTarget();
         if(closestTarget != null)
         {
-            transform.rotation = Quaternion.FromToRotation(Vector2.up, closestTarget.position - transform.position);
+            Vector3 aimPos = closestTarget.position;
+            if (leadingAim) aimPos = CalcLeadPos(closestTarget);
+            transform.rotation = Quaternion.FromToRotation(Vector2.up, aimPos - transform.position);
             spriteTransform.rotation = transform.rotation;
         }
     }
@@ -64,5 +70,19 @@ public class WeaponTargetTracker : MonoBehaviour
         }
 
         return output;
+    }
+
+    private Vector3 CalcLeadPos(Transform target)
+    {
+        if (target.gameObject.TryGetComponent(out Movement movement))
+        {
+            float distToTarget = Vector3.Distance(target.position, transform.position);
+            float timeToTarget = distToTarget / barrel.GetProjectileSpeed();
+            return target.position + (movement.ReadVelocity() * timeToTarget).SetZ();
+        }
+        else
+        {
+            return target.position;
+        }
     }
 }
