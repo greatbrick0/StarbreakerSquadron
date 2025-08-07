@@ -17,8 +17,6 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField, Display]
     private int activeScreen = 0;
     [SerializeField]
-    private GameObject authenticateScreen;
-    [SerializeField]
     private GameObject matchLoadingScreen;
     [SerializeField]
     private GameObject profileEditScreen;
