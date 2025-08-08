@@ -7,21 +7,14 @@ public class ExplosionAttack : Attack
     private float visualRemainTime = 2.0f;
     [SerializeField]
     private Vector2 soundBounds = Vector2.one * 14;
+    [SerializeField, Range(0f, 1f)]
+    private float volumeMult = 0.7f;
     [SerializeField]
     private AudioSource audioPlayer;
 
     protected override void Awake()
     {
-        
-        if (audioPlayer != null)
-        {
-            Camera cam = Camera.main;
-            float dist = VecUtils.ModifiedDistance(transform.position, Camera.main.transform.position, 4);
-            float volume = Mathf.Clamp01(math.remap(soundBounds.x, soundBounds.y, 1, 0, dist));
-            audioPlayer.volume = volume;
-            audioPlayer.Play();
-        }
-            
+        return; // override to do nothing 
     }
 
     protected override void Update()
@@ -66,5 +59,16 @@ public class ExplosionAttack : Attack
         
         GetComponent<CircleCollider2D>().radius = aoeSize;
         sprite.transform.localScale = Vector2.one * aoeSize;
+        TryToPlaySound();
+    }
+
+    private void TryToPlaySound()
+    {
+        if (audioPlayer == null) return;
+
+        float dist = VecUtils.ModifiedDistance(transform.position, Camera.main.transform.position, 4);
+        float volume = Mathf.Clamp01(math.remap(soundBounds.x, soundBounds.y, 1, 0, dist));
+        audioPlayer.volume = volume * volumeMult;
+        audioPlayer.Play();
     }
 }
