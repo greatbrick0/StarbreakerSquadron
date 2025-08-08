@@ -22,8 +22,8 @@ public class ClientManager : MonoBehaviour
     private BrainCloudS2S _bcS2S;
 
     private string _lobbyId;
-    public List<ClientSummary> clients { get; private set; } = new List<ClientSummary>();
-    public List<ulong> clientIds { get; private set; } = new List<ulong>();
+    public Dictionary<ulong, ClientSummary> clients { get; private set; } = new Dictionary<ulong, ClientSummary>();
+    public Dictionary<ulong, string> clientIdToProfileId = new Dictionary<ulong, string>();
     private bool allPlayersAccountedFor = false;
 
     [SerializeField]
@@ -52,8 +52,6 @@ public class ClientManager : MonoBehaviour
     private void OnClientJoined(ulong id)
     {
         allPlayersAccountedFor = false;
-        clients.Add(new ClientSummary());
-        clientIds.Add(id);
         Dictionary<string, object> request = new Dictionary<string, object>
             {
                 { "service", "lobby" },
@@ -62,22 +60,19 @@ public class ClientManager : MonoBehaviour
                 {{ "lobbyId", _lobbyId }}
                 }
             };
+        clientIdToProfileId.Add(id, string.Empty);
         ServerDebugMessage("Client " + id + " joined");
-        _bcS2S.Request(request, OnLobbyDataMemberJoin);
+        _bcS2S.Request(request, (string responseJson) => { OnLobbyDataMemberJoin(responseJson, id); });
+        if (Application.isEditor) AddClient(id, new ClientSummary());
     }
 
     private void OnClientLeave(ulong id)
     {
         Debug.Log("client left");
-        int removeIndex = clientIds.IndexOf(id);
-        if(removeIndex != -1)
-        {
-            clientIds.RemoveAt(removeIndex);
-            clients.RemoveAt(removeIndex);
-        }
+        RemoveClient(id);
     }
 
-    private void OnLobbyDataMemberJoin(string responseJson)
+    private void OnLobbyDataMemberJoin(string responseJson, ulong id)
     {
         ServerDebugMessage("Server tried to respond");
 
@@ -87,34 +82,71 @@ public class ClientManager : MonoBehaviour
         Dictionary<string, object> response = JsonReader.Deserialize<Dictionary<string, object>>(responseJson);
         var data = response["data"] as Dictionary<string, object>;
         Dictionary<string, object>[] membersData = data["members"] as Dictionary<string, object>[];
-        Dictionary<string, object> newestMember = membersData[^1];
-
-        clients[^1].username = newestMember["name"] as string;
-        clients[^1].profileId = newestMember["profileId"] as string;
-        clients[^1].userPasscode = newestMember["passcode"] as string;
-        try { clients[^1].extraData = newestMember["extra"] as Dictionary<string, object>; }
-        catch { ServerDebugMessage(clients[^1].username + " did not have extra data"); }
+        foreach(Dictionary<string, object> member in membersData)
+        {
+            ClientSummary output = new ClientSummary();
+            output.username = member["name"] as string;
+            output.profileId = member["profileId"] as string;
+            output.userPasscode = member["passcode"] as string;
+            try { output.extraData = member["extra"] as Dictionary<string, object>; }
+            catch { ServerDebugMessage(output.username + " did not have extra data"); }
+            AddClient(id, output);
+        }
 
         allPlayersAccountedFor = true;
         ServerDebugMessage("All players accounted for");
     }
 
-    public IEnumerator IdentifyPlayer(PlayerController givenController, string givenPasscode, int claimedShip)
+    private void AddClient(ulong newId, ClientSummary newSummary)
     {
-        ServerDebugMessage("Client attempted identification");
+        if (!clients.ContainsKey(newId))
+        {
+            ServerDebugMessage("adding id " + newId + " player " + newSummary.username);
+            clients.Add(newId, newSummary);
+        }  
+        else clients[newId] = newSummary;
+    }
+
+    private void RemoveClient(ulong removedId)
+    {
+        if (clients.ContainsKey(removedId))
+        {
+            ServerDebugMessage("removing id " + removedId);
+            clients.Remove(removedId);
+        }
+    }
+
+    public IEnumerator IdentifyPlayer(PlayerController givenController, string givenPasscode, string givenProfileId, ulong givenCLientId, int claimedShip)
+    {
+        ServerDebugMessage("Client started identification");
         yield return new WaitUntil(() => allPlayersAccountedFor || Application.isEditor);
 
         int selectedShipIndex = 0;
-        for (int ii = 0; ii < clients.Count; ii++)
+
+        KeyValuePair<ulong, ClientSummary> matchingProfile = clients.FirstOrDefault(kvp => kvp.Value.profileId == givenProfileId);
+        if (Application.isEditor)
         {
-            if (clients[ii].userPasscode != givenPasscode) continue;
-            clients[ii].controllerRef = givenController; 
-            try { selectedShipIndex = (int?)clients[ii].extraData["selectedShipIndex"] ?? 0; }
-            catch { selectedShipIndex = 0; }
+            AllowSpawnPlayerShip(givenController, claimedShip);
         }
-        Transform spot = GetSpawnSpot();
-        givenController.SpawnShip(playerShipObjs[Application.isEditor ? claimedShip : selectedShipIndex], spot);
-        ServerDebugMessage("Spawned " + playerShipObjs[selectedShipIndex].name);
+        else if (matchingProfile.Value.userPasscode == givenPasscode)
+        {
+            clientIdToProfileId[givenCLientId] = givenProfileId;
+            clients[givenCLientId].controllerRef = givenController;
+            try { selectedShipIndex = (int?)clients[givenCLientId].extraData["selectedShipIndex"] ?? 0; }
+            catch { selectedShipIndex = 0; }
+
+            AllowSpawnPlayerShip(givenController, selectedShipIndex);
+        }
+        else
+        {
+            ServerDebugMessage("Could not confirm identity! ");
+        }
+    }
+
+    private void AllowSpawnPlayerShip(PlayerController controller, int shipIndex)
+    {
+        controller.SpawnShip(playerShipObjs[shipIndex], GetSpawnSpot());
+        ServerDebugMessage("Spawned " + playerShipObjs[shipIndex].name);
     }
 
     public void AddSpawnSpots(List<Transform> newSpots)

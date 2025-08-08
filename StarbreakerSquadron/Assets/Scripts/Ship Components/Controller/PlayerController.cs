@@ -36,7 +36,7 @@ public class PlayerController : NetworkBehaviour
             gameHud = FindFirstObjectByType<GameHudManager>();
             gameHud.attemptLeaveEvent.AddListener(Network.sharedInstance.DisconnectFromSession);
             GameStateController.instance.attemptLeaveEvent.AddListener(Network.sharedInstance.DisconnectFromSession);
-            SendPasscodeRpc(new FixedString32Bytes(Network.sharedInstance.clientPasscode), Network.sharedInstance.selectedShipIndex);
+            SendPasscodeRpc(new FixedString32Bytes(Network.sharedInstance.clientPasscode), new FixedString128Bytes(Network.sharedInstance.clientProfileId), Network.sharedInstance.selectedShipIndex);
         }
     }
 
@@ -131,9 +131,9 @@ public class PlayerController : NetworkBehaviour
     }
 
     [Rpc(SendTo.Server)]
-    private void SendPasscodeRpc(FixedString32Bytes passcode, ushort claimedShip)
+    private void SendPasscodeRpc(FixedString32Bytes passcode, FixedString128Bytes profileId, ushort claimedShip)
     {
-        StartCoroutine(ClientManager.instance.IdentifyPlayer(this, passcode.ToString(), claimedShip));
+        StartCoroutine(ClientManager.instance.IdentifyPlayer(this, passcode.ToString(), profileId.ToString(), OwnerClientId, claimedShip));
     }
 
     [Rpc(SendTo.Server)]

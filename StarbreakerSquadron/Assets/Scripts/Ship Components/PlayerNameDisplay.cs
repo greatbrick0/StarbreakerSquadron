@@ -66,11 +66,10 @@ public class PlayerNameDisplay : NetworkBehaviour
 
     private void DisplayName(ulong prevId, ulong newId)
     {
-        Debug.Log("new ID: " + newId);
         FixedString32Bytes output;
         //if (NetworkManager.Singleton.LocalClientId == newId) output = new FixedString32Bytes(string.Empty);
         //else output = new FixedString32Bytes(ClientManager.instance.clients[ClientManager.instance.clientIds.IndexOf(newId)].username);
-        output = new FixedString32Bytes(ClientManager.instance.clients[ClientManager.instance.clientIds.IndexOf(newId)].username);
+        output = new FixedString32Bytes(ClientManager.instance.clients[newId].username);
 
         SetNameRpc(output);
     }
