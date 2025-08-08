@@ -50,7 +50,10 @@ public class AmbushTrapSpawner : NetworkBehaviour
     public void ActivateTrapRpc()
     {
         trapHealth.BecomeShown();
-        trapRef.GetComponent<Movement>().Stun(0.3f, true, transform.up * kickPower);
+        if(kickPower > 0)
+        {
+            trapRef.GetComponent<Movement>().Stun(0.3f, true, transform.up * kickPower);
+        }
     }
 
     private void ResetTrap()
