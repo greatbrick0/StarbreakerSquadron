@@ -24,7 +24,7 @@ public class ClientManager : MonoBehaviour
     private string _lobbyId;
     public Dictionary<ulong, ClientSummary> clients { get; private set; } = new Dictionary<ulong, ClientSummary>();
     public Dictionary<ulong, string> clientIdToProfileId = new Dictionary<ulong, string>();
-    private bool allPlayersAccountedFor = false;
+    private int untrackedPlayers = 0;
 
     [SerializeField]
     private List<GameObject> playerShipObjs = new List<GameObject>();
@@ -51,7 +51,7 @@ public class ClientManager : MonoBehaviour
 
     private void OnClientJoined(ulong id)
     {
-        allPlayersAccountedFor = false;
+        untrackedPlayers += 1;
         Dictionary<string, object> request = new Dictionary<string, object>
             {
                 { "service", "lobby" },
@@ -61,7 +61,7 @@ public class ClientManager : MonoBehaviour
                 }
             };
         clientIdToProfileId.Add(id, string.Empty);
-        ServerDebugMessage("Client " + id + " joined");
+        ServerMessage("Client " + id + " joined");
         _bcS2S.Request(request, (string responseJson) => { OnLobbyDataMemberJoin(responseJson, id); });
         if (Application.isEditor) AddClient(id, new ClientSummary());
     }
@@ -74,11 +74,8 @@ public class ClientManager : MonoBehaviour
 
     private void OnLobbyDataMemberJoin(string responseJson, ulong id)
     {
-        ServerDebugMessage("Server tried to respond");
+        ServerMessage("Server trying to respond to " + id);
 
-        if (allPlayersAccountedFor) return;
-
-        ServerDebugMessage("Client joined and brainCloud responded");
         Dictionary<string, object> response = JsonReader.Deserialize<Dictionary<string, object>>(responseJson);
         var data = response["data"] as Dictionary<string, object>;
         Dictionary<string, object>[] membersData = data["members"] as Dictionary<string, object>[];
@@ -89,20 +86,18 @@ public class ClientManager : MonoBehaviour
             output.profileId = member["profileId"] as string;
             output.userPasscode = member["passcode"] as string;
             try { output.extraData = member["extra"] as Dictionary<string, object>; }
-            catch { ServerDebugMessage(output.username + " did not have extra data"); }
+            catch { ServerMessage(output.username + " did not have extra data"); }
             AddClient(id, output);
         }
-
-        allPlayersAccountedFor = true;
-        ServerDebugMessage("All players accounted for");
     }
 
     private void AddClient(ulong newId, ClientSummary newSummary)
     {
         if (!clients.ContainsKey(newId))
         {
-            ServerDebugMessage("adding id " + newId + " player " + newSummary.username);
+            ServerMessage("adding id " + newId + " player " + newSummary.username);
             clients.Add(newId, newSummary);
+            untrackedPlayers -= 1;
         }  
         else clients[newId] = newSummary;
     }
@@ -111,15 +106,15 @@ public class ClientManager : MonoBehaviour
     {
         if (clients.ContainsKey(removedId))
         {
-            ServerDebugMessage("removing id " + removedId);
+            ServerMessage("removing id " + removedId);
             clients.Remove(removedId);
         }
     }
 
     public IEnumerator IdentifyPlayer(PlayerController givenController, string givenPasscode, string givenProfileId, ulong givenCLientId, int claimedShip)
     {
-        ServerDebugMessage("Client started identification");
-        yield return new WaitUntil(() => allPlayersAccountedFor || Application.isEditor);
+        ServerMessage("Client started identification");
+        yield return new WaitUntil(() => untrackedPlayers == 0);
 
         int selectedShipIndex = 0;
 
@@ -139,14 +134,15 @@ public class ClientManager : MonoBehaviour
         }
         else
         {
-            ServerDebugMessage("Could not confirm identity! ");
+            ServerMessage("Could not confirm identity! ");
         }
+        ServerMessage("Server finished identification");
     }
 
     private void AllowSpawnPlayerShip(PlayerController controller, int shipIndex)
     {
         controller.SpawnShip(playerShipObjs[shipIndex], GetSpawnSpot());
-        ServerDebugMessage("Spawned " + playerShipObjs[shipIndex].name);
+        ServerMessage("Spawned " + playerShipObjs[shipIndex].name);
     }
 
     public void AddSpawnSpots(List<Transform> newSpots)
@@ -174,9 +170,11 @@ public class ClientManager : MonoBehaviour
         return output;
     }
 
-    public static void ServerDebugMessage(string message)
+    public static void ServerMessage(string message)
     {
         if (instance == null) return;
+
+        Network.sharedInstance.ServerSendLobbySignal(message);
 
         foreach (PlayerController player in FindObjectsByType(typeof(PlayerController), FindObjectsInactive.Exclude, FindObjectsSortMode.None))
         {

@@ -205,7 +205,32 @@ public class Network : MonoBehaviour
                     StartCoroutine(AttemptStartClient());
                 }
                 break;
+            case "SIGNAL":
+                break;
         }
+    }
+
+    public void ServerSendLobbySignal(string signalMessage)
+    {
+        if (!IsDedicatedServer) return;
+
+        Dictionary<string, object> formattedMessage = new Dictionary<string, object>
+            {
+                { "message", signalMessage }
+            };
+        Dictionary<string, object> request = new Dictionary<string, object>
+            {
+                { "service", "lobby" },
+                { "operation", "SYS_SEND_SIGNAL" },
+                { "data", new Dictionary<string, object>
+                    {
+                        { "lobbyId", _lobbyId },
+                        { "signalData", formattedMessage },
+                        { "from", new Dictionary<string, object>() }
+                    }
+                }
+            };
+        _bcS2S.Request(request, null);
     }
 
     private IEnumerator AttemptStartClient()
