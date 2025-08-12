@@ -2351,6 +2351,7 @@ MonoBehaviour:
   attemptLeaveEvent:
     m_PersistentCalls:
       m_Calls: []
+  chatMessageManager: {fileID: 7344534332506692907}
   gameTimeLabel: {fileID: 4377860123238940331}
   matchEndTimeLabel: {fileID: 198912576893175423}
   matchEndLabel: {fileID: 3505207107868525963}
@@ -3045,6 +3046,7 @@ GameObject:
   - component: {fileID: 3631457453006731656}
   - component: {fileID: 6900963783286762813}
   - component: {fileID: 6946233696498629187}
+  - component: {fileID: 7344534332506692907}
   m_Layer: 5
   m_Name: ChatBox
   m_TagString: Untagged
@@ -3111,6 +3113,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7344534332506692907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7328128311192394601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a723e18f9974c84db2c54b0299f8aba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  messageObj: {fileID: 100000, guid: 37bbdc69d4342474193806115eeef0a1, type: 3}
+  messageParent: {fileID: 8146071795880122998}
 --- !u!1 &7471712526108345623
 GameObject:
   m_ObjectHideFlags: 0

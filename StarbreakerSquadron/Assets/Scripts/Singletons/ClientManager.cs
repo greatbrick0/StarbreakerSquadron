@@ -77,7 +77,7 @@ public class ClientManager : MonoBehaviour
         ServerMessage("Server trying to respond to " + id);
 
         Dictionary<string, object> response = JsonReader.Deserialize<Dictionary<string, object>>(responseJson);
-        var data = response["data"] as Dictionary<string, object>;
+        Dictionary<string, object> data = response["data"] as Dictionary<string, object>;
         Dictionary<string, object>[] membersData = data["members"] as Dictionary<string, object>[];
         foreach(Dictionary<string, object> member in membersData)
         {

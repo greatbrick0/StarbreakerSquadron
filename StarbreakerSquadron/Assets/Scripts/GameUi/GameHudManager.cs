@@ -27,6 +27,8 @@ public class GameHudManager : MonoBehaviour
 
     [Header("Game State Display")]
     [SerializeField]
+    private ChatMessageManager chatMessageManager;
+    [SerializeField]
     private TMP_Text gameTimeLabel;
     [SerializeField]
     private TMP_Text matchEndTimeLabel;
@@ -87,8 +89,13 @@ public class GameHudManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Network.sharedInstance.IsDedicatedServer) Destroy(gameObject);
+        if(Network.sharedInstance.IsDedicatedServer)
+        { 
+            Destroy(gameObject);
+            return;
+        }
         ChangeGameHudState(GameHudState.Shocked);
+        chatMessageManager.AttachCallback();
     }
 
     private void Update()
