@@ -174,7 +174,7 @@ public class ClientManager : MonoBehaviour
     {
         if (instance == null) return;
 
-        Network.sharedInstance.ServerSendLobbySignal(message);
+        Network.sharedInstance.StartServerSendLobbySignal(message);
 
         foreach (PlayerController player in FindObjectsByType(typeof(PlayerController), FindObjectsInactive.Exclude, FindObjectsSortMode.None))
         {

@@ -210,9 +210,28 @@ public class Network : MonoBehaviour
         }
     }
 
-    public void ServerSendLobbySignal(string signalMessage)
+    public void StartClientSendLobbySignal(string signalMessage)
+    {
+        if (IsDedicatedServer) return;
+        if(_lobbyId == null || _lobbyId == string.Empty) return;
+
+        Dictionary<string, object> data = new Dictionary<string, object>
+        {
+            { "lobbyId", _lobbyId },
+            { "signalData", new Dictionary<string, object>{ { "message", signalMessage } } }
+        };
+        _wrapper.ScriptService.RunScript("PlayerSendMessage", JsonWriter.Serialize(data), null, null);
+    }
+
+    public void StartServerSendLobbySignal(string signalMessage)
     {
         if (!IsDedicatedServer) return;
+        StartCoroutine(ServerSendLobbySignal(signalMessage));
+    }
+
+    private IEnumerator ServerSendLobbySignal(string signalMessage)
+    {
+        yield return new WaitForEndOfFrame();
 
         Dictionary<string, object> formattedMessage = new Dictionary<string, object>
             {
@@ -281,6 +300,7 @@ public class Network : MonoBehaviour
             _netManager.Shutdown();
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
             selectionDataApplied = false;
+            _lobbyId = string.Empty;
         };
         _wrapper.LobbyService.LeaveLobby(_lobbyId, success, null);
     }
