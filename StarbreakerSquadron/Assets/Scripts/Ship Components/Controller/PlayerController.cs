@@ -133,7 +133,7 @@ public class PlayerController : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void SendPasscodeRpc(FixedString32Bytes passcode, FixedString128Bytes profileId, ushort claimedShip)
     {
-        StartCoroutine(ClientManager.instance.IdentifyPlayer(this, passcode.ToString(), profileId.ToString(), OwnerClientId, claimedShip));
+        StartCoroutine(ClientManager.instance.IdentifyPlayer(passcode.ToString(), profileId.ToString(), OwnerClientId, claimedShip));
     }
 
     [Rpc(SendTo.Server)]

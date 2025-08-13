@@ -75,6 +75,7 @@ public class Network : MonoBehaviour
         else
         {
             _wrapper = gameObject.AddComponent<BrainCloudWrapper>();
+            _wrapper.WrapperName = GetInstanceName();
             _wrapper.Init();
 
             if (HasAuthenticatedPreviously()) Reconnect();
@@ -165,7 +166,7 @@ public class Network : MonoBehaviour
         
     }
 
-    private void OnLobbyEvent(string json)
+    private void OnLobbyEvent(string json) // Called by the client
     {
         if (shareLobbyData != null) shareLobbyData(json);
         else Debug.Log(json);
@@ -314,6 +315,22 @@ public class Network : MonoBehaviour
             {"selectedShipIndex", selectedShipIndex },
         };
         return extraData;
+    }
+
+    private string GetInstanceName()
+    {
+        string[] args = Environment.GetCommandLineArgs();
+        string instanceName = "Unknown";
+
+        for (int ii = 0; ii < args.Length; ii++)
+        {
+            if (args[ii] == "-name" && ii + 1 < args.Length)
+            {
+                instanceName = args[ii + 1];
+                break;
+            }
+        }
+        return instanceName;
     }
 
     public static void StartRepeatAttemptServerRequest(Dictionary<string, object> request, BrainCloudS2S.S2SCallback callback, FinishAttemptsCondition condition, float frequency)

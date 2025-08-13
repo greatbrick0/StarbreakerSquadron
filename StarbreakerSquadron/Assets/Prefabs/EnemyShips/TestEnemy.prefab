@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 70025308639407794}
   - component: {fileID: 6371555403490413614}
   - component: {fileID: 2302933837152963938}
+  - component: {fileID: 6626660658988687305}
   m_Layer: 6
   m_Name: TestEnemy
   m_TagString: yellow
@@ -404,6 +405,44 @@ MonoBehaviour:
   explosionObj: {fileID: 3289363193490557934, guid: c43c7e9f5ccf65143a6d01ba2073d9bd, type: 3}
   explosionSize: 1
   explosionDuration: 3
+--- !u!114 &6626660658988687305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1904197541174504897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2c018e8d57aac548a7ede834189523b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputActives: 0
+  <slots>k__BackingField:
+  - remainingCooldown: 0
+    <showCooldown>k__BackingField: 0
+    <shownMaximum>k__BackingField: 0
+    cooldownColour: {r: 0, g: 0, b: 0, a: 0}
+    cycle: 0
+    activesObjs: []
+  - remainingCooldown: 0
+    <showCooldown>k__BackingField: 0
+    <shownMaximum>k__BackingField: 0
+    cooldownColour: {r: 0, g: 0, b: 0, a: 0}
+    cycle: 0
+    activesObjs: []
+  - remainingCooldown: 0
+    <showCooldown>k__BackingField: 0
+    <shownMaximum>k__BackingField: 0
+    cooldownColour: {r: 0, g: 0, b: 0, a: 0}
+    cycle: 0
+    activesObjs: []
+  - remainingCooldown: 0
+    <showCooldown>k__BackingField: 0
+    <shownMaximum>k__BackingField: 0
+    cooldownColour: {r: 0, g: 0, b: 0, a: 0}
+    cycle: 0
+    activesObjs: []
 --- !u!1 &8067236441583749978
 GameObject:
   m_ObjectHideFlags: 0

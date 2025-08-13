@@ -533,7 +533,7 @@ MonoBehaviour:
   bulletColour: '#92D050'
   cooldown: 1
   inheritVelocity: 1
-  inheritPortion: 0.7
+  inheritPortion: 0.85
   bulletDamage: 10
   bulletLifeTime: 0.7
   bulletSpeed: 30

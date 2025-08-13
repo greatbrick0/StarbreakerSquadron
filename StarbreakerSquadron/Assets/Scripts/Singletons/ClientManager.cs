@@ -74,8 +74,6 @@ public class ClientManager : MonoBehaviour
 
     private void OnLobbyDataMemberJoin(string responseJson, ulong id)
     {
-        ServerMessage("Server trying to respond to " + id);
-
         Dictionary<string, object> response = JsonReader.Deserialize<Dictionary<string, object>>(responseJson);
         Dictionary<string, object> data = response["data"] as Dictionary<string, object>;
         Dictionary<string, object>[] membersData = data["members"] as Dictionary<string, object>[];
@@ -86,7 +84,7 @@ public class ClientManager : MonoBehaviour
             output.profileId = member["profileId"] as string;
             output.userPasscode = member["passcode"] as string;
             try { output.extraData = member["extra"] as Dictionary<string, object>; }
-            catch { ServerMessage(output.username + " did not have extra data"); }
+            catch { Debug.LogError("No extra data for " + output.username); }
             AddClient(id, output);
         }
     }
@@ -95,42 +93,45 @@ public class ClientManager : MonoBehaviour
     {
         if (!clients.ContainsKey(newId))
         {
-            ServerMessage("adding id " + newId + " player " + newSummary.username);
+            ServerMessage("Adding ID " + newId + ", player " + newSummary.username);
+            newSummary.controllerRef = NetworkManager.Singleton.ConnectedClients[newId].PlayerObject.GetComponent<PlayerController>();
             clients.Add(newId, newSummary);
             untrackedPlayers -= 1;
-        }  
-        else clients[newId] = newSummary;
+        }
+        else
+        {
+            ServerMessage("Already had ID " + newId, true, false);
+        }
     }
 
     private void RemoveClient(ulong removedId)
     {
         if (clients.ContainsKey(removedId))
         {
-            ServerMessage("removing id " + removedId);
+            ServerMessage("removing id " + removedId, true, false);
             clients.Remove(removedId);
         }
     }
 
-    public IEnumerator IdentifyPlayer(PlayerController givenController, string givenPasscode, string givenProfileId, ulong givenCLientId, int claimedShip)
+    public IEnumerator IdentifyPlayer(string givenPasscode, string givenProfileId, ulong givenCLientId, int claimedShip)
     {
-        ServerMessage("Client started identification");
         yield return new WaitUntil(() => untrackedPlayers == 0);
+        ServerMessage("Identification condition met", true);
 
         int selectedShipIndex = 0;
 
         KeyValuePair<ulong, ClientSummary> matchingProfile = clients.FirstOrDefault(kvp => kvp.Value.profileId == givenProfileId);
         if (Application.isEditor)
         {
-            AllowSpawnPlayerShip(givenController, claimedShip);
+            AllowSpawnPlayerShip(clients[givenCLientId].controllerRef, claimedShip);
         }
         else if (matchingProfile.Value.userPasscode == givenPasscode)
         {
             clientIdToProfileId[givenCLientId] = givenProfileId;
-            clients[givenCLientId].controllerRef = givenController;
             try { selectedShipIndex = (int?)clients[givenCLientId].extraData["selectedShipIndex"] ?? 0; }
             catch { selectedShipIndex = 0; }
 
-            AllowSpawnPlayerShip(givenController, selectedShipIndex);
+            AllowSpawnPlayerShip(clients[givenCLientId].controllerRef, selectedShipIndex);
         }
         else
         {
@@ -142,7 +143,6 @@ public class ClientManager : MonoBehaviour
     private void AllowSpawnPlayerShip(PlayerController controller, int shipIndex)
     {
         controller.SpawnShip(playerShipObjs[shipIndex], GetSpawnSpot());
-        ServerMessage("Spawned " + playerShipObjs[shipIndex].name);
     }
 
     public void AddSpawnSpots(List<Transform> newSpots)
@@ -170,15 +170,23 @@ public class ClientManager : MonoBehaviour
         return output;
     }
 
-    public static void ServerMessage(string message)
+    public static void ServerMessage(string message, bool useRpc = false, bool useSignal = true)
     {
         if (instance == null) return;
 
-        Network.sharedInstance.StartServerSendLobbySignal(message);
-
-        foreach (PlayerController player in FindObjectsByType(typeof(PlayerController), FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+        if (useRpc)
         {
-            player.DebugServerMessageRpc(message);
+            foreach (PlayerController player in FindObjectsByType(typeof(PlayerController), FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+            {
+                player.DebugServerMessageRpc(message);
+            }
+        }
+        if (useSignal) 
+        {
+            if(instance.clients.Count > 0)
+            {
+                Network.sharedInstance.StartServerSendLobbySignal(message);
+            }
         }
     }
 }

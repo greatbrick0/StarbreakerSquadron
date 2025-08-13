@@ -1,6 +1,5 @@
 using UnityEngine;
 using Unity.Netcode;
-using NUnit.Framework;
 using System.Collections.Generic;
 
 public class TestEnemyController : NetworkBehaviour
@@ -21,10 +20,14 @@ public class TestEnemyController : NetworkBehaviour
     [SerializeField]
     float carefulSpeed = 2.0f;
 
+    private Movement movement;
+    private WeaponsHolder weaponsHolder;
     private Rigidbody2D rb;
 
     private void Awake()
     {
+        movement = GetComponent<Movement>();
+        weaponsHolder = GetComponent<WeaponsHolder>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -33,6 +36,7 @@ public class TestEnemyController : NetworkBehaviour
         if (!IsServer) return;
 
         inputVec = Vector2.zero;
+        inputActives = 0b0000;
         float rotDir = clockwise ? 1 : -1;
         if (waypoints.Count <= 1)
         {
@@ -67,12 +71,18 @@ public class TestEnemyController : NetworkBehaviour
                 secondsRotated = 0f;
             }
         }
-        GetComponent<Movement>().inputVector = inputVec;
+        movement.inputVector = inputVec;
+        weaponsHolder.inputActives = inputActives;
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
+        for (int ii = 0; ii < waypoints.Count; ii++) 
+        {
+            Gizmos.DrawLine(waypoints[ii], waypoints[(ii + 1) % waypoints.Count]);
+            Gizmos.DrawWireSphere(waypoints[ii], waypointSuccessRadius);
+        }
         foreach (Vector3 ii in waypoints) 
         {
             Gizmos.DrawWireSphere(ii, waypointSuccessRadius);
