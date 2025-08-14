@@ -92,11 +92,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  bulletObj: {fileID: 4364611554046747562, guid: acdeed06c53e6174eb6339eb8358e2fc, type: 3}
+  bulletObj: {fileID: 4364611554046747562, guid: cb25769638ea46246ba8ca67b8b40ae6, type: 3}
   <rb>k__BackingField: {fileID: 0}
   barrels:
-  - {x: 0, y: 0.3, z: 0}
-  <property>k__BackingField: FixedSingleBarrel
+  - {x: 0, y: 0.6, z: 0}
+  <property>k__BackingField: FixedWallBarrel
   <team>k__BackingField: 2
   bulletColour: '#ffff00'
   cooldown: 1
@@ -115,7 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5048587334521823591}
   - component: {fileID: 4204045891482094064}
-  - component: {fileID: 4667255450560743514}
+  - component: {fileID: 840434140265881876}
   - component: {fileID: 926414005331437029}
   - component: {fileID: 8497915012488310995}
   - component: {fileID: 5049682111909379868}
@@ -171,8 +171,8 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!58 &4667255450560743514
-CircleCollider2D:
+--- !u!61 &840434140265881876
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -205,8 +205,18 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Offset: {x: 0, y: -0.2}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.3, y: 1.2}
+  m_EdgeRadius: 0
 --- !u!114 &926414005331437029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,7 +247,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4667255450560743514}
+      - m_Target: {fileID: 840434140265881876}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
@@ -435,7 +445,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 3762510823916854364, guid: 79c509e50f9c9b146bd3641ffc1a1788, type: 3}
+  m_Sprite: {fileID: -3737045717138238920, guid: 58c30675a3801714fbdb217774e1f134, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

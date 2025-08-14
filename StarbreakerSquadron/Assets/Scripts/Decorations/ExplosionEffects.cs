@@ -17,11 +17,11 @@ public class ExplosionEffects : MonoBehaviour
     {
         Camera cam = Camera.main;
 
-        float dist = VecUtils.ModifiedDistance(transform.position, Camera.main.transform.position, 4);
+        float dist = VecUtils.ModifiedDistance(transform.position, cam.transform.position, 4);
         float volume = Mathf.Clamp01(math.remap(soundBounds.x, soundBounds.y, 1, 0, dist));
         sound.volume = volume;
         shakeAmplitude *= volume;
         sound.Play();
-        Camera.main.GetComponent<CameraShakeHandler>().ShakeCamera(shakeAmplitude, shakeCurve);
+        cam.GetComponent<CameraShakeHandler>().ShakeCamera(shakeAmplitude, shakeCurve);
     }
 }

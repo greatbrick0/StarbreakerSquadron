@@ -7,7 +7,7 @@ public class AmbushTrapSpawner : NetworkBehaviour
     private GameObject trapRef;
     private Targetable trapHealth;
 
-    [SerializeField]
+    [SerializeField, Display]
     private float timeInactive = 0.0f;
     private NetworkVariable<bool> isActivated = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 

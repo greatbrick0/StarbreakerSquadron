@@ -93,7 +93,7 @@ public class LoginManager : MonoBehaviour
                 emailCreateErrorLabel.text = "Password is not strong enough!";
                 break;
         }
-        Debug.LogError(jsonError);
+        Debug.Log(jsonError);
     }
 
     public void RequestEmailSignIn(string email, string password)
@@ -120,8 +120,11 @@ public class LoginManager : MonoBehaviour
             case ReasonCodes.EMAIL_NOT_VALID:
                 emailCreateErrorLabel.text = "Invalid email format!";
                 break;
+            case ReasonCodes.TOKEN_DOES_NOT_MATCH_USER:
+                emailCreateErrorLabel.text = "Wrong password!";
+                break;
         }
-        Debug.LogError(jsonError);
+        Debug.Log(jsonError);
     }
 
     public void AttemptCreateEmailAccount()

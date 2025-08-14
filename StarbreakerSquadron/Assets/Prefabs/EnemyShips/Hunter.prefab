@@ -553,6 +553,7 @@ GameObject:
   - component: {fileID: 7052713684858465621}
   - component: {fileID: 8365001368536874354}
   - component: {fileID: 84640075691970757}
+  - component: {fileID: 4542239586154872233}
   m_Layer: 7
   m_Name: Hunter
   m_TagString: yellow
@@ -757,12 +758,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   inputVector: {x: 0, y: 0}
   maxSpeed: 5
-  maxRotationSpeed: 30
-  rotationPower: 50
-  angularDragPower: 30
   accelPower: 5
   dragPower: 1
-  reverseStrength: 0.6
+  stunRemaining: 0
   forwardThrustVisuals:
   - {fileID: 5855661920853033937}
   - {fileID: 9208691158469871261}
@@ -777,6 +775,10 @@ MonoBehaviour:
   backwardThrustVisuals:
   - {fileID: 2320937755628537096}
   - {fileID: 6570128066828827099}
+  maxRotationSpeed: 30
+  rotationPower: 50
+  angularDragPower: 30
+  reverseStrength: 0.6
   leftThrustVisuals:
   - {fileID: 7075429965811291352}
   - {fileID: 4162297737051472175}
@@ -891,6 +893,44 @@ MonoBehaviour:
   tooCloseBuffer: 6
   fadeSpeed: 10
   arrowObj: {fileID: 1541750225992747895, guid: 7e2a406570769d44abe581ce8015d161, type: 3}
+--- !u!114 &4542239586154872233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3699706470943457548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2c018e8d57aac548a7ede834189523b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputActives: 0
+  <slots>k__BackingField:
+  - remainingCooldown: 0
+    <showCooldown>k__BackingField: 0
+    <shownMaximum>k__BackingField: 0
+    cooldownColour: {r: 0, g: 0, b: 0, a: 0}
+    cycle: 0
+    activesObjs: []
+  - remainingCooldown: 0
+    <showCooldown>k__BackingField: 0
+    <shownMaximum>k__BackingField: 0
+    cooldownColour: {r: 0, g: 0, b: 0, a: 0}
+    cycle: 0
+    activesObjs: []
+  - remainingCooldown: 0
+    <showCooldown>k__BackingField: 0
+    <shownMaximum>k__BackingField: 0
+    cooldownColour: {r: 0, g: 0, b: 0, a: 0}
+    cycle: 0
+    activesObjs: []
+  - remainingCooldown: 0
+    <showCooldown>k__BackingField: 0
+    <shownMaximum>k__BackingField: 0
+    cooldownColour: {r: 0, g: 0, b: 0, a: 0}
+    cycle: 0
+    activesObjs: []
 --- !u!1 &3983912331752469483
 GameObject:
   m_ObjectHideFlags: 0

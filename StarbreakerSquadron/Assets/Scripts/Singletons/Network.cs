@@ -71,20 +71,11 @@ public class Network : MonoBehaviour
             _lobbyId = Environment.GetEnvironmentVariable("LOBBY_ID");
             _bcS2S.Init(appId, serverName, serverSecret, true, serverUrl);
             _bcS2S.LoggingEnabled = true;
-
-            Dictionary<string, object> request = new Dictionary<string, object>
-                {
-                    { "service", "lobby" },
-                    { "operation", "GET_LOBBY_DATA" },
-                    { "data", new Dictionary<string, object>
-                    {{ "lobbyId", _lobbyId }}
-                    }
-                };
-            _bcS2S.Request(request, OnLobbyDataInit);
         }
         else
         {
             _wrapper = gameObject.AddComponent<BrainCloudWrapper>();
+            _wrapper.WrapperName = GetInstanceName();
             _wrapper.Init();
 
             if (HasAuthenticatedPreviously()) Reconnect();
@@ -114,6 +105,19 @@ public class Network : MonoBehaviour
     {
         _netManager.StartServer();
         _netManager.SceneManager.LoadScene(sceneIndex, LoadSceneMode.Single);
+    }
+
+    public void BeginServerReady()
+    {
+        Dictionary<string, object> request = new Dictionary<string, object>
+            {
+                { "service", "lobby" },
+                { "operation", "GET_LOBBY_DATA" },
+                { "data", new Dictionary<string, object>
+                {{ "lobbyId", _lobbyId }}
+                }
+            };
+        _bcS2S.Request(request, OnLobbyDataInit);
     }
 
     public string BrainCloudClientVersion
@@ -162,7 +166,7 @@ public class Network : MonoBehaviour
         
     }
 
-    private void OnLobbyEvent(string json)
+    private void OnLobbyEvent(string json) // Called by the client
     {
         if (shareLobbyData != null) shareLobbyData(json);
         else Debug.Log(json);
@@ -202,7 +206,51 @@ public class Network : MonoBehaviour
                     StartCoroutine(AttemptStartClient());
                 }
                 break;
+            case "SIGNAL":
+                break;
         }
+    }
+
+    public void StartClientSendLobbySignal(string signalMessage)
+    {
+        if (IsDedicatedServer) return;
+        if(_lobbyId == null || _lobbyId == string.Empty) return;
+
+        Dictionary<string, object> data = new Dictionary<string, object>
+        {
+            { "lobbyId", _lobbyId },
+            { "signalData", new Dictionary<string, object>{ { "message", signalMessage } } }
+        };
+        _wrapper.ScriptService.RunScript("PlayerSendMessage", JsonWriter.Serialize(data), null, null);
+    }
+
+    public void StartServerSendLobbySignal(string signalMessage)
+    {
+        if (!IsDedicatedServer) return;
+        StartCoroutine(ServerSendLobbySignal(signalMessage));
+    }
+
+    private IEnumerator ServerSendLobbySignal(string signalMessage)
+    {
+        yield return new WaitForEndOfFrame();
+
+        Dictionary<string, object> formattedMessage = new Dictionary<string, object>
+            {
+                { "message", signalMessage }
+            };
+        Dictionary<string, object> request = new Dictionary<string, object>
+            {
+                { "service", "lobby" },
+                { "operation", "SYS_SEND_SIGNAL" },
+                { "data", new Dictionary<string, object>
+                    {
+                        { "lobbyId", _lobbyId },
+                        { "signalData", formattedMessage },
+                        { "from", new Dictionary<string, object>() }
+                    }
+                }
+            };
+        _bcS2S.Request(request, null);
     }
 
     private IEnumerator AttemptStartClient()
@@ -223,10 +271,8 @@ public class Network : MonoBehaviour
         clientPasscode = data["passcode"] as string;
     }
 
-    private void OnLobbyDataInit(string responseString)
+    private void OnLobbyDataInit(string responseString) // Called once, on the server
     {
-        // Called once, on the server
-
         Dictionary<string, object> response =
         JsonReader.Deserialize<Dictionary<string, object>>(responseString);
         int status = (int)response["status"];
@@ -255,6 +301,7 @@ public class Network : MonoBehaviour
             _netManager.Shutdown();
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
             selectionDataApplied = false;
+            _lobbyId = string.Empty;
         };
         _wrapper.LobbyService.LeaveLobby(_lobbyId, success, null);
     }
@@ -268,6 +315,22 @@ public class Network : MonoBehaviour
             {"selectedShipIndex", selectedShipIndex },
         };
         return extraData;
+    }
+
+    private string GetInstanceName()
+    {
+        string[] args = Environment.GetCommandLineArgs();
+        string instanceName = "Unknown";
+
+        for (int ii = 0; ii < args.Length; ii++)
+        {
+            if (args[ii] == "-name" && ii + 1 < args.Length)
+            {
+                instanceName = args[ii + 1];
+                break;
+            }
+        }
+        return instanceName;
     }
 
     public static void StartRepeatAttemptServerRequest(Dictionary<string, object> request, BrainCloudS2S.S2SCallback callback, FinishAttemptsCondition condition, float frequency)
