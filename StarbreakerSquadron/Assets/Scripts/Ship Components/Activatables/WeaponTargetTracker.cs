@@ -26,6 +26,11 @@ public class WeaponTargetTracker : MonoBehaviour
             transform.rotation = Quaternion.FromToRotation(Vector2.up, aimPos - transform.position);
             spriteTransform.rotation = transform.rotation;
         }
+        else
+        {
+            transform.localRotation = Quaternion.identity;
+            spriteTransform.rotation = transform.rotation;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
