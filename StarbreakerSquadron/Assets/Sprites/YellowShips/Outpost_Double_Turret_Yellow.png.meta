@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Outpost_Double_Turret_Yellow_0: 8120704632524132170
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

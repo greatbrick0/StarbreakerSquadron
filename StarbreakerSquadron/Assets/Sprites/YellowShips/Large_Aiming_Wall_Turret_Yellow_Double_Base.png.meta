@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Large_Aiming_Wall_Turret_Yellow_Double_Base_0: 1035629582963745820
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
