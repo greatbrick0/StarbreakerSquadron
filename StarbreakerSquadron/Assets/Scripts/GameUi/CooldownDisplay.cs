@@ -20,7 +20,10 @@ public class CooldownDisplay : MonoBehaviour
     {
         remainingTime = slot.remainingCooldown;
         cooldownBar.value = 1.0f - (remainingTime / cooldownTime);
-        remainingTimeLabel.text = string.Format(StringUtils.COOLDOWN_TIME_LABEL_FORMAT, remainingTime);
+        if(remainingTime > 0.0f)
+            remainingTimeLabel.text = string.Format(StringUtils.COOLDOWN_TIME_LABEL_FORMAT, remainingTime);
+        else
+            remainingTimeLabel.text = string.Empty;
     }
 
     public void AssignSlot(WeaponsHolder.WeaponSlot newSlot)
