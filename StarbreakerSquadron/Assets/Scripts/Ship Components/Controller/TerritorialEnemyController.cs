@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class TerritorialEnemyController : NetworkBehaviour
 {
@@ -16,6 +15,8 @@ public class TerritorialEnemyController : NetworkBehaviour
     private float territoryRadius = 25.0f;
     [SerializeField]
     private float retreatSuccessRadius = 3.0f;
+    [SerializeField]
+    private float idleMaxSpeed = 3.0f;
 
     [SerializeField]
     private HealthDetector playerDetector;
@@ -42,38 +43,64 @@ public class TerritorialEnemyController : NetworkBehaviour
                 if(playerDetector.GetClosestTarget() != null)
                 {
                     state = "battling";
+                    Debug.Log(state);
+                    break;
                 }
-                break;
+                if (Vector2.Distance(territoryCentre, transform.position) > retreatSuccessRadius)
+                {
+                    inputVec = MoveToLocation(territoryCentre, idleMaxSpeed);
+                }
+                else
+                {
+                    inputVec = MoveToLocation(territoryCentre, 0);
+                }
+                    break;
             case "battling":
                 if(playerDetector.GetClosestTarget() == null)
                 {
                     state = "retreating";
+                    Debug.Log(state);
+                    break;
                 }
                 if(Vector2.Distance(territoryCentre, transform.position) > territoryRadius)
                 {
                     state = "retreating";
+                    Debug.Log(state);
+                    break;
                 }
-                inputVec.x = movement.RecommendTurnDirection(playerDetector.GetClosestTarget().position);
-                inputVec.y = 0.5f;
+                inputVec = MoveToLocation(playerDetector.GetClosestTarget().position);
                 inputActives = 0b1111;
                 break;
             case "retreating":
                 if(Vector2.Distance(territoryCentre, transform.position) <= retreatSuccessRadius)
                 {
                     state = "idle";
+                    Debug.Log(state);
+                    break;
                 }
-                inputVec.x = movement.RecommendTurnDirection(territoryCentre);
-                inputVec.y = 0.5f;
+                inputVec = MoveToLocation(territoryCentre, Mathf.Max(Vector2.Distance(territoryCentre, transform.position), idleMaxSpeed));
                 break;
         }
-            
+
         movement.inputVector = inputVec;
         weaponsHolder.inputActives = inputActives;
+    }
+
+    private Vector2 MoveToLocation(Vector2 location, float maxSpeed = float.MaxValue)
+    {
+        Vector2 output;
+        output.x = movement.RecommendTurnDirection(location);
+        if (rb.linearVelocity.magnitude > maxSpeed) output.y = 0;
+        else output.y = Vector2.Dot(transform.up, (location - transform.position.FlattenVec3()).normalized);
+        Debug.DrawLine(transform.position, location, Color.yellow);
+        return output;
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(territoryCentre, territoryRadius);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(territoryCentre, retreatSuccessRadius);
     }
 }

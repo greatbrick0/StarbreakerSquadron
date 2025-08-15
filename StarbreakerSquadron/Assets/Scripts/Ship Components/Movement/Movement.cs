@@ -14,7 +14,7 @@ public abstract class Movement : NetworkBehaviour
 
     public virtual float RecommendTurnDirection(Vector2 targetPoint)
     {
-        float wantedAngle = Vector2.SignedAngle(transform.up, targetPoint);
-        return Mathf.Clamp(wantedAngle / 360, -1, 1);
+        float wantedAngle = Vector3.Dot(transform.right, (targetPoint - transform.position.FlattenVec3()).normalized);
+        return Mathf.Clamp(wantedAngle, -1, 1);
     }
 }

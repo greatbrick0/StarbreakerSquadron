@@ -122,6 +122,9 @@ public class GameHudManager : MonoBehaviour
                 respawnTimeLabel.text = string.Format(SPAWN_TIME_FORMAT, respawnProgress);
                 break;
             case GameHudState.Spectating:
+                respawnCountdownHolder.SetActive(respawnProgress > 0.0f);
+                respawnButtonHolder.SetActive(respawnProgress <= 0.0f);
+                respawnTimeLabel.text = string.Format(SPAWN_TIME_FORMAT, respawnProgress);
                 break;
         }
     }
