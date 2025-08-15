@@ -11,4 +11,10 @@ public abstract class Movement : NetworkBehaviour
     public abstract void Stun(float duration, bool setVelocity = true, Vector2 newVelocity = default);
 
     public abstract Vector2 ReadVelocity();
+
+    public virtual float RecommendTurnDirection(Vector2 targetPoint)
+    {
+        float wantedAngle = Vector2.SignedAngle(transform.up, targetPoint);
+        return Mathf.Clamp(wantedAngle / 360, -1, 1);
+    }
 }

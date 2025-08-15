@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Large_Wall_Turret_Yellow_0: -3737045717138238920
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

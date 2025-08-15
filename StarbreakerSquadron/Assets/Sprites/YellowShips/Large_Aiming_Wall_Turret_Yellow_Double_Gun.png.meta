@@ -185,7 +185,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Large_Aiming_Wall_Turret_Yellow_Double_Gun_0: -9031739078028552199
+      Large_Aiming_Wall_Turret_Yellow_Double_Gun_1: -5221168111604925217
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

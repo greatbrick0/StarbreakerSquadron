@@ -14,6 +14,8 @@ public class TerritorialEnemyController : NetworkBehaviour
     private Vector2 territoryCentre = Vector2.zero;
     [SerializeField]
     private float territoryRadius = 25.0f;
+    [SerializeField]
+    private float retreatSuccessRadius = 3.0f;
 
     [SerializeField]
     private HealthDetector playerDetector;
@@ -43,17 +45,25 @@ public class TerritorialEnemyController : NetworkBehaviour
                 }
                 break;
             case "battling":
-                inputActives = 0b1111;
                 if(playerDetector.GetClosestTarget() == null)
                 {
                     state = "retreating";
                 }
+                if(Vector2.Distance(territoryCentre, transform.position) > territoryRadius)
+                {
+                    state = "retreating";
+                }
+                inputVec.x = movement.RecommendTurnDirection(playerDetector.GetClosestTarget().position);
+                inputVec.y = 0.5f;
+                inputActives = 0b1111;
                 break;
             case "retreating":
-                if(Vector2.Distance(territoryCentre, transform.position) < 3)
+                if(Vector2.Distance(territoryCentre, transform.position) <= retreatSuccessRadius)
                 {
                     state = "idle";
                 }
+                inputVec.x = movement.RecommendTurnDirection(territoryCentre);
+                inputVec.y = 0.5f;
                 break;
         }
             
