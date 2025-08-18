@@ -18,6 +18,10 @@ public class ChatMessageManager : MonoBehaviour
     [SerializeField]
     private int maxChatMessageCharacters = 128;
 
+    [SerializeField]
+    private GameObject badgeRef;
+    private bool canBeSeen = false;
+
     private void OnDestroy()
     {
         Network.sharedInstance.shareLobbyData -= ReceiveEvent;
@@ -26,6 +30,17 @@ public class ChatMessageManager : MonoBehaviour
     public void AttachCallback()
     {
         Network.sharedInstance.shareLobbyData += ReceiveEvent;
+    }
+
+    private void OnEnable()
+    {
+        canBeSeen = true;
+        RemoveBadge();
+    }
+
+    private void OnDisable()
+    {
+        canBeSeen = false;
     }
 
     private void ReceiveEvent(string eventJson)
@@ -45,6 +60,7 @@ public class ChatMessageManager : MonoBehaviour
             }
 
             CreateChatMessage(username, message);
+            AddBadge();
         }
     }
 
@@ -63,12 +79,26 @@ public class ChatMessageManager : MonoBehaviour
 
     public void AttemptSendMessage(string messageText)
     {
-        chatInputField.text = string.Empty;
-        Network.sharedInstance.StartClientSendLobbySignal(messageText);
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            chatInputField.text = string.Empty;
+            Network.sharedInstance.StartClientSendLobbySignal(messageText);
+        }
     }
 
     public void TuneMessage(string messageText) 
     {
         if(chatInputField.text.Length >= maxChatMessageCharacters) chatInputField.text = chatInputField.text.Substring(0, maxChatMessageCharacters);
+    }
+
+    private void AddBadge()
+    {
+        if (canBeSeen) return;
+        badgeRef.SetActive(true);
+    }
+
+    private void RemoveBadge()
+    {
+        badgeRef.SetActive(false);
     }
 }

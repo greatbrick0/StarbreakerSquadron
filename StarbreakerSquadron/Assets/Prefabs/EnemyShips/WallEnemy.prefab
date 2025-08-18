@@ -99,7 +99,7 @@ MonoBehaviour:
   <property>k__BackingField: FixedWallBarrel
   <team>k__BackingField: 2
   bulletColour: '#ffff00'
-  cooldown: 1
+  cooldown: 0.6
   inheritVelocity: 0
   inheritPortion: 0.7
   bulletDamage: 10

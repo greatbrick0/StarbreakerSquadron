@@ -99,4 +99,14 @@ public class HeavyMovement : AccelMovement
             visual.powered = spin < 0f;
         }
     }
+
+    public override float RecommendTurnDirection(Vector2 targetPoint)
+    {
+        Vector2 forward = Vector2.Lerp(ReadVelocity().normalized, transform.up, 0.3f).normalized;
+        float wantedAngle = Vector3.Cross(forward, (targetPoint - transform.position.FlattenVec3()).normalized).z;
+        wantedAngle *= -1;
+        if (Mathf.Abs(sendAngularVelocity.Value * 0.1f) > Mathf.Abs(wantedAngle * rotationPower)) return Mathf.Clamp(-wantedAngle, -0.1f, 0.1f);
+        else if (Mathf.Abs(sendAngularVelocity.Value * 0.5f) > Mathf.Abs(wantedAngle * rotationPower)) return 0;
+        else return Mathf.Clamp(wantedAngle, -1, 1);
+    }
 }
