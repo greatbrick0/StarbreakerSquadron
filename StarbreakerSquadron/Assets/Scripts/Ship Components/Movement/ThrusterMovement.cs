@@ -75,4 +75,12 @@ public class ThrusterMovement : AccelMovement
     {
         MainThrustVisuals(accel);
     }
+
+    public override float RecommendTurnDirection(Vector2 targetPoint)
+    {
+        Vector2 forward = Vector2.Lerp(ReadVelocity().normalized, transform.up, 0.5f).normalized;
+        float wantedAngle = Vector3.Cross(forward, (targetPoint - transform.position.FlattenVec3()).normalized).z;
+        wantedAngle *= -1;
+        return Mathf.Clamp(wantedAngle, -1, 1);
+    }
 }

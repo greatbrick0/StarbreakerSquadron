@@ -1,7 +1,8 @@
-using UnityEditor;
-using UnityEngine;
 using System;
+using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Builds : EditorWindow
 {
@@ -38,6 +39,11 @@ public class Builds : EditorWindow
     [MenuItem("Builds/Play From Start _F5")]
     public static void PlayFromStart()
     {
+        if (SceneManager.GetActiveScene().isDirty)
+        {
+            EditorApplication.Beep();
+            return;
+        }
         EditorSceneManager.OpenScene(buildScenes[0], OpenSceneMode.Single);
     }
 
