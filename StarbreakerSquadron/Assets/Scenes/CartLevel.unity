@@ -15791,6 +15791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 8
+  zoomSpeed: 0.1
 --- !u!1652712579 &954956890
 MultiplayerRolesData:
   m_ObjectHideFlags: 2
@@ -16394,6 +16395,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: AmbushTrapSpawner (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4032755820482358555, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+      propertyPath: inProximityDetector
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4032755820482358555, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+      propertyPath: outProximityDetector
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5922221498445871283, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.4
@@ -16449,6 +16458,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7802045467309192799, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+    - {fileID: 2099966770049213814, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+    - {fileID: 2386705745501529249, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5922221498445871283, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
       insertIndex: -1
@@ -16965,6 +16976,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: AmbushTrapSpawner (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4032755820482358555, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+      propertyPath: inProximityDetector
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4032755820482358555, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+      propertyPath: outProximityDetector
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5922221498445871283, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.6
@@ -17020,6 +17039,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7802045467309192799, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+    - {fileID: 2099966770049213814, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+    - {fileID: 2386705745501529249, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5922221498445871283, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
       insertIndex: -1
@@ -17629,6 +17650,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: AmbushTrapSpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 4032755820482358555, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+      propertyPath: inProximityDetector
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4032755820482358555, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+      propertyPath: outProximityDetector
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5922221498445871283, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 90.7
@@ -17671,7 +17700,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7708341340527741452, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 3121986366
+      value: 112302636
       objectReference: {fileID: 0}
     - target: {fileID: 7708341340527741452, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
       propertyPath: SceneMigrationSynchronization
@@ -17684,6 +17713,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7802045467309192799, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+    - {fileID: 2099966770049213814, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+    - {fileID: 2386705745501529249, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5922221498445871283, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
       insertIndex: -1
@@ -18029,6 +18060,14 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 4032755820482358555, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+      propertyPath: inProximityDetector
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4032755820482358555, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+      propertyPath: outProximityDetector
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4754499990067445026, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -18106,7 +18145,9 @@ PrefabInstance:
       value: 1558369344
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2099966770049213814, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+    - {fileID: 2386705745501529249, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5922221498445871283, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
       insertIndex: -1
