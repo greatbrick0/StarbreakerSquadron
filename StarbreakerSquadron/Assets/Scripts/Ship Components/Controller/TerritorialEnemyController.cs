@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class TerritorialEnemyController : NetworkBehaviour
 {
+    private enum States
+    {
+        Idle,
+        Battle,
+        Retreat
+    }
     private Vector2 inputVec = Vector2.zero;
     private byte inputActives = 0;
 
     [SerializeField, Display]
-    private string state = "idle";
+    private States state = States.Idle;
     [SerializeField]
     private Vector2 territoryCentre = Vector2.zero;
     [SerializeField]
@@ -39,11 +45,10 @@ public class TerritorialEnemyController : NetworkBehaviour
         inputActives = 0b0000;
         switch (state)
         {
-            case "idle":
+            case States.Idle:
                 if(playerDetector.GetClosestTarget() != null)
                 {
-                    state = "battling";
-                    Debug.Log(state);
+                    state = States.Battle;
                     break;
                 }
                 if (Vector2.Distance(territoryCentre, transform.position) > retreatSuccessRadius)
@@ -55,27 +60,24 @@ public class TerritorialEnemyController : NetworkBehaviour
                     inputVec = MoveToLocation(territoryCentre, 0);
                 }
                     break;
-            case "battling":
+            case States.Battle:
                 if(playerDetector.GetClosestTarget() == null)
                 {
-                    state = "retreating";
-                    Debug.Log(state);
+                    state = States.Retreat;
                     break;
                 }
                 if(Vector2.Distance(territoryCentre, transform.position) > territoryRadius)
                 {
-                    state = "retreating";
-                    Debug.Log(state);
+                    state = States.Retreat;
                     break;
                 }
                 inputVec = MoveToLocation(playerDetector.GetClosestTarget().position);
                 inputActives = 0b1111;
                 break;
-            case "retreating":
+            case States.Retreat:
                 if(Vector2.Distance(territoryCentre, transform.position) <= retreatSuccessRadius)
                 {
-                    state = "idle";
-                    Debug.Log(state);
+                    state = States.Idle;
                     break;
                 }
                 inputVec = MoveToLocation(territoryCentre, Mathf.Max(Vector2.Distance(territoryCentre, transform.position), idleMaxSpeed));
