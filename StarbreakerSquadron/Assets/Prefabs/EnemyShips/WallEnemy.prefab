@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1503907508312363613}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -95,7 +95,7 @@ MonoBehaviour:
   bulletObj: {fileID: 4364611554046747562, guid: cb25769638ea46246ba8ca67b8b40ae6, type: 3}
   <rb>k__BackingField: {fileID: 0}
   barrels:
-  - {x: 0, y: 0.6, z: 0}
+  - {x: 0, y: 0, z: 0}
   <property>k__BackingField: FixedWallBarrel
   <team>k__BackingField: 2
   bulletColour: '#ffff00'
@@ -205,7 +205,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.2}
+  m_Offset: {x: 0, y: 0.6}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -401,7 +401,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarObj: {fileID: 8681135136988067494, guid: e176c0fed38693543b6bc7bca62e24bf, type: 3}
   isOwner: 0
-  offset: {x: 0, y: -0.95, z: 0}
+  offset: {x: 0, y: -0.1, z: 0}
 --- !u!114 &9131565088581320487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,7 +443,7 @@ Transform:
   m_GameObject: {fileID: 8067236441583749978}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.825, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

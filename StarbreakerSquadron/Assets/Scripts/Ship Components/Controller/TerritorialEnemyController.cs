@@ -13,7 +13,6 @@ public class TerritorialEnemyController : NetworkBehaviour
     private Vector2 inputVec = Vector2.zero;
     private byte inputActives = 0;
 
-    [SerializeField, Display]
     private States state = States.Idle;
     [SerializeField]
     private Vector2 territoryCentre = Vector2.zero;

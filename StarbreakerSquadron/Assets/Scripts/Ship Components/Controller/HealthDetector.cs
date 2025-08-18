@@ -8,7 +8,7 @@ public class HealthDetector : MonoBehaviour
     private Transform closestTarget;
 
     [SerializeField]
-    private Teams team = Teams.Environment;
+    private Teams ownerTeam = Teams.Environment;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -16,7 +16,7 @@ public class HealthDetector : MonoBehaviour
 
         if (collision.gameObject.TryGetComponent(out SmallHealth smallTargetable))
         {
-            if (smallTargetable.team != team)
+            if (smallTargetable.team != ownerTeam)
             {
                 targets.Add(collision.transform);
                 if(closestTarget == null)

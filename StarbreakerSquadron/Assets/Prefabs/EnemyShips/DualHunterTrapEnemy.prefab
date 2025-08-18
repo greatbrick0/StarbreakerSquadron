@@ -102,7 +102,7 @@ MonoBehaviour:
   <property>k__BackingField: FixedSingleBarrel
   <team>k__BackingField: 2
   bulletColour: '#ffff00'
-  cooldown: 0.3
+  cooldown: 0.6
   inheritVelocity: 0
   inheritPortion: 0
   bulletDamage: 10
@@ -359,7 +359,7 @@ MonoBehaviour:
   <property>k__BackingField: FixedSingleBarrel
   <team>k__BackingField: 2
   bulletColour: '#ffff00'
-  cooldown: 0.3
+  cooldown: 0.6
   inheritVelocity: 0
   inheritPortion: 0
   bulletDamage: 10
@@ -773,7 +773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  state: idle
+  state: 0
   territoryCentre: {x: 0, y: 0}
   territoryRadius: 17
   retreatSuccessRadius: 5

@@ -1,6 +1,8 @@
-using UnityEngine;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
+using UnityEngine;
 
 public class AmbushTrapSpawner : NetworkBehaviour
 {
@@ -13,6 +15,32 @@ public class AmbushTrapSpawner : NetworkBehaviour
 
     [SerializeField]
     private float kickPower = 40.0f;
+    [SerializeField]
+    private float kickTime = 0.3f;
+
+    [Header("Cooldown")]
+    [SerializeField]
+    private bool useCooldown = true;
+    [SerializeField]
+    private float cooldownTime = 10.0f;
+    [Header("In Proximity")]
+    [SerializeField]
+    private bool useInProximity = false;
+    [SerializeField]
+    private HealthDetector inProximityDetector;
+    [Header("Out Proximity")]
+    [SerializeField]
+    private bool useOutProximity = false;
+    [SerializeField]
+    private HealthDetector outProximityDetector;
+    [Header("Schedule")]
+    [SerializeField]
+    private bool useSchedule = false;
+    [SerializeField]
+    private List<Vector2> scheduleWindows = new List<Vector2>();
+    private List<bool> windowsUsed = new List<bool>();
+
+    private List<Func<bool>> conditions = new List<Func<bool>>();
 
     public override void OnNetworkSpawn()
     {
@@ -24,6 +52,15 @@ public class AmbushTrapSpawner : NetworkBehaviour
         {
             trapRef.transform.position = transform.position;
             trapRef.transform.rotation = transform.rotation;
+
+            if (useCooldown) conditions.Add(CooldownCondition);
+            if (useInProximity) conditions.Add(InProximityCondition);
+            if (useOutProximity) conditions.Add(OutProximityCondition);
+            if (useSchedule)
+            {
+                windowsUsed.AddRange(Enumerable.Repeat(false, 50));
+                conditions.Add(ScheduleCondition);
+            }
         }
         else
         {
@@ -41,7 +78,7 @@ public class AmbushTrapSpawner : NetworkBehaviour
             if (!trapHealth.isAlive)
             {
                 timeInactive += 1.0f * Time.deltaTime;
-                if (timeInactive > 10.0f) ActivateTrapRpc();
+                if (CheckSpawnConditions()) ActivateTrapRpc();
             }
         }
     }
@@ -50,7 +87,7 @@ public class AmbushTrapSpawner : NetworkBehaviour
     public void ActivateTrapRpc()
     {
         trapHealth.BecomeShown();
-        trapRef.GetComponent<Movement>().Stun(0.3f, true, transform.up * kickPower);
+        if(kickPower > 0) trapRef.GetComponent<Movement>().Stun(kickTime, true, transform.up * kickPower);
     }
 
     private void ResetTrap()
@@ -58,5 +95,44 @@ public class AmbushTrapSpawner : NetworkBehaviour
         timeInactive = 0.0f;
         trapRef.transform.position = transform.position;
         trapRef.transform.rotation = transform.rotation;
+    }
+
+    private bool CheckSpawnConditions()
+    {
+        foreach(Func<bool> ii in conditions)
+        {
+            if (!ii.Invoke()) return false;
+        }
+        return true;
+    }
+
+    private bool CooldownCondition()
+    {
+        return timeInactive > cooldownTime;
+    }
+
+    private bool InProximityCondition()
+    {
+        return inProximityDetector.GetClosestTarget() != null;
+    }
+
+    private bool OutProximityCondition()
+    {
+        return outProximityDetector.GetClosestTarget() == null;
+    }
+
+    private bool ScheduleCondition()
+    {
+        float time = GameStateController.instance.GetGameRemianingTime();
+        for (int ii = 0; ii < scheduleWindows.Count; ii++)
+        {
+            if (windowsUsed[ii]) continue;
+            if (time <= scheduleWindows[ii].x && time > scheduleWindows[ii].y)
+            {
+                windowsUsed[ii] = true;
+                return true;
+            }
+        }
+        return false;
     }
 }

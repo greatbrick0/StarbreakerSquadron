@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 7673591094648385522}
   - component: {fileID: 8530485726303949787}
   m_Layer: 8
-  m_Name: DamageBullet
+  m_Name: DamageBulletSmall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
