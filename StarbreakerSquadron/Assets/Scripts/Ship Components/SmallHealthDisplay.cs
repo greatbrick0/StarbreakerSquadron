@@ -43,6 +43,6 @@ public class SmallHealthDisplay : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(offset, new Vector3(1.2f, 0.1f, 0.1f));
+        Gizmos.DrawWireCube(offset + transform.position, new Vector3(1.2f, 0.1f, 0.1f));
     }
 }
