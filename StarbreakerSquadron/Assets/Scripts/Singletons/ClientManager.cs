@@ -93,7 +93,7 @@ public class ClientManager : MonoBehaviour
     {
         if (!clients.ContainsKey(newId))
         {
-            ServerMessage("Adding ID " + newId + ", player " + newSummary.username);
+            ServerMessage(newSummary.username + " joined! ");
             newSummary.controllerRef = NetworkManager.Singleton.ConnectedClients[newId].PlayerObject.GetComponent<PlayerController>();
             clients.Add(newId, newSummary);
             untrackedPlayers -= 1;
@@ -108,15 +108,16 @@ public class ClientManager : MonoBehaviour
     {
         if (clients.ContainsKey(removedId))
         {
-            ServerMessage("removing id " + removedId, true, false);
+            ServerMessage(clients[removedId].username + "  is leaving. ", true, false);
             clients.Remove(removedId);
         }
     }
 
     public IEnumerator IdentifyPlayer(string givenPasscode, string givenProfileId, ulong givenCLientId, int claimedShip)
     {
+        yield return new WaitForSeconds(1.0f);
         yield return new WaitUntil(() => untrackedPlayers == 0);
-        ServerMessage("Identification condition met", true);
+        ServerMessage("Identification condition met", true, false);
 
         int selectedShipIndex = 0;
 
@@ -135,9 +136,9 @@ public class ClientManager : MonoBehaviour
         }
         else
         {
-            ServerMessage("Could not confirm identity! ");
+            ServerMessage("Could not confirm identity! ", true, false);
         }
-        ServerMessage("Server finished identification");
+        ServerMessage("Server finished identification", true);
     }
 
     private void AllowSpawnPlayerShip(PlayerController controller, int shipIndex)

@@ -47,8 +47,8 @@ public class PlayerController : NetworkBehaviour
             shipMovement.inputVector = sendInputVec.Value;
             shipWeapons.inputActives = sendInputActives.Value;
         }
+        if (shipRefId != 0 && shipRef == null) ShipInitialize(shipRefId);
         if (!IsOwner) return;
-        if (shipRefId != 0 && shipRef == null) InitShipRef(shipRefId);
         if (shipRef == null) return;
 
         if (!shipHealth.isAlive)
@@ -149,7 +149,7 @@ public class PlayerController : NetworkBehaviour
     private void FinishRespawnRpc()
     {
         shipHealth.BecomeShown();
-        if (!IsServer)
+        if (IsOwner)
         {
             gameHud.ChangeGameHudState(GameHudState.Gameplay);
             cam.InitLead();
@@ -174,16 +174,10 @@ public class PlayerController : NetworkBehaviour
         cam.SnapTo(newPos);
     }
 
-    private void InitShipRef(ulong id)
+    private void ShipInitialize(ulong id)
     {
-        if (!NetworkManager.Singleton.SpawnManager.SpawnedObjects.ContainsKey(shipRefId)) return;
-
-        shipRef = NetworkManager.Singleton.SpawnManager.SpawnedObjects[id].gameObject;
-
-        //components
-        shipMovement = shipRef.GetComponent<Movement>();
-        shipWeapons = shipRef.GetComponent<WeaponsHolder>();
-        shipHealth = shipRef.GetComponent<SmallHealth>();
+        if (!InitShipReferences(id)) return;
+        if (!IsOwner) return;
 
         //camera
         cam.followTarget = shipRef.transform;
@@ -205,5 +199,18 @@ public class PlayerController : NetworkBehaviour
         gameHud.respawnButton.onClick.AddListener(AttemptRespawnRpc);
 
         gameHud.ChangeGameHudState(GameHudState.Gameplay);
+    }
+
+    private bool InitShipReferences(ulong id)
+    {
+        if (!NetworkManager.Singleton.SpawnManager.SpawnedObjects.ContainsKey(shipRefId)) return false;
+
+        shipRef = NetworkManager.Singleton.SpawnManager.SpawnedObjects[id].gameObject;
+
+        shipMovement = shipRef.GetComponent<Movement>();
+        shipWeapons = shipRef.GetComponent<WeaponsHolder>();
+        shipHealth = shipRef.GetComponent<SmallHealth>();
+
+        return true;
     }
 }
