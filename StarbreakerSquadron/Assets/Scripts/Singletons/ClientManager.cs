@@ -61,7 +61,6 @@ public class ClientManager : MonoBehaviour
                 }
             };
         clientIdToProfileId.Add(id, string.Empty);
-        ServerMessage("Client " + id + " joined");
         _bcS2S.Request(request, (string responseJson) => { OnLobbyDataMemberJoin(responseJson, id); });
         if (Application.isEditor) AddClient(id, new ClientSummary());
     }

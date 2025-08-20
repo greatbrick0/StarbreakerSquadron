@@ -25,10 +25,11 @@ public class PlayerNameDisplay : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (!IsServer) return;
-
-        playerId.OnValueChanged += DisplayName;
-        if (playerId.Value != 0) DisplayName(0, playerId.Value);
+        if (!IsServer)
+        {
+            playerId.OnValueChanged += (prevId, newId) => RequestNameDisplayRpc(NetworkManager.Singleton.LocalClientId);
+            if (playerId.Value != 0) RequestNameDisplayRpc(NetworkManager.Singleton.LocalClientId);
+        }
     }
 
     private void OnEnable()
@@ -41,12 +42,6 @@ public class PlayerNameDisplay : NetworkBehaviour
         Destroy(labelRef);
     }
 
-    public override void OnDestroy()
-    {
-        base.OnDestroy();
-        playerId.OnValueChanged -= DisplayName;
-    }
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
@@ -57,9 +52,6 @@ public class PlayerNameDisplay : NetworkBehaviour
     {
         labelRef.transform.position = transform.position + offset;
         labelRef.SetActive(health.isAlive);
-        string output = labelRef.GetComponent<TMP_Text>().text;
-        output = playerId.Value.ToString() + output.Substring(1);
-        labelRef.GetComponent<TMP_Text>().text = output;
     }
 
     public void SetPlayerId(ulong newId)
@@ -67,19 +59,29 @@ public class PlayerNameDisplay : NetworkBehaviour
         playerId.Value = newId;
     }
 
-    private void DisplayName(ulong prevId, ulong newId)
+    [Rpc(SendTo.Server)]
+    private void RequestNameDisplayRpc(ulong id)
     {
-        FixedString32Bytes output;
-        //if (NetworkManager.Singleton.LocalClientId == newId) output = new FixedString32Bytes(string.Empty);
-        //else output = new FixedString32Bytes(ClientManager.instance.clients[ClientManager.instance.clientIds.IndexOf(newId)].username);
-        output = new FixedString32Bytes(ClientManager.instance.clients[newId].username);
-
-        SetNameRpc(output);
+        DisplayNameTargeted(0, playerId.Value, id);
     }
 
-    [Rpc(SendTo.Everyone)]
-    private void SetNameRpc(FixedString32Bytes newName)
+    private void DisplayNameTargeted(ulong prevId, ulong newId, ulong target)
     {
-        labelRef.GetComponent<TMP_Text>().text = newName.ToString();
+        FixedString32Bytes output = new FixedString32Bytes(ClientManager.instance.clients[newId].username);
+
+        SetNameRpc(output, newId, RpcTarget.Single(target, RpcTargetUse.Temp));
+    }
+
+    [Rpc(SendTo.SpecifiedInParams)]
+    private void SetNameRpc(FixedString32Bytes newName, ulong id, RpcParams rpcParams = default)
+    {
+        if(id == NetworkManager.Singleton.LocalClientId && false)
+        {
+            labelRef.GetComponent<TMP_Text>().text = string.Empty;
+        }
+        else
+        {
+            labelRef.GetComponent<TMP_Text>().text = newName.ToString();
+        }
     }
 }

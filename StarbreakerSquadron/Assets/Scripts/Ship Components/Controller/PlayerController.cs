@@ -32,11 +32,12 @@ public class PlayerController : NetworkBehaviour
         {
             if (!IsOwner) return;
 
+            Network network = Network.sharedInstance;
             cam = Camera.main.GetComponent<FollowCamera>();
             gameHud = FindFirstObjectByType<GameHudManager>();
-            gameHud.attemptLeaveEvent.AddListener(Network.sharedInstance.DisconnectFromSession);
-            GameStateController.instance.attemptLeaveEvent.AddListener(Network.sharedInstance.DisconnectFromSession);
-            SendPasscodeRpc(new FixedString32Bytes(Network.sharedInstance.clientPasscode), new FixedString128Bytes(Network.sharedInstance.clientProfileId), Network.sharedInstance.selectedShipIndex);
+            gameHud.attemptLeaveEvent.AddListener(network.DisconnectFromSession);
+            GameStateController.instance.attemptLeaveEvent.AddListener(network.DisconnectFromSession);
+            SendPasscodeRpc(new FixedString32Bytes(network.clientPasscode), new FixedString128Bytes(network.clientProfileId), network.selectedShipIndex);
         }
     }
 
@@ -49,6 +50,11 @@ public class PlayerController : NetworkBehaviour
         }
         if (shipRefId != 0 && shipRef == null) ShipInitialize(shipRefId);
         if (!IsOwner) return;
+        if (Input.GetKeyUp(KeyCode.H))
+        {
+            Network network = Network.sharedInstance;
+            SendPasscodeRpc(new FixedString32Bytes(network.clientPasscode), new FixedString128Bytes(network.clientProfileId), network.selectedShipIndex);
+        }
         if (shipRef == null) return;
 
         if (!shipHealth.isAlive)
