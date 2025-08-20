@@ -50,13 +50,16 @@ public class PlayerNameDisplay : NetworkBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(offset, new Vector3(2.4f, 0.35f, 0.1f));
+        Gizmos.DrawWireCube(offset + transform.position, new Vector3(2.4f, 0.35f, 0.1f));
     }
 
     private void Update()
     {
         labelRef.transform.position = transform.position + offset;
         labelRef.SetActive(health.isAlive);
+        string output = labelRef.GetComponent<TMP_Text>().text;
+        output = playerId.Value.ToString() + output.Substring(1);
+        labelRef.GetComponent<TMP_Text>().text = output;
     }
 
     public void SetPlayerId(ulong newId)

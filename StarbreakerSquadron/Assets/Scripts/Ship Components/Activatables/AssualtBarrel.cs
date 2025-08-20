@@ -17,7 +17,7 @@ public class AssualtBarrel : FixedBarrel
         Gizmos.color = Color.red;
         foreach (Vector3 barrel in barrels)
         {
-            Gizmos.DrawRay(barrel.SetZ() + transform.position, Vector3.up.RotateDegrees(barrel.z) * 0.3f);
+            Gizmos.DrawRay(barrel.SetZ() + transform.position, transform.up.RotateDegrees(barrel.z) * 0.3f);
         }
     }
 
