@@ -78,6 +78,7 @@ public class ThrusterMovement : AccelMovement
 
     public override float RecommendTurnDirection(Vector2 targetPoint)
     {
+        //rough average of the two ideas of "forward" gives desired behaviour for the ai
         Vector2 forward = Vector2.Lerp(ReadVelocity().normalized, transform.up, 0.5f).normalized;
         float wantedAngle = Vector3.Cross(forward, (targetPoint - transform.position.FlattenVec3()).normalized).z;
         wantedAngle *= -1;
