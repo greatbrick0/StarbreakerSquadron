@@ -183,7 +183,7 @@ MonoBehaviour:
   - {fileID: 8785643956225893162}
   property: IronHulk
   rotationSpeed: 180
-  reverseStrength: 0.3
+  reverseStrength: 0.6
 --- !u!50 &7764124592271108407
 Rigidbody2D:
   serializedVersion: 5
