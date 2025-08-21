@@ -1559,16 +1559,16 @@ MonoBehaviour:
   m_MultiSelect: 0
   m_Options:
     m_Options:
-    - m_Text: Windowed
-      m_Image: {fileID: 0}
-      m_Color: {r: 1, g: 1, b: 1, a: 1}
-    - m_Text: Maximized Window
+    - m_Text: Fullscreen
       m_Image: {fileID: 0}
       m_Color: {r: 1, g: 1, b: 1, a: 1}
     - m_Text: Borderless
       m_Image: {fileID: 0}
       m_Color: {r: 1, g: 1, b: 1, a: 1}
-    - m_Text: Fullscreen
+    - m_Text: Maximized Window
+      m_Image: {fileID: 0}
+      m_Color: {r: 1, g: 1, b: 1, a: 1}
+    - m_Text: Windowed
       m_Image: {fileID: 0}
       m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_OnValueChanged:
@@ -3980,6 +3980,7 @@ MonoBehaviour:
   mainMenuManager: {fileID: 1199321807}
   usernameLabel: {fileID: 141488175}
   usernameInputField: {fileID: 1119183228}
+  windowModeDropdown: {fileID: 433086465}
   bufferSpinner: {fileID: 1983697640}
   bufferSpinnerSpeed: 270
 --- !u!1 &776918929

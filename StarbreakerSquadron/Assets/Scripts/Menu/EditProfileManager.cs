@@ -17,6 +17,8 @@ public class EditProfileManager : MonoBehaviour
     [SerializeField]
     private TMP_InputField usernameInputField;
     [SerializeField]
+    private TMP_Dropdown windowModeDropdown;
+    [SerializeField]
     private Transform bufferSpinner;
     [SerializeField]
     private float bufferSpinnerSpeed = 180;
@@ -26,6 +28,11 @@ public class EditProfileManager : MonoBehaviour
     private void Start()
     {
         _wrapper = Network.sharedInstance._wrapper;
+    }
+
+    private void OnEnable()
+    {
+        windowModeDropdown.value = (int)Screen.fullScreenMode;
     }
 
     private void Update()
@@ -86,9 +93,16 @@ public class EditProfileManager : MonoBehaviour
         LeaveScreenPermission(true);
     }
 
-    public void ChangeWindowMode(Int32 newValue)
+    public void ChangeWindowMode(int newValue)
     {
-
+        FullScreenMode newMode = (FullScreenMode)newValue;
+        if (newMode == FullScreenMode.Windowed)
+        {
+            Screen.SetResolution(1280, 720, false);
+            Screen.fullScreenMode = newMode;
+        }
+        else Screen.fullScreenMode = newMode;
+        
     }
 
     private void LeaveScreenPermission(bool permission)
