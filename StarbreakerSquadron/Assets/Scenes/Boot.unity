@@ -454,7 +454,7 @@ MonoBehaviour:
   _lobbyId: 
   selectedShipIndex: 0
   selectionDataApplied: 0
-  serverSceneToLoad: OpenLevel
+  serverSceneToLoad: CartLevel
 --- !u!4 &271905700
 Transform:
   m_ObjectHideFlags: 0
