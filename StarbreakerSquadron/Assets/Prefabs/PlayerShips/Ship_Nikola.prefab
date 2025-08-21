@@ -93,7 +93,7 @@ MonoBehaviour:
   - {fileID: 8572354019768690715}
   property: Nikola
   rotationSpeed: 180
-  reverseStrength: 0.3
+  reverseStrength: 0.6
 --- !u!50 &7764124592271108407
 Rigidbody2D:
   serializedVersion: 5

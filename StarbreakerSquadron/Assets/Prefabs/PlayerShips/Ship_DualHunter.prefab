@@ -696,7 +696,7 @@ MonoBehaviour:
   - {fileID: 1961108077264344308}
   property: DualHunter
   rotationSpeed: 180
-  reverseStrength: 0.3
+  reverseStrength: 0.6
 --- !u!50 &7764124592271108407
 Rigidbody2D:
   serializedVersion: 5
