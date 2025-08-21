@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections.Generic;
 using BrainCloud.JsonFx.Json;
 using UnityEngine.SceneManagement;
+using System;
 
 public class EditProfileManager : MonoBehaviour
 {
@@ -83,6 +84,11 @@ public class EditProfileManager : MonoBehaviour
         Debug.Log("Name change failure");
         usernameInputField.text = previousName;
         LeaveScreenPermission(true);
+    }
+
+    public void ChangeWindowMode(Int32 newValue)
+    {
+
     }
 
     private void LeaveScreenPermission(bool permission)

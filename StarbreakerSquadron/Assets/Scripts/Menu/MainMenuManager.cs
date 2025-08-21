@@ -1,10 +1,11 @@
+using BrainCloud.JsonFx.Json;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using TMPro;
-using BrainCloud.JsonFx.Json;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -107,6 +108,9 @@ public class MainMenuManager : MonoBehaviour
 
     public void QuitApp()
     {
+#if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+#endif
         Application.Quit();
     }
 
