@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
+#if UNITY_EDITOR
+using UnityEditor.SceneManagement;
+#endif
 using UnityEngine;
 
 public class AmbushTrapSpawner : NetworkBehaviour
@@ -82,6 +85,22 @@ public class AmbushTrapSpawner : NetworkBehaviour
             }
         }
     }
+
+#if UNITY_EDITOR
+    [ContextMenu("Set Unit As Last Child")]
+    private void SetTargetableAsLast()
+    {
+        for(int ii = 0; ii < transform.childCount; ii++)
+        {
+            if (transform.GetChild(ii).TryGetComponent(out Targetable health))
+            {
+                transform.GetChild(ii).SetAsLastSibling();
+                EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+                return;
+            }
+        }
+    }
+#endif
 
     [Rpc(SendTo.Everyone)]
     public void ActivateTrapRpc()

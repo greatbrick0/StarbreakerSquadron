@@ -39,6 +39,8 @@ public class SpawnPoints : MonoBehaviour
     private void AddPlatforms()
     {
         if (platformSprite == null) return;
+        if (pointHolder == null) return;
+        if (visuals == null) return;
 
         for (int ii = 0; ii < pointHolder.childCount; ii++)
         {
