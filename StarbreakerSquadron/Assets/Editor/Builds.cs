@@ -12,7 +12,8 @@ public class Builds : EditorWindow
         "Assets/Scenes/Boot.unity", 
         "Assets/Scenes/Login.unity", 
         "Assets/Scenes/MainMenu.unity", 
-        "Assets/Scenes/OpenLevel.unity" 
+        "Assets/Scenes/OpenLevel.unity",
+        "Assets/Scenes/CartLevel.unity"
     }; 
 
     public string path = "";
