@@ -24,6 +24,7 @@ public class PlayerController : NetworkBehaviour
     private byte inputActives = 0;
     private NetworkVariable<byte> sendInputActives = new NetworkVariable<byte>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
+    [SerializeField]
     private float respawnTime = 10.0f;
     public float respawnProgress { get; private set; } = 0.0f;
 
