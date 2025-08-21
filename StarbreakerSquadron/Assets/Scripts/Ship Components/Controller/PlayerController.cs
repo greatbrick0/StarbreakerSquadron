@@ -11,6 +11,7 @@ public class PlayerController : NetworkBehaviour
     private GameObject warpEffectRef;
     private GameObject shipRef;
     private ulong shipRefId = 0;
+    public NetworkVariable<ulong> sendShipRefId { get; private set; } = new NetworkVariable<ulong>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     private Movement shipMovement;
     private WeaponsHolder shipWeapons;
@@ -28,17 +29,15 @@ public class PlayerController : NetworkBehaviour
 
     private void Start()
     {
-        if (!IsServer)
-        {
-            if (!IsOwner) return;
+        if (IsServer) return;
+        if (!IsOwner) return;
 
-            Network network = Network.sharedInstance;
-            cam = Camera.main.GetComponent<FollowCamera>();
-            gameHud = FindFirstObjectByType<GameHudManager>();
-            gameHud.attemptLeaveEvent.AddListener(network.DisconnectFromSession);
-            GameStateController.instance.attemptLeaveEvent.AddListener(network.DisconnectFromSession);
-            SendPasscodeRpc(new FixedString32Bytes(network.clientPasscode), new FixedString128Bytes(network.clientProfileId), network.selectedShipIndex);
-        }
+        Network network = Network.sharedInstance;
+        cam = Camera.main.GetComponent<FollowCamera>();
+        gameHud = FindFirstObjectByType<GameHudManager>();
+        gameHud.attemptLeaveEvent.AddListener(network.DisconnectFromSession);
+        GameStateController.instance.attemptLeaveEvent.AddListener(network.DisconnectFromSession);
+        SendPasscodeRpc(new FixedString32Bytes(network.clientPasscode), new FixedString128Bytes(network.clientProfileId), network.selectedShipIndex);
     }
 
     private void Update()
@@ -48,9 +47,9 @@ public class PlayerController : NetworkBehaviour
             shipMovement.inputVector = sendInputVec.Value;
             shipWeapons.inputActives = sendInputActives.Value;
         }
-        if (shipRefId != 0 && shipRef == null) ShipInitialize(shipRefId);
+        if (shipRef == null) ShipInitialize(shipRefId);
         if (!IsOwner) return;
-        if (Input.GetKeyUp(KeyCode.H))
+        if (Input.GetKeyUp(KeyCode.H) && Application.isEditor)
         {
             Network network = Network.sharedInstance;
             SendPasscodeRpc(new FixedString32Bytes(network.clientPasscode), new FixedString128Bytes(network.clientProfileId), network.selectedShipIndex);
@@ -166,6 +165,7 @@ public class PlayerController : NetworkBehaviour
     private void OwnerFindShipRpc(ulong id)
     {
         shipRefId = id;
+        sendShipRefId.Value = id;
     }
 
     [Rpc(SendTo.Owner)]
@@ -182,8 +182,14 @@ public class PlayerController : NetworkBehaviour
 
     private void ShipInitialize(ulong id)
     {
-        if (!InitShipReferences(id)) return;
-        if (!IsOwner) return;
+        if (!IsOwner)
+        {
+            if (sendShipRefId.Value == 0) return;
+            InitShipReferences(0, sendShipRefId.Value);
+            return;
+        }
+        if (shipRefId == 0) return;
+        if (!InitShipReferences(0, id)) return;
 
         //camera
         cam.followTarget = shipRef.transform;
@@ -207,11 +213,11 @@ public class PlayerController : NetworkBehaviour
         gameHud.ChangeGameHudState(GameHudState.Gameplay);
     }
 
-    private bool InitShipReferences(ulong id)
+    private bool InitShipReferences(ulong prevId, ulong newId)
     {
-        if (!NetworkManager.Singleton.SpawnManager.SpawnedObjects.ContainsKey(shipRefId)) return false;
+        if (!NetworkManager.Singleton.SpawnManager.SpawnedObjects.ContainsKey(newId)) return false;
 
-        shipRef = NetworkManager.Singleton.SpawnManager.SpawnedObjects[id].gameObject;
+        shipRef = NetworkManager.Singleton.SpawnManager.SpawnedObjects[newId].gameObject;
 
         shipMovement = shipRef.GetComponent<Movement>();
         shipWeapons = shipRef.GetComponent<WeaponsHolder>();
