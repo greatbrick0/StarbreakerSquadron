@@ -83,9 +83,5 @@ public class TestEnemyController : NetworkBehaviour
             Gizmos.DrawLine(waypoints[ii], waypoints[(ii + 1) % waypoints.Count]);
             Gizmos.DrawWireSphere(waypoints[ii], waypointSuccessRadius);
         }
-        foreach (Vector3 ii in waypoints) 
-        {
-            Gizmos.DrawWireSphere(ii, waypointSuccessRadius);
-        }
     }
 }
