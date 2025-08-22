@@ -20,7 +20,7 @@ public class SpawnPoints : MonoBehaviour
             case Teams.Environment:
                 break;
             case Teams.Green:
-                if (pointHolder.childCount == 0) break;
+                if (pointHolder == null || pointHolder.childCount == 0) break;
                 if (ClientManager.instance == null)
                 {
                     AddPlatforms();
