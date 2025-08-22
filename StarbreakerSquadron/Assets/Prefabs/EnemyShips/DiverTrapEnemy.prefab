@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 782066548
+  GlobalObjectIdHash: 2381763509
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -469,7 +469,7 @@ GameObject:
   - component: {fileID: 4250093394499494076}
   m_Layer: 0
   m_Name: PlayerDetector
-  m_TagString: Untagged
+  m_TagString: yellow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -537,7 +537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ba6ddda5f7bea045a7201a19916b9e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerTeam: 0
+  ownerTeam: 2
 --- !u!1 &5296447431950573567
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,7 +552,7 @@ GameObject:
   - component: {fileID: 3865953895842849170}
   m_Layer: 0
   m_Name: FixedSingleBarrel
-  m_TagString: green
+  m_TagString: yellow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -755,7 +755,7 @@ GameObject:
   - component: {fileID: 2675716533450857076}
   m_Layer: 0
   m_Name: FixedSingleBarrel (1)
-  m_TagString: green
+  m_TagString: yellow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
