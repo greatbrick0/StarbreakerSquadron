@@ -48,8 +48,10 @@ public class AmbushTrapSpawner : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        if(transform.childCount == 0) { DebugLogLineage(" has no attached unit!"); Destroy(gameObject); return; }
         trapRef = transform.GetChild(transform.childCount - 1).gameObject;
         trapHealth = trapRef.GetComponent<Targetable>();
+        if (trapHealth == null) { DebugLogLineage(" has no attached unit!"); Destroy(gameObject); return; }
         trapHealth.deathEvent.AddListener(ResetTrap);
         if (IsServer)
         {
@@ -153,5 +155,20 @@ public class AmbushTrapSpawner : NetworkBehaviour
             }
         }
         return false;
+    }
+
+    private void DebugLogLineage(string message = default)
+    {
+        Transform ii = transform;
+        string output = ii.name;
+        bool reachedTop = ii.parent == null;
+        while (!reachedTop)
+        {
+            ii = ii.parent;
+            output += ", " + ii.name;
+            reachedTop = ii.parent == null;
+        }
+        output += message;
+        Debug.LogError(output);
     }
 }
