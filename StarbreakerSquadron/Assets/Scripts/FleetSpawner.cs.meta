@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 6c5dbf3a656031748b81d5253cc3d5a7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - warpEffectObj: {fileID: 4263170151884672905, guid: 34c2d7e4faed8ae418e80bcf37981e4a, type: 3}
+  - clearZone: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

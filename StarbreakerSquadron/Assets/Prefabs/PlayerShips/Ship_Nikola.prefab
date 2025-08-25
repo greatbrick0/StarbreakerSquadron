@@ -610,7 +610,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  bulletObj: {fileID: 4364611554046747562, guid: cb25769638ea46246ba8ca67b8b40ae6, type: 3}
+  bulletObj: {fileID: 4364611554046747562, guid: 278bfe4e0cb0eae46a5d8d2ef764ac3a, type: 3}
   <rb>k__BackingField: {fileID: 7764124592271108407}
   barrels:
   - {x: 0, y: 0.4, z: 0}
