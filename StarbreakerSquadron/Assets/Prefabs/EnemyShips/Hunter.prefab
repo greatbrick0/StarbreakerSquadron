@@ -325,7 +325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   <isAlive>k__BackingField: 1
-  <team>k__BackingField: 0
+  <team>k__BackingField: 2
   deathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -460,7 +460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   <isAlive>k__BackingField: 1
-  <team>k__BackingField: 0
+  <team>k__BackingField: 2
   deathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -562,10 +562,10 @@ GameObject:
   - component: {fileID: 3540444138233791781}
   - component: {fileID: 8712877954312875072}
   - component: {fileID: 1673427962579452551}
-  - component: {fileID: 7052713684858465621}
   - component: {fileID: 8365001368536874354}
   - component: {fileID: 84640075691970757}
   - component: {fileID: 4542239586154872233}
+  - component: {fileID: 6032382589386895016}
   m_Layer: 7
   m_Name: Hunter
   m_TagString: yellow
@@ -723,7 +723,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1000
+  m_Mass: 10000
   m_LinearDamping: 0
   m_AngularDamping: 0
   m_GravityScale: 0
@@ -801,24 +801,6 @@ MonoBehaviour:
   - {fileID: 3979933962883462718}
   - {fileID: 6530649236677524958}
   - {fileID: 5977423889945505671}
---- !u!114 &7052713684858465621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3699706470943457548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3be6218fea0d6446b5c7944992a48d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  waypoints: []
-  clockwise: 1
-  waypointSuccessRadius: 3
-  waypointCarefulRadius: 10
-  carefulSpeed: 2
 --- !u!114 &8365001368536874354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -943,6 +925,21 @@ MonoBehaviour:
     cooldownColour: {r: 0, g: 0, b: 0, a: 0}
     cycle: 0
     activesObjs: []
+--- !u!114 &6032382589386895016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3699706470943457548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d1e49d5ef88324c8861bebfac6122e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  waypointCarefulRadius: 1
+  carefulSpeed: 2
 --- !u!1 &3983912331752469483
 GameObject:
   m_ObjectHideFlags: 0
@@ -991,7 +988,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   <isAlive>k__BackingField: 1
-  <team>k__BackingField: 0
+  <team>k__BackingField: 2
   deathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -1126,7 +1123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   <isAlive>k__BackingField: 1
-  <team>k__BackingField: 0
+  <team>k__BackingField: 2
   deathEvent:
     m_PersistentCalls:
       m_Calls:

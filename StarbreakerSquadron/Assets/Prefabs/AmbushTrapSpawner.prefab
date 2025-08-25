@@ -85,6 +85,9 @@ MonoBehaviour:
   outProximityDetector: {fileID: 3980568467286336051}
   useSchedule: 0
   scheduleWindows: []
+  usePlayerCount: 0
+  playerCountThreshold: 3
+  playerCountComparison: 1
 --- !u!1 &2099966770049213814
 GameObject:
   m_ObjectHideFlags: 0

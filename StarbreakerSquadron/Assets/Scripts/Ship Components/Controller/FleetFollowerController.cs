@@ -11,9 +11,9 @@ public class FleetFollowerController : NetworkBehaviour
     private Vector3 waypointOffset = Vector3.zero;
 
     [SerializeField]
-    float waypointCarefulRadius = 1.0f;
+    private float waypointCarefulRadius = 1.0f;
     [SerializeField]
-    float carefulSpeed = 2.0f;
+    private float carefulSpeed = 2.0f;
 
     private Movement movement;
     private WeaponsHolder weaponsHolder;
@@ -33,10 +33,19 @@ public class FleetFollowerController : NetworkBehaviour
         inputVec = Vector2.zero;
         inputActives = 0b0000;
 
-        MoveToLocation(waypoint.position + waypointOffset);
+        if(waypoint != null)
+        {
+            inputVec = MoveToLocation(waypoint.position + waypointOffset);
+        }
 
         movement.inputVector = inputVec;
         weaponsHolder.inputActives = inputActives;
+    }
+
+    public void SetTrackedTransform(Transform newWaypoint, Vector3 newWaypointOffset)
+    {
+        waypoint = newWaypoint;
+        waypointOffset = newWaypointOffset;
     }
 
     private Vector2 MoveToLocation(Vector2 location, float maxSpeed = float.MaxValue)
