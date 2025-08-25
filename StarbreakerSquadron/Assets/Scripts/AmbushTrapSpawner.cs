@@ -42,14 +42,23 @@ public class AmbushTrapSpawner : NetworkBehaviour
     [SerializeField]
     private List<Vector2> scheduleWindows = new List<Vector2>();
     private List<bool> windowsUsed = new List<bool>();
+    [Header("Player Count")]
+    [SerializeField]
+    private bool usePlayerCount = false;
+    [SerializeField]
+    private int playerCountThreshold = 3;
+    [SerializeField, Tooltip("0 is equal (=), 1 is count greater than threshold (>), -1 is count less than threshold (<)."), Range(-1, 1)]
+    private int playerCountComparison = 1;
 
     private List<Func<bool>> conditions = new List<Func<bool>>();
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        if(transform.childCount == 0) { DebugLogLineage(" has no attached unit!"); Destroy(gameObject); return; }
         trapRef = transform.GetChild(transform.childCount - 1).gameObject;
         trapHealth = trapRef.GetComponent<Targetable>();
+        if (trapHealth == null) { DebugLogLineage(" has no attached unit!"); Destroy(gameObject); return; }
         trapHealth.deathEvent.AddListener(ResetTrap);
         if (IsServer)
         {
@@ -64,6 +73,7 @@ public class AmbushTrapSpawner : NetworkBehaviour
                 windowsUsed.AddRange(Enumerable.Repeat(false, 50));
                 conditions.Add(ScheduleCondition);
             }
+            if (usePlayerCount) conditions.Add(PlayerCountCondition);
         }
         else
         {
@@ -140,6 +150,12 @@ public class AmbushTrapSpawner : NetworkBehaviour
         return outProximityDetector.GetClosestTarget() == null;
     }
 
+    private bool PlayerCountCondition()
+    {
+        return MathF.Sign(playerCountComparison) == MathF.Sign(NetworkManager.Singleton.ConnectedClients.Count - playerCountThreshold);
+
+    }
+
     private bool ScheduleCondition()
     {
         float time = GameStateController.instance.GetGameRemianingTime();
@@ -153,5 +169,20 @@ public class AmbushTrapSpawner : NetworkBehaviour
             }
         }
         return false;
+    }
+
+    private void DebugLogLineage(string message = default)
+    {
+        Transform ii = transform;
+        string output = ii.name;
+        bool reachedTop = ii.parent == null;
+        while (!reachedTop)
+        {
+            ii = ii.parent;
+            output += ", " + ii.name;
+            reachedTop = ii.parent == null;
+        }
+        output += message;
+        Debug.LogError(output);
     }
 }

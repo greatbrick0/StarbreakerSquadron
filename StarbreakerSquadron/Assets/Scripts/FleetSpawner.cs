@@ -1,10 +1,18 @@
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using System.Collections.Generic;
 
 public class FleetSpawner : NetworkBehaviour
 {
+    [Serializable]
+    public class FleetUnit
+    {
+        [field: SerializeField]
+        public GameObject unitObj { get; private set; }
+    }
+
     [SerializeField]
     private GameObject warpEffectObj;
     private GameObject warpEffectRef;
@@ -23,6 +31,8 @@ public class FleetSpawner : NetworkBehaviour
 
     [SerializeField]
     private List<Vector3> waypoints = new List<Vector3>();
+    [SerializeField]
+    private List<FleetUnit> fleetUnits = new List<FleetUnit>();
 
     private void Update()
     {
@@ -43,7 +53,10 @@ public class FleetSpawner : NetworkBehaviour
     {
         WarpEffect.WarpCallback spawnFunc = () =>
         {
+            foreach(FleetUnit ii in fleetUnits)
+            {
 
+            }
         };
         CreateWarpEffectRpc(warpRadius, warpDuration, warpCentre);
         warpEffectRef.GetComponent<WarpEffect>().warpCallback = spawnFunc;
@@ -60,13 +73,13 @@ public class FleetSpawner : NetworkBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(warpCentre, warpRadius);
         Gizmos.color = Color.magenta;
         for (int ii = 0; ii < waypoints.Count; ii++)
         {
             Gizmos.DrawLine(waypoints[ii], waypoints[(ii + 1) % waypoints.Count]);
             Gizmos.DrawWireSphere(waypoints[ii], warpRadius);
         }
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(warpCentre, warpRadius);
     }
 }
