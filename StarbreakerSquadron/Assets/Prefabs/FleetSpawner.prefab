@@ -76,8 +76,17 @@ MonoBehaviour:
   scheduledSpawnTime: 300
   clearZone: {fileID: 3980568467286336051}
   warpRadius: 5
-  warpCentre: {x: 0, y: 0, z: 0}
+  warpCentre: {x: -70, y: 60, z: 0}
   warpDuration: 3
+  waypoints:
+  - {x: -70, y: 60, z: 0}
+  - {x: -100, y: 60, z: 0}
+  - {x: -130, y: 0, z: 0}
+  - {x: -100, y: -60, z: 0}
+  - {x: -70, y: -60, z: 0}
+  - {x: -40, y: 0, z: 0}
+  fleetUnits:
+  - <unitObj>k__BackingField: {fileID: 3699706470943457548, guid: f525a3ae89292354dae8224276d20994, type: 3}
 --- !u!1 &2386705745501529249
 GameObject:
   m_ObjectHideFlags: 0
