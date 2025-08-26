@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: 2096697647929470938}
   - component: {fileID: 7673591094648385522}
   - component: {fileID: 8530485726303949787}
+  - component: {fileID: 2566034236861203927}
   m_Layer: 8
   m_Name: DamageBulletMedium
   m_TagString: Untagged
@@ -418,3 +419,17 @@ MonoBehaviour:
   speed: 0
   aoeSize: 0
   direction: {x: 0, y: 0}
+--- !u!114 &2566034236861203927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4364611554046747562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7c4c9d3c26b1ca4abe1bb97df0e7747, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  observedRadius: 30

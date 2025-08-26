@@ -142,6 +142,7 @@ public class AmbushTrapSpawner : NetworkBehaviour
 
     private bool InProximityCondition()
     {
+        Debug.Log(inProximityDetector.GetClosestTarget() != null);
         return inProximityDetector.GetClosestTarget() != null;
     }
 
