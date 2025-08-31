@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class BombBarrel : FixedBarrel
@@ -16,6 +17,8 @@ public class BombBarrel : FixedBarrel
         StartCoroutine(properties.GetValue((val) => bulletLifeTime = val, "BulletLifetime", property, statColour));
         StartCoroutine(properties.GetValue((val) => bulletSpeed = val, "BulletSpeed", property, statColour));
         StartCoroutine(properties.GetValue((val) => explosionRadius = val, "AreaOfEffectRadius", property, statColour));
+
+        poolManager = BulletPoolManager.instance;
     }
 
     private void OnDrawGizmosSelected()
@@ -42,9 +45,7 @@ public class BombBarrel : FixedBarrel
             inheritVelocity ? InheritedVector() : Vector2.zero,
             bulletDamage
             );
-        bulletRef = Instantiate(bulletObj);
-        bulletRef.transform.position = attackInfo.originPos;
-        bulletRef.GetComponent<NetworkObject>().Spawn(true);
+        bulletRef = poolManager.GetBullet(bulletObj, attackInfo.originPos);
         bulletRef.GetComponent<BombAttack>().SetValuesRpc(attackInfo);
     }
 }

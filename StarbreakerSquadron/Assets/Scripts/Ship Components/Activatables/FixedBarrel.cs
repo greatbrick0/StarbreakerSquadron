@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FixedBarrel : NetworkBehaviour, IActivatable
 {
+    protected BulletPoolManager poolManager;
+
     [SerializeField]
     protected GameObject bulletObj;
     protected GameObject bulletRef;
@@ -43,6 +45,8 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
         StartCoroutine(properties.GetValue((val) => bulletDamage = Mathf.RoundToInt(val), "Damage", property, statColour));
         StartCoroutine(properties.GetValue((val) => bulletLifeTime = val, "BulletLifetime", property, statColour));
         StartCoroutine(properties.GetValue((val) => bulletSpeed = val, "BulletSpeed", property, statColour));
+
+        poolManager = BulletPoolManager.instance;
     }
 
     private void OnDrawGizmosSelected()
@@ -80,9 +84,7 @@ public class FixedBarrel : NetworkBehaviour, IActivatable
             transform.up.RotateDegrees(barrel.z),
             inheritVelocity ? InheritedVector() : Vector2.zero
             );
-        bulletRef = Instantiate(bulletObj);
-        bulletRef.transform.position = attackInfo.originPos;
-        bulletRef.GetComponent<NetworkObject>().Spawn(true);
+        bulletRef = poolManager.GetBullet(bulletObj, attackInfo.originPos);
         bulletRef.GetComponent<Attack>().SetValuesRpc(attackInfo);
     }
 

@@ -6,6 +6,7 @@ using Unity.Netcode.Components;
 public class Attack : NetworkBehaviour
 {
     protected bool used = false;
+    public bool pooled = false;
 
     protected Rigidbody2D rb;
     protected AnticipatedNetworkTransform anticipator;
@@ -109,6 +110,11 @@ public class Attack : NetworkBehaviour
         trail.endColor = fullColour;
     }
 
+    public bool GetUsed()
+    {
+        return used;
+    }
+
     [Rpc(SendTo.Everyone)]
     public void SetValuesRpc(AttackInfo newAttackInfo)
     {
@@ -150,6 +156,6 @@ public class Attack : NetworkBehaviour
         direction = Vector2.zero;
         extraVelocity = Vector2.zero;
 
-        if(IsServer) GetComponent<NetworkObject>().Despawn(true);
+        if(IsServer && !pooled) GetComponent<NetworkObject>().Despawn(true);
     }
 }
