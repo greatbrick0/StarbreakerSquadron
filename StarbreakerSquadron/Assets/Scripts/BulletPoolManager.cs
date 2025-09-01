@@ -66,7 +66,8 @@ public class BulletPoolManager : MonoBehaviour
 
     private GameObject AddNewInstance(GameObject bulletObj)
     {
-        GameObject bulletRef = Instantiate(bulletObj);
+        GameObject bulletRef = Instantiate(bulletObj, transform);
+        Debug.Log(bulletRef.transform.parent.name);
         bulletRef.GetComponent<Attack>().pooled = true;
         pools[bulletObj].Add(bulletRef);
         return bulletRef;

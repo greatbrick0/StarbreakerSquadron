@@ -4076,6 +4076,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3367601792362514567, guid: cc352e9b4da534443bc250591cc36eab, type: 3}
   m_PrefabInstance: {fileID: 959282672}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &995132543
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 995132545}
+  - component: {fileID: 995132544}
+  m_Layer: 0
+  m_Name: BulletPoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &995132544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995132543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c5f6f2ad582f6948a928c10a40fdc5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledBullets:
+  - {fileID: 4364611554046747562, guid: cb25769638ea46246ba8ca67b8b40ae6, type: 3}
+--- !u!4 &995132545
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995132543}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1038467165
 GameObject:
   m_ObjectHideFlags: 0
@@ -6546,6 +6592,10 @@ PrefabInstance:
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 1558369344
       objectReference: {fileID: 0}
+    - target: {fileID: 7802045467309192799, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 2386705745501529249, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
@@ -8010,6 +8060,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1058401696}
+  - {fileID: 995132545}
   - {fileID: 954956886}
   - {fileID: 837041601}
   - {fileID: 1762081039}
