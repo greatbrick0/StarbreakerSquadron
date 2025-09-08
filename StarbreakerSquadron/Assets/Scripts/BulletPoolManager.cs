@@ -59,7 +59,7 @@ public class BulletPoolManager : MonoBehaviour
         foreach(GameObject ii in pools[bulletObj])
         {
             if (ii == null) continue;
-            if (ii.GetComponent<Attack>().GetUsed() == false) return ii;
+            if (ii.GetComponent<Attack>().GetUsed() == false && ii.GetComponent<Attack>().timeUnused > 1.0f) return ii;
         }
         return null;
     }

@@ -7,6 +7,7 @@ public class Attack : NetworkBehaviour
 {
     protected bool used = false;
     public bool pooled = false;
+    public float timeUnused { get; protected set; } = 0.0f;
 
     protected Rigidbody2D rb;
     protected AnticipatedNetworkTransform anticipator;
@@ -46,7 +47,11 @@ public class Attack : NetworkBehaviour
 
     protected virtual void Update()
     {
-        if (!used) return;
+        if (!used)
+        {
+            if (pooled) timeUnused += 1.0f * Time.deltaTime;
+            else return;
+        }
 
         age += Time.deltaTime;
         if (!IsServer)
@@ -97,6 +102,7 @@ public class Attack : NetworkBehaviour
         ColorUtility.TryParseHtmlString(colourString, out Color parsedColour);
         sprite.color = parsedColour;
         SetTrailColour(parsedColour);
+        if (trail != null) return;
 
         age = 0;
     }
@@ -105,6 +111,8 @@ public class Attack : NetworkBehaviour
     {
         if (trail == null) return;
 
+        trail.time = 0;
+        trail.Clear();
         fullColour.a = trailOpacity;
         trail.startColor = fullColour;
         trail.endColor = fullColour;
@@ -143,6 +151,7 @@ public class Attack : NetworkBehaviour
         sprite.gameObject.SetActive(false);
         if(rb != null) rb.linearVelocity = Vector2.zero;
         used = false;
+        timeUnused = 0;
 
         team = Teams.Environment;
         sprite.color = Color.white;
