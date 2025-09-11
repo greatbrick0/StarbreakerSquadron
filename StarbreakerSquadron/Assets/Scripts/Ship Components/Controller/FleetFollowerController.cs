@@ -35,7 +35,7 @@ public class FleetFollowerController : NetworkBehaviour
 
         if(waypoint != null)
         {
-            inputVec = MoveToLocation(waypoint.position + waypointOffset);
+            inputVec = MoveToLocation(waypoint.position + waypointOffset, waypoint.up);
         }
 
         movement.inputVector = inputVec;
@@ -48,10 +48,12 @@ public class FleetFollowerController : NetworkBehaviour
         waypointOffset = newWaypointOffset;
     }
 
-    private Vector2 MoveToLocation(Vector2 location, float maxSpeed = float.MaxValue)
+    private Vector2 MoveToLocation(Vector2 location, Vector2 forward, float maxSpeed = float.MaxValue)
     {
         Vector2 output;
-        output.x = movement.RecommendTurnDirection(location);
+        float dist = Vector2.Distance(location, transform.position);
+        if (dist < 1.0f) output.x = movement.RecommendTurnDirection(location - (forward * 10));
+        else output.x = movement.RecommendTurnDirection(location); 
         if (rb.linearVelocity.magnitude > maxSpeed) output.y = 0;
         else output.y = Vector2.Dot(transform.up, (location - transform.position.FlattenVec3()).normalized);
         Debug.DrawLine(transform.position, location, Color.yellow);
