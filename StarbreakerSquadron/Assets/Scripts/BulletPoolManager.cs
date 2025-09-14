@@ -59,7 +59,7 @@ public class BulletPoolManager : MonoBehaviour
         foreach(GameObject ii in pools[bulletObj])
         {
             if (ii == null) continue;
-            if (ii.GetComponent<Attack>().GetUsed() == false && ii.GetComponent<Attack>().timeUnused > 1.0f) return ii;
+            if (ii.GetComponent<Attack>().GetUsed() == false) return ii;
         }
         return null;
     }
@@ -67,7 +67,6 @@ public class BulletPoolManager : MonoBehaviour
     private GameObject AddNewInstance(GameObject bulletObj)
     {
         GameObject bulletRef = Instantiate(bulletObj, transform);
-        Debug.Log(bulletRef.transform.parent.name);
         bulletRef.GetComponent<Attack>().pooled = true;
         pools[bulletObj].Add(bulletRef);
         return bulletRef;

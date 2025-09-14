@@ -61,7 +61,7 @@ public class Attack : NetworkBehaviour
         else
         {
             rb.linearVelocity = (speed * direction) + extraVelocity;
-
+            
             if (age >= lifetime)
             {
                 ResetToHiddenRpc();
@@ -73,7 +73,7 @@ public class Attack : NetworkBehaviour
     {
         if (!IsServer) return;
         
-        if(collision.gameObject.layer == 3)
+        if (collision.gameObject.layer == 3)
         {
             HitTerrain();
         }
