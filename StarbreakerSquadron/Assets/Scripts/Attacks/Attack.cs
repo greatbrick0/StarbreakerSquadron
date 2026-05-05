@@ -7,14 +7,16 @@ public class Attack : NetworkBehaviour
 {
     protected bool used = false;
     public bool pooled = false;
+    public GameObject originPrefab;
     public float timeUnused { get; protected set; } = 0.0f;
 
     protected Rigidbody2D rb;
     protected AnticipatedNetworkTransform anticipator;
+    protected Collider2D col;
     [SerializeField]
     protected SpriteRenderer sprite;
     [SerializeField]
-    protected TrailRenderer trail;
+    protected SimpleLinearTrail customTrail;
     [SerializeField, Range(0f, 1f)]
     private float trailOpacity = 0.3f;
 
@@ -43,6 +45,10 @@ public class Attack : NetworkBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anticipator = GetComponent<AnticipatedNetworkTransform>();
+        col = GetComponent<Collider2D>();
+        
+        // Ensure pooled objects start disabled
+        if (pooled && !used) this.enabled = false;
     }
 
     protected virtual void Update()
@@ -50,7 +56,7 @@ public class Attack : NetworkBehaviour
         if (!used)
         {
             if (pooled) timeUnused += 1.0f * Time.deltaTime;
-            else return;
+            return;
         }
 
         age += Time.deltaTime;
@@ -60,8 +66,6 @@ public class Attack : NetworkBehaviour
         }
         else
         {
-            rb.linearVelocity = (speed * direction) + extraVelocity;
-            
             if (age >= lifetime)
             {
                 ResetToHiddenRpc();
@@ -73,13 +77,17 @@ public class Attack : NetworkBehaviour
     {
         if (!IsServer) return;
         
-        if (collision.gameObject.layer == 3)
+        int layer = collision.gameObject.layer;
+        if (layer == 3) // Terrain
         {
             HitTerrain();
         }
-        else if (collision.gameObject.TryGetComponent(out Targetable targetable))
+        else if (layer == 6 || layer == 7) // SmallUnit or BigUnit
         {
-            HitTargetable(targetable);
+            if (collision.gameObject.TryGetComponent(out Targetable targetable))
+            {
+                HitTargetable(targetable);
+            }
         }
     }
 
@@ -97,25 +105,32 @@ public class Attack : NetworkBehaviour
         }
     }
 
+    protected virtual void OnDisable()
+    {
+        if (customTrail != null) customTrail.Clear();
+    }
+
     protected virtual void ValueInitialize()
     {
         ColorUtility.TryParseHtmlString(colourString, out Color parsedColour);
         sprite.color = parsedColour;
         SetTrailColour(parsedColour);
-        if (trail != null) return;
-
+        
         age = 0;
+
+        if (IsServer && rb != null)
+        {
+            rb.linearVelocity = (speed * direction) + extraVelocity;
+        }
     }
 
     protected void SetTrailColour(Color fullColour)
     {
-        if (trail == null) return;
+        if (customTrail == null) return;
 
-        trail.time = 0;
-        trail.Clear();
-        fullColour.a = trailOpacity;
-        trail.startColor = fullColour;
-        trail.endColor = fullColour;
+        customTrail.SetColor(fullColour);
+        customTrail.SetOpacity(trailOpacity);
+        customTrail.UpdateTrail(direction, speed, extraVelocity);
     }
 
     public bool GetUsed()
@@ -126,7 +141,8 @@ public class Attack : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     public void SetValuesRpc(AttackInfo newAttackInfo)
     {
-        GetComponent<Collider2D>().enabled = true;
+        this.enabled = true; // Enable script for Update
+        if (col != null) col.enabled = true;
         sprite.gameObject.SetActive(true);
         used = true;
 
@@ -147,7 +163,8 @@ public class Attack : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     protected void ResetToHiddenRpc()
     {
-        GetComponent<Collider2D>().enabled = false;
+        if (customTrail != null) customTrail.Clear();
+        if (col != null) col.enabled = false;
         sprite.gameObject.SetActive(false);
         if(rb != null) rb.linearVelocity = Vector2.zero;
         used = false;
@@ -165,6 +182,18 @@ public class Attack : NetworkBehaviour
         direction = Vector2.zero;
         extraVelocity = Vector2.zero;
 
-        if(IsServer && !pooled) GetComponent<NetworkObject>().Despawn(true);
+        if (IsServer)
+        {
+            if (pooled)
+            {
+                BulletPoolManager.instance.ReturnToPool(originPrefab, this);
+            }
+            else
+            {
+                GetComponent<NetworkObject>().Despawn(true);
+            }
+        }
+        
+        this.enabled = false; // Disable script to stop Update
     }
-}
+    }

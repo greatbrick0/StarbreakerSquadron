@@ -24,8 +24,6 @@ public class BombAttack : Attack
         }
         else
         {
-            rb.linearVelocity = (speed * direction) + extraVelocity;
-
             if (age >= lifetime)
             {
                 CreateExplosion();
@@ -64,9 +62,8 @@ public class BombAttack : Attack
             0,
             aoeSize
             );
-        explosionRef = Instantiate(explosionObj);
-        explosionRef.transform.position = attackInfo.originPos;
-        explosionRef.GetComponent<NetworkObject>().Spawn(true);
+        
+        explosionRef = BulletPoolManager.instance.GetBullet(explosionObj, attackInfo.originPos);
         explosionRef.GetComponent<ExplosionAttack>().SetValuesRpc(attackInfo);
     }
-}
+    }

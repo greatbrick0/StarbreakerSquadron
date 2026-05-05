@@ -3,7 +3,7 @@ using UnityEngine;
 using BrainCloud;
 using BrainCloud.JsonFx.Json;
 using System;
-using Unity.Multiplayer.Playmode;
+
 using System.Linq;
 using System.Collections.Generic;
 using Unity.Netcode.Transports.UTP;
@@ -52,7 +52,7 @@ public class Network : MonoBehaviour
             return;
         }
 
-        IsDedicatedServer = (Application.isBatchMode && !Application.isEditor) || (CurrentPlayer.ReadOnlyTags().Contains("server") && Application.isEditor);
+        IsDedicatedServer = (Application.isBatchMode && !Application.isEditor) || (Unity.Multiplayer.PlayMode.CurrentPlayer.ReadOnlyTags().Contains("server") && Application.isEditor);
         Debug.Log(IsDedicatedServer ? "This is dedicated server" : "This is a client");
 
         _netManager = GetComponent<NetworkManager>();

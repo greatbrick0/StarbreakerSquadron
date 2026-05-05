@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -9,13 +8,15 @@ public class BulletPoolManager : MonoBehaviour
 
     [SerializeField]
     private List<GameObject> pooledBullets = new List<GameObject>();
-    private Dictionary<GameObject, List<GameObject>> pools = new Dictionary<GameObject, List<GameObject>>();
+    
+    private Dictionary<GameObject, Stack<Attack>> pools = new Dictionary<GameObject, Stack<Attack>>();
 
     private void Awake()
     {
-        foreach(GameObject ii in pooledBullets)
+        foreach(GameObject prefab in pooledBullets)
         {
-            pools.Add(ii, new List<GameObject>());
+            if (prefab == null) continue;
+            pools.Add(prefab, new Stack<Attack>());
         }
     }
 
@@ -32,43 +33,52 @@ public class BulletPoolManager : MonoBehaviour
 
     public GameObject GetBullet(GameObject bulletObj, Vector3 newPos = default)
     {
-        GameObject bulletRef;
-        if (pools.ContainsKey(bulletObj))
+        if (pools.TryGetValue(bulletObj, out Stack<Attack> pool))
         {
-            bulletRef = GetAvailableInstance(bulletObj);
+            Attack bulletRef = null;
+            
+            while (pool.Count > 0)
+            {
+                bulletRef = pool.Pop();
+                if (bulletRef != null && !bulletRef.GetUsed()) break;
+                bulletRef = null;
+            }
+
             if (bulletRef == null)
             {
                 bulletRef = AddNewInstance(bulletObj);
-                bulletRef.transform.position = newPos;
+            }
+
+            bulletRef.transform.position = newPos;
+            if (!bulletRef.IsSpawned)
+            {
                 bulletRef.GetComponent<NetworkObject>().Spawn(true);
             }
-            else bulletRef.transform.position = newPos;
+            return bulletRef.gameObject;
         }
         else
         {
-            bulletRef = Instantiate(bulletObj);
-            bulletRef.transform.position = newPos;
-            bulletRef.GetComponent<NetworkObject>().Spawn(true);
+            GameObject bulletRefGo = Instantiate(bulletObj);
+            bulletRefGo.transform.position = newPos;
+            bulletRefGo.GetComponent<NetworkObject>().Spawn(true);
+            return bulletRefGo;
         }
-        
-        return bulletRef;
     }
 
-    private GameObject GetAvailableInstance(GameObject bulletObj)
+    public void ReturnToPool(GameObject prefab, Attack instance)
     {
-        foreach(GameObject ii in pools[bulletObj])
+        if (prefab != null && pools.ContainsKey(prefab))
         {
-            if (ii == null) continue;
-            if (ii.GetComponent<Attack>().GetUsed() == false) return ii;
+            pools[prefab].Push(instance);
         }
-        return null;
     }
 
-    private GameObject AddNewInstance(GameObject bulletObj)
+    private Attack AddNewInstance(GameObject bulletObj)
     {
-        GameObject bulletRef = Instantiate(bulletObj, transform);
-        bulletRef.GetComponent<Attack>().pooled = true;
-        pools[bulletObj].Add(bulletRef);
-        return bulletRef;
+        GameObject bulletGo = Instantiate(bulletObj, transform);
+        Attack attack = bulletGo.GetComponent<Attack>();
+        attack.pooled = true;
+        attack.originPrefab = bulletObj;
+        return attack;
     }
 }

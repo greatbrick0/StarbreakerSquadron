@@ -14,7 +14,7 @@ public class ExplosionAttack : Attack
 
     protected override void Awake()
     {
-        return; // override to do nothing 
+        base.Awake();
     }
 
     protected override void Update()
@@ -28,9 +28,9 @@ public class ExplosionAttack : Attack
             {
                 ResetToHiddenRpc();
             }
-            else if (age >= lifetime)
+            else if (age >= lifetime && col != null && col.enabled)
             {
-                GetComponent<Collider2D>().enabled = false;
+                col.enabled = false;
             }
 
         }
@@ -57,7 +57,11 @@ public class ExplosionAttack : Attack
     {
         base.ValueInitialize();
         
-        GetComponent<CircleCollider2D>().radius = aoeSize;
+        if (col is CircleCollider2D circle)
+        {
+            circle.radius = aoeSize;
+        }
+        
         sprite.transform.localScale = Vector2.one * aoeSize;
         TryToPlaySound();
     }

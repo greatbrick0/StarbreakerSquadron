@@ -138,9 +138,7 @@ public class BlinkEngine : NetworkBehaviour, IActivatable
             0,
             explosionRadius
             );
-        explosionRef = Instantiate(explosionObj);
-        explosionRef.transform.position = attackInfo.originPos;
-        explosionRef.GetComponent<NetworkObject>().Spawn(true);
+        explosionRef = BulletPoolManager.instance.GetBullet(explosionObj, attackInfo.originPos);
         explosionRef.GetComponent<ExplosionAttack>().SetValuesRpc(attackInfo);
     }
-}
+    }
