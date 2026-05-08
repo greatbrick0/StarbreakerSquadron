@@ -1,6 +1,10 @@
 using UnityEngine;
 using Unity.Mathematics;
 
+using UnityEngine;
+using Unity.Mathematics;
+using System.Collections.Generic;
+
 public class ExplosionAttack : Attack
 {
     [SerializeField]
@@ -12,10 +16,7 @@ public class ExplosionAttack : Attack
     [SerializeField]
     private AudioSource audioPlayer;
 
-    protected override void Awake()
-    {
-        base.Awake();
-    }
+    private HashSet<Targetable> hitTargets = new HashSet<Targetable>();
 
     protected override void Update()
     {
@@ -24,15 +25,15 @@ public class ExplosionAttack : Attack
         age += Time.deltaTime;
         if (IsServer)
         {
+            if (age < lifetime)
+            {
+                CheckExplosionCollisions();
+            }
+
             if(age >= visualRemainTime)
             {
                 ResetToHiddenRpc();
             }
-            else if (age >= lifetime && col != null && col.enabled)
-            {
-                col.enabled = false;
-            }
-
         }
         else
         {
@@ -40,30 +41,30 @@ public class ExplosionAttack : Attack
         }
     }
 
-    protected override void HitTerrain()
+    private void CheckExplosionCollisions()
     {
-        return; // override to do nothing 
-    }
-
-    protected override void HitTargetable(Targetable targetable)
-    {
-        if (targetable.team != team)
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, aoeSize, collisionMask);
+        foreach (var hit in hits)
         {
-            targetable.TakeDamage(primaryPower);
+            if (hit.TryGetComponent(out Targetable targetable))
+            {
+                if (!hitTargets.Contains(targetable) && targetable.team != team)
+                {
+                    targetable.TakeDamage(primaryPower);
+                    hitTargets.Add(targetable);
+                }
+            }
         }
     }
 
     protected override void ValueInitialize()
     {
         base.ValueInitialize();
-        
-        if (col is CircleCollider2D circle)
-        {
-            circle.radius = aoeSize;
-        }
-        
+        hitTargets.Clear();
         sprite.transform.localScale = Vector2.one * aoeSize;
         TryToPlaySound();
+        
+        if (IsServer) CheckExplosionCollisions();
     }
 
     private void TryToPlaySound()

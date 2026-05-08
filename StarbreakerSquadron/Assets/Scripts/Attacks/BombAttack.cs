@@ -1,4 +1,3 @@
-using System.Threading;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -20,10 +19,27 @@ public class BombAttack : Attack
         age += Time.deltaTime;
         if (!IsServer)
         {
-            anticipator.AnticipateMove(originPos + (age * ((speed * direction) + extraVelocity)));
+            transform.position = originPos + (age * ((speed * direction) + extraVelocity));
+            if(anticipator != null) anticipator.AnticipateMove(transform.position);
         }
         else
         {
+            Vector2 currentPos = transform.position;
+            Vector2 displacement = ((speed * direction) + extraVelocity) * Time.deltaTime;
+            Vector2 nextPos = currentPos + displacement;
+
+            float dist = displacement.magnitude;
+            if (dist > 0.001f)
+            {
+                RaycastHit2D[] hits = Physics2D.CircleCastAll(currentPos, collisionRadius, displacement.normalized, dist, collisionMask);
+                foreach (var hit in hits)
+                {
+                    if (HandleCollision(hit.collider)) return;
+                }
+            }
+
+            transform.position = nextPos;
+
             if (age >= lifetime)
             {
                 CreateExplosion();
@@ -32,20 +48,27 @@ public class BombAttack : Attack
         }
     }
 
-    protected override void HitTerrain()
+    protected override bool HandleCollision(Collider2D other)
     {
-        CreateExplosion();
-        ResetToHiddenRpc();
-    }
-
-    protected override void HitTargetable(Targetable targetable)
-    {
-        if (targetable.team != team)
+        if (other.gameObject.layer == 3) // Terrain
         {
-            targetable.TakeDamage(secondaryPower);
             CreateExplosion();
             ResetToHiddenRpc();
+            return true;
         }
+
+        if (other.gameObject.TryGetComponent(out Targetable targetable))
+        {
+            if (targetable.team != team)
+            {
+                CreateExplosion();
+                ResetToHiddenRpc();
+                return true;
+            }
+        }
+
+        // Pass through friendly units or Default layer objects that aren't targetable
+        return false;
     }
 
     private void CreateExplosion()
@@ -66,4 +89,4 @@ public class BombAttack : Attack
         explosionRef = BulletPoolManager.instance.GetBullet(explosionObj, attackInfo.originPos);
         explosionRef.GetComponent<ExplosionAttack>().SetValuesRpc(attackInfo);
     }
-    }
+}

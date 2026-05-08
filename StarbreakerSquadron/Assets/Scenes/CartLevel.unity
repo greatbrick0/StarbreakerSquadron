@@ -537,6 +537,10 @@ PrefabInstance:
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 782066548
       objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.7
@@ -1071,7 +1075,7 @@ GameObject:
   - component: {fileID: 82870682}
   - component: {fileID: 82870684}
   - component: {fileID: 82870683}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1160,6 +1164,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 132064556}
     m_Modifications:
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -1179,6 +1191,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_TagString
@@ -1258,6 +1274,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2034310607}
     m_Modifications:
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -1277,6 +1301,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_LocalScale.x
@@ -1511,7 +1539,7 @@ GameObject:
   - component: {fileID: 107843948}
   - component: {fileID: 107843947}
   - component: {fileID: 107843946}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2168,7 +2196,7 @@ GameObject:
   - component: {fileID: 159558666}
   - component: {fileID: 159558665}
   - component: {fileID: 159558664}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2533,7 +2561,7 @@ GameObject:
   - component: {fileID: 173970942}
   - component: {fileID: 173970944}
   - component: {fileID: 173970943}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2695,6 +2723,10 @@ PrefabInstance:
     - target: {fileID: 1094718969639023089, guid: a813fb11d3288b540911827062fe9534, type: 3}
       propertyPath: m_Radius
       value: 9.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2386705745501529249, guid: a813fb11d3288b540911827062fe9534, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3935223730135440418, guid: a813fb11d3288b540911827062fe9534, type: 3}
       propertyPath: warpRadius
@@ -3487,7 +3519,7 @@ GameObject:
   - component: {fileID: 214119753}
   - component: {fileID: 214119752}
   - component: {fileID: 214119751}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3978,7 +4010,7 @@ GameObject:
   - component: {fileID: 249348708}
   - component: {fileID: 249348710}
   - component: {fileID: 249348709}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4244,6 +4276,14 @@ PrefabInstance:
       propertyPath: barrels.Array.data[0].z
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -4267,6 +4307,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_LocalScale.x
@@ -4342,6 +4386,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 720542664}
     m_Modifications:
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -4361,6 +4413,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_LocalScale.x
@@ -4662,7 +4718,7 @@ GameObject:
   - component: {fileID: 273142530}
   - component: {fileID: 273142529}
   - component: {fileID: 273142528}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5291,7 +5347,7 @@ GameObject:
   - component: {fileID: 295950982}
   - component: {fileID: 295950984}
   - component: {fileID: 295950983}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6031,7 +6087,7 @@ GameObject:
   - component: {fileID: 330041496}
   - component: {fileID: 330041495}
   - component: {fileID: 330041494}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6197,7 +6253,7 @@ GameObject:
   - component: {fileID: 334257409}
   - component: {fileID: 334257408}
   - component: {fileID: 334257407}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7684,6 +7740,10 @@ PrefabInstance:
     - target: {fileID: 4204045891482094064, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 782066548
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: m_LocalScale.x
@@ -9506,6 +9566,10 @@ PrefabInstance:
       propertyPath: ownerTeam
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.7
@@ -9984,6 +10048,10 @@ PrefabInstance:
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 782066548
       objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.7
@@ -10092,7 +10160,7 @@ GameObject:
   - component: {fileID: 505155178}
   - component: {fileID: 505155177}
   - component: {fileID: 505155176}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10490,6 +10558,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: m_LocalScale.x
@@ -11204,7 +11276,7 @@ GameObject:
   - component: {fileID: 574479319}
   - component: {fileID: 574479318}
   - component: {fileID: 574479317}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11588,7 +11660,7 @@ GameObject:
   - component: {fileID: 604066629}
   - component: {fileID: 604066628}
   - component: {fileID: 604066627}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11953,6 +12025,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 461937977}
     m_Modifications:
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -11972,6 +12052,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_LocalScale.x
@@ -12225,7 +12309,7 @@ GameObject:
   - component: {fileID: 647189630}
   - component: {fileID: 647189632}
   - component: {fileID: 647189631}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12435,7 +12519,7 @@ GameObject:
   - component: {fileID: 658924419}
   - component: {fileID: 658924418}
   - component: {fileID: 658924417}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12563,7 +12647,7 @@ GameObject:
   - component: {fileID: 664871791}
   - component: {fileID: 664871790}
   - component: {fileID: 664871789}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13366,6 +13450,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 325977286}
     m_Modifications:
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -13385,6 +13477,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_LocalScale.x
@@ -13668,7 +13764,7 @@ GameObject:
   - component: {fileID: 705679217}
   - component: {fileID: 705679216}
   - component: {fileID: 705679215}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14664,6 +14760,10 @@ PrefabInstance:
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 782066548
       objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.7
@@ -15214,6 +15314,10 @@ PrefabInstance:
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 782066548
       objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.7
@@ -15397,7 +15501,7 @@ GameObject:
   - component: {fileID: 778845307}
   - component: {fileID: 778845306}
   - component: {fileID: 778845305}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16771,6 +16875,14 @@ PrefabInstance:
       propertyPath: barrels.Array.data[0].z
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -16794,6 +16906,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_LocalScale.x
@@ -31196,7 +31312,7 @@ GameObject:
   - component: {fileID: 851057047}
   - component: {fileID: 851057046}
   - component: {fileID: 851057045}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31285,6 +31401,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 713952386}
     m_Modifications:
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -31304,6 +31428,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_LocalScale.x
@@ -31477,6 +31605,10 @@ PrefabInstance:
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 782066548
       objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.7
@@ -31555,6 +31687,14 @@ PrefabInstance:
       propertyPath: barrels.Array.data[0].z
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -31578,6 +31718,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_LocalScale.x
@@ -32274,7 +32418,7 @@ GameObject:
   - component: {fileID: 910951621}
   - component: {fileID: 910951623}
   - component: {fileID: 910951622}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33503,7 +33647,7 @@ GameObject:
   - component: {fileID: 974594015}
   - component: {fileID: 974594014}
   - component: {fileID: 974594013}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33723,7 +33867,7 @@ GameObject:
   - component: {fileID: 992537190}
   - component: {fileID: 992537189}
   - component: {fileID: 992537188}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34376,7 +34520,7 @@ GameObject:
   - component: {fileID: 1020552346}
   - component: {fileID: 1020552345}
   - component: {fileID: 1020552344}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34542,7 +34686,7 @@ GameObject:
   - component: {fileID: 1027240477}
   - component: {fileID: 1027240476}
   - component: {fileID: 1027240475}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35885,7 +36029,7 @@ GameObject:
   - component: {fileID: 1109493396}
   - component: {fileID: 1109493395}
   - component: {fileID: 1109493394}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36328,7 +36472,7 @@ GameObject:
   - component: {fileID: 1115037176}
   - component: {fileID: 1115037175}
   - component: {fileID: 1115037174}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36420,7 +36564,7 @@ GameObject:
   - component: {fileID: 1132091601}
   - component: {fileID: 1132091600}
   - component: {fileID: 1132091599}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36512,7 +36656,7 @@ GameObject:
   - component: {fileID: 1135291629}
   - component: {fileID: 1135291631}
   - component: {fileID: 1135291630}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37042,6 +37186,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1454435421}
     m_Modifications:
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -37061,6 +37213,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_LocalScale.x
@@ -37416,6 +37572,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 559328548}
     m_Modifications:
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -37435,6 +37599,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_TagString
@@ -37641,6 +37809,14 @@ PrefabInstance:
       propertyPath: barrels.Array.data[0].z
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -37664,6 +37840,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_LocalScale.x
@@ -37885,7 +38065,7 @@ GameObject:
   - component: {fileID: 1190521324}
   - component: {fileID: 1190521323}
   - component: {fileID: 1190521322}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38585,6 +38765,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 52760352}
     m_Modifications:
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -38604,6 +38792,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_TagString
@@ -38811,6 +39003,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1241511115}
     m_Modifications:
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -38830,6 +39030,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_LocalScale.x
@@ -39449,7 +39653,7 @@ GameObject:
   - component: {fileID: 1294796156}
   - component: {fileID: 1294796155}
   - component: {fileID: 1294796154}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40352,6 +40556,10 @@ PrefabInstance:
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 782066548
       objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.7
@@ -40583,6 +40791,10 @@ PrefabInstance:
     - target: {fileID: 4204045891482094064, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 782066548
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4648187545310232229, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: m_TagString
@@ -41451,7 +41663,7 @@ GameObject:
   - component: {fileID: 1410550582}
   - component: {fileID: 1410550581}
   - component: {fileID: 1410550580}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41540,6 +41752,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 723906079}
     m_Modifications:
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -41559,6 +41779,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_TagString
@@ -41641,7 +41865,7 @@ GameObject:
   - component: {fileID: 1423781728}
   - component: {fileID: 1423781727}
   - component: {fileID: 1423781726}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41734,6 +41958,14 @@ PrefabInstance:
       propertyPath: barrels.Array.data[0].z
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -41757,6 +41989,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_LocalScale.x
@@ -43624,7 +43860,7 @@ GameObject:
   - component: {fileID: 1546516149}
   - component: {fileID: 1546516151}
   - component: {fileID: 1546516150}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44862,6 +45098,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1226761594}
     m_Modifications:
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -44881,6 +45125,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_LocalScale.x
@@ -45089,6 +45337,10 @@ PrefabInstance:
     - target: {fileID: 4204045891482094064, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 782066548
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: m_LocalScale.x
@@ -45797,7 +46049,7 @@ GameObject:
   - component: {fileID: 1685675660}
   - component: {fileID: 1685675659}
   - component: {fileID: 1685675658}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45995,7 +46247,7 @@ GameObject:
   - component: {fileID: 1692709711}
   - component: {fileID: 1692709710}
   - component: {fileID: 1692709709}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46154,6 +46406,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 390330036}
     m_Modifications:
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -46173,6 +46433,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_LocalScale.x
@@ -47789,7 +48053,7 @@ GameObject:
   - component: {fileID: 1771951231}
   - component: {fileID: 1771951230}
   - component: {fileID: 1771951229}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49382,7 +49646,7 @@ GameObject:
   - component: {fileID: 1882680296}
   - component: {fileID: 1882680295}
   - component: {fileID: 1882680294}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50375,7 +50639,7 @@ GameObject:
   - component: {fileID: 1961396093}
   - component: {fileID: 1961396092}
   - component: {fileID: 1961396091}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50924,7 +51188,7 @@ GameObject:
   - component: {fileID: 1989571869}
   - component: {fileID: 1989571868}
   - component: {fileID: 1989571867}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51016,7 +51280,7 @@ GameObject:
   - component: {fileID: 1991063165}
   - component: {fileID: 1991063164}
   - component: {fileID: 1991063163}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51186,7 +51450,7 @@ GameObject:
   - component: {fileID: 1999587497}
   - component: {fileID: 1999587496}
   - component: {fileID: 1999587495}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51538,6 +51802,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 703342066}
     m_Modifications:
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -51557,6 +51829,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_LocalScale.x
@@ -51647,6 +51923,10 @@ PrefabInstance:
     - target: {fileID: 4204045891482094064, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 782066548
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: m_LocalScale.x
@@ -52516,7 +52796,7 @@ GameObject:
   - component: {fileID: 2057773292}
   - component: {fileID: 2057773294}
   - component: {fileID: 2057773293}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52741,6 +53021,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1043109548}
     m_Modifications:
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -52760,6 +53048,10 @@ PrefabInstance:
     - target: {fileID: 4250093394499494076, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: ownerTeam
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_LocalScale.x
@@ -53078,6 +53370,10 @@ PrefabInstance:
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 782066548
       objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: c6fa00f7ff7c4174dbba89fd60804829, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.7
@@ -53255,7 +53551,7 @@ GameObject:
   - component: {fileID: 2098333916}
   - component: {fileID: 2098333915}
   - component: {fileID: 2098333914}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53347,7 +53643,7 @@ GameObject:
   - component: {fileID: 2115346172}
   - component: {fileID: 2115346171}
   - component: {fileID: 2115346170}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53539,7 +53835,7 @@ GameObject:
   - component: {fileID: 2119447686}
   - component: {fileID: 2119447685}
   - component: {fileID: 2119447684}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53833,7 +54129,7 @@ GameObject:
   - component: {fileID: 2136057508}
   - component: {fileID: 2136057510}
   - component: {fileID: 2136057509}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OutProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}

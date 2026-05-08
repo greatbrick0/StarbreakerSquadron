@@ -4465,6 +4465,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 24548142658784347, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059327662415592125, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1904197541174504897, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_Name
       value: DualHunterTrapEnemy
@@ -4480,6 +4488,10 @@ PrefabInstance:
     - target: {fileID: 4204045891482094064, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 2374214845
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648187545310232229, guid: f03235125a499d64dadbb687080c8afe, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5048587334521823591, guid: f03235125a499d64dadbb687080c8afe, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6313,6 +6325,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AmbushTrapSpawner (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2386705745501529249, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4032755820482358555, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
       propertyPath: useCooldown
       value: 1
@@ -6575,6 +6591,10 @@ PrefabInstance:
     - target: {fileID: 94089328512454567, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
       propertyPath: m_Name
       value: AmbushTrapSpawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 2099966770049213814, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4032755820482358555, guid: dd93bc8c48bc7ee408460b1a36c7fbfd, type: 3}
       propertyPath: useInProximity

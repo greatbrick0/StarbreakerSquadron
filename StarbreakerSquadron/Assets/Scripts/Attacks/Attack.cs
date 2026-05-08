@@ -13,6 +13,12 @@ public class Attack : NetworkBehaviour
     protected Rigidbody2D rb;
     protected AnticipatedNetworkTransform anticipator;
     protected Collider2D col;
+    
+    [SerializeField]
+    protected LayerMask collisionMask;
+    [SerializeField]
+    protected float collisionRadius = 0.15f;
+
     [SerializeField]
     protected SpriteRenderer sprite;
     [SerializeField]
@@ -47,8 +53,18 @@ public class Attack : NetworkBehaviour
         anticipator = GetComponent<AnticipatedNetworkTransform>();
         col = GetComponent<Collider2D>();
         
-        // Ensure pooled objects start disabled
-        if (pooled && !used) this.enabled = false;
+        if (collisionMask == 0)
+        {
+            collisionMask = LayerMask.GetMask("Terrain", "SmallUnit", "BigUnit", "Default");
+        }
+
+        // Ensure pooled objects start physically and logically disabled
+        if (pooled && !used)
+        {
+            if (col != null) col.enabled = false;
+            if (rb != null) rb.simulated = false;
+            this.enabled = false;
+        }
     }
 
     protected virtual void Update()
@@ -62,33 +78,56 @@ public class Attack : NetworkBehaviour
         age += Time.deltaTime;
         if (!IsServer)
         {
-            anticipator.AnticipateMove(originPos + (age * ((speed * direction) + extraVelocity)));
+            transform.position = originPos + (age * ((speed * direction) + extraVelocity));
+            if(anticipator != null) anticipator.AnticipateMove(transform.position);
         }
         else
         {
+            Vector2 currentPos = transform.position;
+            Vector2 displacement = ((speed * direction) + extraVelocity) * Time.deltaTime;
+            Vector2 nextPos = currentPos + displacement;
+
+            float dist = displacement.magnitude;
+            if (dist > 0.001f)
+            {
+                RaycastHit2D[] hits = Physics2D.CircleCastAll(currentPos, collisionRadius, displacement.normalized, dist, collisionMask);
+                foreach (var hit in hits)
+                {
+                    if (HandleCollision(hit.collider)) return;
+                }
+            }
+
+            transform.position = nextPos;
+
             if (age >= lifetime)
             {
                 ResetToHiddenRpc();
             }
         }
-    }
+}
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    /// <summary>
+    /// Handles collision. Returns true if the bullet should be destroyed.
+    /// </summary>
+    protected virtual bool HandleCollision(Collider2D other)
     {
-        if (!IsServer) return;
-        
-        int layer = collision.gameObject.layer;
-        if (layer == 3) // Terrain
+        if (other.gameObject.layer == 3) // Terrain
         {
             HitTerrain();
+            return true;
         }
-        else if (layer == 6 || layer == 7) // SmallUnit or BigUnit
+        
+        if (other.gameObject.TryGetComponent(out Targetable targetable))
         {
-            if (collision.gameObject.TryGetComponent(out Targetable targetable))
+            if (targetable.team != team)
             {
                 HitTargetable(targetable);
+                return true;
             }
         }
+        
+        // If we hit something that isn't terrain and isn't an enemy targetable, we pass through
+        return false;
     }
 
     protected virtual void HitTerrain()
@@ -117,11 +156,7 @@ public class Attack : NetworkBehaviour
         SetTrailColour(parsedColour);
         
         age = 0;
-
-        if (IsServer && rb != null)
-        {
-            rb.linearVelocity = (speed * direction) + extraVelocity;
-        }
+        transform.position = originPos;
     }
 
     protected void SetTrailColour(Color fullColour)
@@ -141,8 +176,10 @@ public class Attack : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     public void SetValuesRpc(AttackInfo newAttackInfo)
     {
-        this.enabled = true; // Enable script for Update
-        if (col != null) col.enabled = true;
+        this.enabled = true; 
+        if (col != null) col.enabled = false;
+        if (rb != null) rb.simulated = false;
+        
         sprite.gameObject.SetActive(true);
         used = true;
 
@@ -164,9 +201,7 @@ public class Attack : NetworkBehaviour
     protected void ResetToHiddenRpc()
     {
         if (customTrail != null) customTrail.Clear();
-        if (col != null) col.enabled = false;
         sprite.gameObject.SetActive(false);
-        if(rb != null) rb.linearVelocity = Vector2.zero;
         used = false;
         timeUnused = 0;
 
@@ -194,6 +229,6 @@ public class Attack : NetworkBehaviour
             }
         }
         
-        this.enabled = false; // Disable script to stop Update
+        this.enabled = false; 
     }
-    }
+}
