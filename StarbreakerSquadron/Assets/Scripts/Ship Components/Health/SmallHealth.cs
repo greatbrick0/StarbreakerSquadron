@@ -59,6 +59,7 @@ public class SmallHealth : Targetable
         if (!IsServer) return;
         if (!isAlive) return;
         if (amount < 0) return;
+        if (GameStateController.instance.IsPostGame) return;
 
         currentHealth.Value -= amount;
         timeSinceLastDamage = 0f;

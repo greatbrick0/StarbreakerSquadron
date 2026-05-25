@@ -86,6 +86,8 @@ public class AmbushTrapSpawner : NetworkBehaviour
     {
         if (IsServer)
         {
+            if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening) return;
+
             isActivated.Value = trapHealth.isAlive;
 
             if (!trapHealth.isAlive)
@@ -158,8 +160,10 @@ public class AmbushTrapSpawner : NetworkBehaviour
 
     private bool ScheduleCondition()
     {
+        if (GameStateController.instance.IsPostGame) return false;
+
         float time = GameStateController.instance.GetGameRemianingTime();
-        for (int ii = 0; ii < scheduleWindows.Count; ii++)
+for (int ii = 0; ii < scheduleWindows.Count; ii++)
         {
             if (windowsUsed[ii]) continue;
             if (time <= scheduleWindows[ii].x && time > scheduleWindows[ii].y)

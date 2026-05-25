@@ -35370,6 +35370,10 @@ PrefabInstance:
       value: GameStateManager
       objectReference: {fileID: 0}
     - target: {fileID: 7571342312633596399, guid: e7c3d326c6027ca4ab9667562ad10500, type: 3}
+      propertyPath: endGameBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571342312633596399, guid: e7c3d326c6027ca4ab9667562ad10500, type: 3}
       propertyPath: gameMaxDuration
       value: 300
       objectReference: {fileID: 0}

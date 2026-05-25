@@ -49,8 +49,16 @@ public class ClientManager : MonoBehaviour
         _netManager.OnClientDisconnectCallback += OnClientLeave;
     }
 
-    private void OnClientJoined(ulong id)
+    private void Update()
     {
+        if (Application.isEditor && Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.E))
+        {
+            GameStateController.instance.TriggerPostGame();
+        }
+    }
+
+    private void OnClientJoined(ulong id)
+{
         untrackedPlayers += 1;
         Dictionary<string, object> request = new Dictionary<string, object>
             {
@@ -112,17 +120,32 @@ public class ClientManager : MonoBehaviour
         }
     }
 
+    public void ClearSpawnSpots()
+    {
+        spawnSpots.Clear();
+        nextSpawnIndex = 0;
+        untrackedPlayers = 0;
+    }
+
     public IEnumerator IdentifyPlayer(string givenPasscode, string givenProfileId, ulong givenCLientId, int claimedShip)
     {
         yield return new WaitForSeconds(1.0f);
+        if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening) yield break;
         yield return new WaitUntil(() => untrackedPlayers == 0);
-        ServerMessage("Identification condition met", true, false);
+ServerMessage("Identification condition met", true, false);
 
         int selectedShipIndex = 0;
 
         KeyValuePair<ulong, ClientSummary> matchingProfile = clients.FirstOrDefault(kvp => kvp.Value.profileId == givenProfileId);
-        if (Application.isEditor)
+        
+        // Update controller reference in case of scene reload
+        if (clients.ContainsKey(givenCLientId))
         {
+            clients[givenCLientId].controllerRef = NetworkManager.Singleton.ConnectedClients[givenCLientId].PlayerObject.GetComponent<PlayerController>();
+        }
+
+        if (Application.isEditor)
+{
             AllowSpawnPlayerShip(clients[givenCLientId].controllerRef, claimedShip);
         }
         else if (matchingProfile.Value.userPasscode == givenPasscode)

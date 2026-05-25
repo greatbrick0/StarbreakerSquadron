@@ -52,14 +52,24 @@ public class Network : MonoBehaviour
             return;
         }
 
-        IsDedicatedServer = (Application.isBatchMode && !Application.isEditor) || (Unity.Multiplayer.PlayMode.CurrentPlayer.ReadOnlyTags().Contains("server") && Application.isEditor);
+        IsDedicatedServer = (Application.isBatchMode && !Application.isEditor) || (Unity.Multiplayer.PlayMode.CurrentPlayer.Tags.Contains("server") && Application.isEditor);
         Debug.Log(IsDedicatedServer ? "This is dedicated server" : "This is a client");
 
         _netManager = GetComponent<NetworkManager>();
         _unityTransport = GetComponent<UnityTransport>();
 
+        _netManager.OnClientDisconnectCallback += (id) =>
+        {
+            if (IsDedicatedServer) return;
+            if (id == _netManager.LocalClientId)
+            {
+                SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+                selectionDataApplied = false;
+            }
+        };
+
         sharedInstance = this;
-        DontDestroyOnLoad(gameObject);
+DontDestroyOnLoad(gameObject);
 
         if (IsDedicatedServer)
         {

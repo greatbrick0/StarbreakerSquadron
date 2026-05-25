@@ -68,8 +68,9 @@ public class PlayerController : NetworkBehaviour
         inputActives = 0b0000;
 
         if (Input.GetKeyUp(KeyCode.Tab)) gameHud.ToggleMenuHotKey();
-        if (gameHud.state == GameHudState.Gameplay)
-        {
+
+        if (gameHud.state == GameHudState.Gameplay && !GameStateController.instance.IsPostGame)
+{
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
                 inputVec.y += 1;
             if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
@@ -171,7 +172,7 @@ public class PlayerController : NetworkBehaviour
 
     [Rpc(SendTo.Owner)]
     public void DebugServerMessageRpc(string message)
-    {
+{
         Debug.Log(message);
     }
 

@@ -86,9 +86,10 @@ public class GameHudManager : MonoBehaviour
     public Button respawnButton;
 
     private float animTime = 0.0f;
+    private bool autoOpenedPostGameMenu = false;
 
     private void Awake()
-    {
+{
         if(Network.sharedInstance.IsDedicatedServer)
         { 
             Destroy(gameObject);
@@ -103,8 +104,19 @@ public class GameHudManager : MonoBehaviour
         animTime += Time.deltaTime;
         if (animTime > 100) animTime -= Mathf.PI * 30;
 
-        switch (state)
+        if (gameStateController == null) gameStateController = GameStateController.instance;
+
+        if (gameStateController != null && gameStateController.IsPostGame && !autoOpenedPostGameMenu)
         {
+            autoOpenedPostGameMenu = true;
+            if (state != GameHudState.Paused && state != GameHudState.Respawn)
+            {
+                ChangeGameHudState(GameHudState.Paused);
+            }
+        }
+
+        switch (state)
+{
             case GameHudState.Gameplay:
                 HandleHealthBarAnimation();
                 HandleGameTimer(gameTimeLabel);

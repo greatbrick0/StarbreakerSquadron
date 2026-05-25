@@ -42,8 +42,16 @@ public class TerritorialEnemyController : NetworkBehaviour
 
         inputVec = Vector2.zero;
         inputActives = 0b0000;
-        switch (state)
+
+        if (GameStateController.instance.IsPostGame)
         {
+            movement.inputVector = inputVec;
+            weaponsHolder.inputActives = inputActives;
+            return;
+        }
+
+        switch (state)
+{
             case States.Idle:
                 if(playerDetector.GetClosestTarget() != null)
                 {

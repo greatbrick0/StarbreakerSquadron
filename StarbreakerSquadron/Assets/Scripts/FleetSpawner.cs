@@ -58,12 +58,14 @@ public class FleetSpawner : NetworkBehaviour
 
     private void Update()
     {
+        if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening) return;
+
         if (!spawned)
-        {
-            if(GameStateController.instance.GetGameRemianingTime() <= scheduledSpawnTime)
+{
+            if(!GameStateController.instance.IsPostGame && GameStateController.instance.GetGameRemianingTime() <= scheduledSpawnTime)
             {
                 if(clearZone.GetClosestTarget() == null)
-                {
+{
                     spawned = true;
                     if(IsServer) StartFleetSpawn();
                 }
